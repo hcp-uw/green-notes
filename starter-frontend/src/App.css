@@ -1,0 +1,21 @@
+@import "Navigation.css";
+
+/*General*/
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    /*With back-up fonts*/
+    font-family: 'Fira Code', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.green-background {
+    background-color: #C7DAC4;
+}
+
+.gray-background {
+    background-color: #D4CBC2;
+}

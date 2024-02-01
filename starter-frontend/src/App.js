@@ -1,6 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import NavigationBar from './Navigation';
 
 const baseURL = 'http://localhost:3001';
 
@@ -20,8 +21,7 @@ function App() {
   console.log(message);
   return (
     <>
-      <h1>Hello, HCP</h1>
-      <p>{message}</p>
+      <NavigationBar />
     </>
   );
 }
