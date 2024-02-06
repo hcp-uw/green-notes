@@ -1,0 +1,12 @@
+
+/* #smile-background {
+    background-image: url(./smile.png);
+    background-Repeat: "no-repeat";
+    background-Size: "cover";
+} */
+
+
+.home {
+    height: 100vh;
+    background-color: green;
+}
