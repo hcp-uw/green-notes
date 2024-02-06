@@ -2,7 +2,7 @@ nav {
     padding: 0 20px;
     width: 100%;
     height: 55px;
-    background-color: #3C8478;
+    background-color: var(--dark-green);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,9 +30,9 @@ nav {
 
 #green-notes {
     font-family: 'Sunflower';
-    color: #fdfdfd;
+    color: var(--offbase-white);
     font-weight: 700;
-    text-shadow: 0.1em 0.1em 0 #1E5B5E;
+    text-shadow: 0.1em 0.1em 0 var(--darker-green);
     font-size: 1.4rem;
     line-height: 20px;
     margin-left: 10px;
@@ -49,7 +49,7 @@ nav {
 
 .nav-link {
     /*Using instead of pure white*/
-    color: #fdfdfd;
+    color: var(--offbase-white);
     text-decoration: none;
     display: block;
     font-size: 1.1rem;
@@ -58,7 +58,7 @@ nav {
 }
 
 .nav-link:hover {
-    background-color: #1E5B5E;
+    background-color: var(--darker-green);
     border-radius: 5px;
 }
 

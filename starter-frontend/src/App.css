@@ -2,6 +2,15 @@
 
 /*General*/
 
+:root {
+    --light-green: #C7DAC4;
+    --green: #94BDAB;
+    --dark-green: #3C8478;
+    --darker-green: #1E5B5E;
+    --gray: #D4CBC2;
+    --offbase-white: #fdfdfd;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -10,12 +19,4 @@ body {
     margin: 0;
     /*With back-up fonts*/
     font-family: 'Fira Code', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-}
-
-.green-background {
-    background-color: #C7DAC4;
-}
-
-.gray-background {
-    background-color: #D4CBC2;
 }
