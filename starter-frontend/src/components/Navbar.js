@@ -1,27 +1,28 @@
 import logo from '../assets/binary-tree-logo.png';
 import profile from '../assets/profile-button.png';
+import { Link } from 'react-router-dom';
 
 function HomeLogo() {
     return (
-        <a href="./index.html" id="home-logo">
+        <Link to={`/`} id="home-logo">
             <img id="logo" src={logo} />
             <header id="green-notes">Green Notes</header>
-        </a>
+        </Link>
     )
 }
 
 function NavigationLinks() {
     return (
         <ul id="nav-links">
-            <li><a href="./note-navigation.html" className="nav-link">Notes</a></li>
-            <li><a href="./collaboration.html" className="nav-link">Collaboration</a></li>
-            <li><a href="./about-us.html" className="nav-link">About Us</a></li>
+            <li><Link to={`notes`} className="nav-link">Notes</Link></li>
+            <li><Link to={`collaboration`} className="nav-link">Collaboration</Link></li>
+            <li><Link to={`about-us`} className="nav-link">About Us</Link></li>
         </ul>
     )
 }
 
 function Profile() {
-    return <a href="./profile.html"><img id="profile-icon" src={profile} /></a>;
+    return <Link to={`profile`}><img id="profile-icon" src={profile} /></Link>;
 }
 
 export default function NavigationBar() {
