@@ -20,6 +20,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />, 
     children: [
+      { index: true, element: <HomeScreen />},
       {
         path: "about-us",
         element: <AboutUs />,
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
         element: <Collaboration />,
       }, 
       {
-        path: "note/:noteId",
+        path: "note",
+        // Later change to
+        // path: "note/:noteId",
         element: <Note />,
       }, 
       {
@@ -37,7 +40,9 @@ const router = createBrowserRouter([
         element: <Notes />,
       }, 
       {
-        path: "profile/:profileId", 
+        path: "profile",
+        // Later change to
+        // path: "profile/:profileId", 
         element: <Profile />,
       }, 
       
