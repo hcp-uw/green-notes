@@ -2,6 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './components/Navbar';
+import { Outlet } from 'react-router-dom';
 
 const baseURL = 'http://localhost:3001';
 
@@ -22,6 +23,7 @@ function App() {
   return (
     <>
       <Navbar />
+      <Outlet />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import smile from '../assets/smile.png';
 
 export default function HomeScreen() {
-    return (<Background />)
+    return (<Background />);
 }
 
 

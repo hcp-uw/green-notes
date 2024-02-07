@@ -20,3 +20,7 @@ body {
     /*With back-up fonts*/
     font-family: 'Fira Code', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+.page {
+    margin-top: 55px;
+}
