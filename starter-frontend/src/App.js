@@ -1,8 +1,7 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import NavigationBar from './Navigation';
-import Home from './Home'
+import Navbar from './components/Navbar';
 
 const baseURL = 'http://localhost:3001';
 
@@ -22,9 +21,7 @@ function App() {
   console.log(message);
   return (
     <>
-      <Home />
-      <NavigationBar />
-
+      <Navbar />
     </>
   );
 }

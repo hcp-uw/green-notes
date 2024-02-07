@@ -1,5 +1,5 @@
-import logo from './binary-tree-logo.png';
-import profile from './profile-button.png';
+import logo from '../assets/binary-tree-logo.png';
+import profile from '../assets/profile-button.png';
 
 function HomeLogo() {
     return (

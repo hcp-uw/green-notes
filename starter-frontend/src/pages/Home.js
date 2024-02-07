@@ -1,4 +1,4 @@
-import smile from './smile.png';
+import smile from '../assets/smile.png';
 
 export default function HomeScreen() {
     return (<Background />)
