@@ -1,25 +1,33 @@
-import smile from './smile.png';
+import smile from "./smileLogo.png"
+
 
 export default function HomeScreen() {
     return (<Background />)
 }
 
 
-const backgroundStyle = {
+/*const backgroundStyle = {
     backgroundImage: `url(${smile})`,
     backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
+  //  backgroundSize: "cover",
     backgroundColor: 'green',
     height: "100vh",
-    backgroundSize: "100vh"
+   // backgroundSize: "100vh",
 
+
+}*/
+
+function Background() {
+    return (
+        <div  className = "home">
+            <SmileLogo/>
+               
+        </div>
+    )
 }
 
-function Background () {
+function SmileLogo() {
     return (
-        <div style ={backgroundStyle}>
-           {// hello?
-        }       
-        </div>
+        <img className="smile" src={smile} />
     )
 }
