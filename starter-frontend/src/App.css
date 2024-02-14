@@ -28,7 +28,7 @@ body {
 
 .page {
     margin-top: 55px;
-    min-height: 100vh;
+    min-height: calc(100vh - 55px);
     width: 100%;
 }
 
