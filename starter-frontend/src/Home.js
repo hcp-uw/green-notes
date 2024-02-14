@@ -6,21 +6,11 @@ export default function HomeScreen() {
 }
 
 
-/*const backgroundStyle = {
-    backgroundImage: `url(${smile})`,
-    backgroundRepeat: "no-repeat",
-  //  backgroundSize: "cover",
-    backgroundColor: 'green',
-    height: "100vh",
-   // backgroundSize: "100vh",
-
-
-}*/
-
 function Background() {
     return (
         <div  className = "home">
             <SmileLogo/>
+            <CenterText/>
                
         </div>
     )
@@ -28,6 +18,18 @@ function Background() {
 
 function SmileLogo() {
     return (
-        <img className="smile" src={smile} />
+        <img className="smile" src={smile} />        
+    )
+}
+
+
+function CenterText() {
+    return (
+        <div className = "centText">
+            <div>
+                <pre className = "cText">{'Clean. Simple.\n'}<b>Code.</b></pre>
+                <a href="./note-navigation.html" className = "start">//start notes</a>
+            </div>
+        </div>
     )
 }
