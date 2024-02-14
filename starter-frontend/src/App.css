@@ -36,6 +36,10 @@ body {
     background-color: var(--light-green);
 }
 
+.gray-background {
+    background-color: var(--light-gray);
+}
+
 .flex {
     display: flex;
 }
