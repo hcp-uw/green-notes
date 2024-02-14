@@ -8,6 +8,7 @@ nav {
     align-items: center;
     position: fixed;
     top: 0;
+    user-select: none;
 }
 
 #left-side {
