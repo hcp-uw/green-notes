@@ -96,13 +96,17 @@
     margin: 0;
     height: 80%;
     overflow: hidden;
-    padding: 10px 17px;
+    padding: 14px 17px;
 }
 
 /* TO-DO: adjust spacing */
 .thumbnail-text {
     margin: 0;
     color: var(--dark-gray);
+    white-space: wrap;
+    overflow: hidden;
+    max-height: 5rem;
+    text-decoration: none;
 }
 
 .thumbnail-label {
@@ -116,6 +120,5 @@
 
 .thumbnail-title {
     margin: 2px 17px;
-    font-family: "Fira Code";
     font-size: 1.1rem;
 }
