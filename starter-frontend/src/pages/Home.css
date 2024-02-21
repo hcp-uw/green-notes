@@ -1,12 +1,44 @@
-
-/* #smile-background {
-    background-image: url(./smile.png);
-    background-Repeat: "no-repeat";
-    background-Size: "cover";
-} */
-
-
 .home {
-    height: 100vh;
-    background-color: green;
+    background-color: #c7dac4;
+    background-size: cover;
+
+     /* position: relative;  */
+}
+
+.smile {
+    height: 115vh;
+    width: auto;
+    object-position: none;
+    display: block;
+    margin: 0 auto;
+    margin-left: 20vh;
+}
+
+.centText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.start {
+    font-size: 3rem;
+    color: white;
+    padding: 10px 10px; 
+    text-decoration: none;
+    background-color: #1e5b5e;
+    border-radius: 30px;
+    box-shadow: 5px 5px 5px #94BDAB;
+}
+
+.start:hover {
+    background-color: #3C8478;
+    border-radius: 30px;
+    color: white;
+}
+
+.cText {
+    font-size: 6rem;
+    color: #3C8478;
 }
