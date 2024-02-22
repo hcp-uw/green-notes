@@ -1,5 +1,5 @@
 .home {
-    background-color: #c7dac4;
+    background-color: var(--light-green);
     background-size: cover;
 
      /* position: relative;  */
@@ -24,21 +24,21 @@
 
 .start {
     font-size: 3rem;
-    color: white;
+    color: var(--offbase-white);
     padding: 10px 10px; 
     text-decoration: none;
-    background-color: #1e5b5e;
+    background-color: var(--darker-green);
     border-radius: 30px;
-    box-shadow: 5px 5px 5px #94BDAB;
+    box-shadow: 5px 5px 5px var(--green);
 }
 
 .start:hover {
-    background-color: #3C8478;
+    background-color: var(--dark-green);
     border-radius: 30px;
-    color: white;
+    color: var(--offbase-white);
 }
 
 .cText {
     font-size: 6rem;
-    color: #3C8478;
+    color: var(--dark-green);
 }
