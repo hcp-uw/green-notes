@@ -1,6 +1,7 @@
 @import "./components/Navbar.css";
 @import "./components/Navigation.css";
 @import "./pages/Home.css";
+@import "./components/TemplateToggleButton.css";
 
 /*General*/
 

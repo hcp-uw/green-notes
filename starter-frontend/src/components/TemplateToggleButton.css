@@ -1,0 +1,55 @@
+.switch {
+    position: relative;
+    display: inline-block;
+    bottom: 3px;
+    width: 102px;
+    height: 34px;
+
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    /* figure out better color? */
+    background-color: #ccc;
+    transition: 0.3s;
+
+    border-radius: 10px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "notes";
+    height: 26px;
+    width: 54px;
+
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--offbase-white);
+    border-radius: 6px;
+
+    transition: 0.2s;
+}
+
+input:checked + .slider {
+    background-color: var(--dark-green);
+}
+
+input:checked + .slider:before {
+    transform: translateX(40px);
+    content: "temps";
+}
+
+  
+  
