@@ -1,12 +1,16 @@
+import { Link } from 'react-router-dom';
+
 function Folder( {name}) {
     return (
-        <div className="thumbnail">
-            <div className="tab"></div>
-            <div className="tab-space"></div>
-            <div className="folder">
-                <p className="folder-name">{name}</p>
+        <Link to={`../folder`} className="link">
+            <div className="thumbnail">
+                <div className="tab"></div>
+                <div className="tab-space"></div>
+                <div className="folder">
+                    <p className="folder-name">{name}</p>
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 
