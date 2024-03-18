@@ -1,9 +1,11 @@
+/* sets up background for home page */
 .home {
     background-color: var(--light-green);
     background-size: cover;
     text-align: center;
 }
 
+/* defines the size for the smile image */
 .smile {
     height: 115vh;
     max-width: none;
@@ -17,6 +19,7 @@
     margin-left: 20vh; */
 }
 
+/* Centers the text and start notes button */
 .centText {
     position: absolute;
     top: 50%;
@@ -25,6 +28,7 @@
     text-align: center;
 }
 
+/* Styles for the start notes button */
 .start {
     font-size: 3rem;
     color: var(--offbase-white);
@@ -35,12 +39,14 @@
     box-shadow: 5px 5px 5px var(--green);
 }
 
+/* Styles for the start notes button when hovered */
 .start:hover {
     background-color: var(--dark-green);
     border-radius: 30px;
     color: var(--offbase-white);
 }
 
+/* Styles for the Clean. Simple. Code. */
 .cText {
     font-size: 6rem;
     color: var(--dark-green);

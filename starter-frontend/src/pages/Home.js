@@ -6,7 +6,7 @@ export default function HomeScreen() {
     return (<Background />)
 }
 
-
+// Returns all of the functions for Home.js
 function Background() {
     return (
         <div  className = "home">
@@ -17,13 +17,14 @@ function Background() {
     )
 }
 
+// Returns the background smile logo
 function SmileLogo() {
     return (
         <img className="smile" src={smile} />        
     )
 }
 
-
+// Returns the center text and start notes button
 function CenterText() {
     return (
         <div className = "centText">

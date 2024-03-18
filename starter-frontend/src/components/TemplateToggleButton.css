@@ -1,3 +1,4 @@
+/* Defines the position and size for the toggle button */
 .switch {
     position: relative;
     display: inline-block;
@@ -7,12 +8,14 @@
 
 }
 
+/* Hides the visual for the check box part of the slider */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
+/* Style for the visual slider part of the button */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -28,6 +31,7 @@
     border-radius: 10px;
 }
 
+/* Style for the visual slider when not toggled */
 .slider:before {
     position: absolute;
     content: "notes";
@@ -42,10 +46,12 @@
     transition: 0.2s;
 }
 
+/* Changes color of slider when toggled */
 input:checked + .slider {
     background-color: var(--dark-green);
 }
 
+/* Changes the text in the slider when toggled */
 input:checked + .slider:before {
     transform: translateX(40px);
     content: "temps";
