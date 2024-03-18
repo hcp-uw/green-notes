@@ -2,7 +2,10 @@ import { Link } from 'react-router-dom';
 
 function Folder( {name}) {
     return (
-        <Link to={`../folder`} className="link">
+        <div>
+            <Link to={`../folder`} className="link">
+                <span className="thumbnail-click"></span>
+            </Link>
             <div className="thumbnail">
                 <div className="tab"></div>
                 <div className="tab-space"></div>
@@ -10,7 +13,7 @@ function Folder( {name}) {
                     <p className="folder-name">{name}</p>
                 </div>
             </div>
-        </Link>
+        </div>
     )
 }
 

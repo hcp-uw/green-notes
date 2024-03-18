@@ -4,7 +4,10 @@ function NoteThumbnail({title, text, id}) {
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
-        <Link to={`../note`} className="link">
+        <div>
+            <Link to={`../note`} className="link">
+                <span className="thumbnail-click"></span>
+            </Link>
             <div className="thumbnail">
                 <div className="thumbnail-body">
                     <p className="thumbnail-text">{text}</p>
@@ -13,7 +16,8 @@ function NoteThumbnail({title, text, id}) {
                     <p className="thumbnail-title">{title}</p>
                 </div>
             </div>
-        </Link>
+        </div>
+        
     );
 }
 

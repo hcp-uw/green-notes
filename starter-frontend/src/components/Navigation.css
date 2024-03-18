@@ -122,3 +122,14 @@
     margin: 2px 17px;
     font-size: 1.1rem;
 }
+
+/* Used for clickable part of link on thumbnails */
+.thumbnail-click {
+    position: absolute;
+    overflow: visible;
+    opacity: 0;
+    width: max(15vw, 200px);
+    height: 25vh;
+    padding: 0;
+    margin: 20px 15px;
+}
