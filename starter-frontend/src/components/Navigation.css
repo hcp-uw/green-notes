@@ -60,6 +60,16 @@
     width: 100%;
     margin: 0 auto;
 }
+/* clickable part of Add Note */
+.add-click {
+    width: max(15vw, 200px);
+    height: 25vh;
+    padding: 0;
+    margin: 20px 15px;
+    cursor: pointer;
+    position: absolute;
+    opacity: 0;
+}
 
 
 /* Folders */

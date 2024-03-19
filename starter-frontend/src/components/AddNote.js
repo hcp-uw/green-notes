@@ -1,9 +1,14 @@
 import plus from '../assets/plus.svg';
 
-export default function AddNote() {
+const AddNote =({ isMaking, onMake }) =>  {
     return (
-        <div className="add-note thumbnail">
-            <img className="plus" src={plus} />
+        <div>
+            <input className="add-click" type="checkbox" checked={isMaking} onChange={onMake}/>
+            <div className="add-note thumbnail">
+                <img className="plus" src={plus} />
+            </div>
         </div>
     );
 }
+
+export default AddNote;
