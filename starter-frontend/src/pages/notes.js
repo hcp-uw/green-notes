@@ -5,6 +5,7 @@ import AddNote from "../components/AddNote";
 import Folders from "../components/Folders";
 import NoteThumbnails from "../components/NoteThumbnails";
 import SearchBar from "../components/SearchBar";
+import Create from "../components/Create";
 
 export default function Notes() {
 
@@ -25,6 +26,7 @@ export default function Notes() {
                 <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                 <Folders />
                 <NoteThumbnails />
+                <Create isMaking={isMaking}/>
             </div>
         </body>
     );  
