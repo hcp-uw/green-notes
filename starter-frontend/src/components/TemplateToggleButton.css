@@ -29,6 +29,8 @@
     transition: 0.3s;
 
     border-radius: 10px;
+
+    z-index: auto;
 }
 
 /* Style for the visual slider when not toggled */
