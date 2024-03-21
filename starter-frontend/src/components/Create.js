@@ -1,8 +1,8 @@
 import React from 'react'
 import './Navigation.css'
 
-// make actual pop up and figure out how to do background.
-// just create a stand-in popup
+// Continue to work on pop-up interaction/functionality
+// Look into making the ddown actually interactable
 const Create = ({ isMaking, onMake }) => {
 
     if (!isMaking) {
@@ -14,7 +14,17 @@ const Create = ({ isMaking, onMake }) => {
                     <input type="checkbox" checked={isMaking} onChange={onMake}/>
                 </label>
                 <div className="make">
-                    test text
+                    <p className="make-header">Make New Note/Template</p>
+                    <button className="make-exit" onClick={onMake}>X</button>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">New: </p>
+                        <div className="dropdown-wrap">
+                            <button className="make-ddown-btn">
+                                Note <span className="d-arrow">▼</span>
+                            </button>
+                            <button className="dropdown-content ddown-temp">Template<span className="d-arrow">▼</span></button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
