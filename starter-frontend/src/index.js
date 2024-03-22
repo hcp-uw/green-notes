@@ -13,7 +13,6 @@ import HomeScreen from './pages/Home';
 import Note from './pages/note';
 import Notes from './pages/notes';
 import Profile from './pages/profile';
-import Folder from './pages/folder';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +36,8 @@ const router = createBrowserRouter([
         element: <Note />,
       }, 
       {
+        //Later change to
+        //path: "notes/:folderId",
         path: "notes",
         element: <Notes />,
       }, 
@@ -46,12 +47,7 @@ const router = createBrowserRouter([
         // path: "profile/:profileId", 
         element: <Profile />,
       }, 
-      {
-        path: "folder",
-        // Later change to
-        // path: "folder/:folderId"
-        element: <Folder />,
-      },
+      
       
     ]
   }, 

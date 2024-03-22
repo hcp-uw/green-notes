@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom';
 
-function Folder( {name}) {
+/* 
+ * Folder displaying name. Click on to navigate to inside the folder.
+ * 
+ * Parameters:
+ * name: name of folder
+ * id: id to be used in the link to show what folder to display
+ */
+function Folder( {name, id}) {
     return (
         <div>
-            <Link to={`../folder`} className="link">
+            <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
             </Link>
             <div className="thumbnail">
@@ -17,12 +24,17 @@ function Folder( {name}) {
     )
 }
 
+/* 
+ * Returns all the folders in the current page. 
+ * 
+ * TO-DO: Use actual data from the server to return the folders inside the current page folder.
+ */
 export default function Folders() {
     return (
         <>
-            <Folder name="Testing"/>
-            <Folder name="Testing 2"/>
-            <Folder name="Testing 3"/>
+            <Folder name="Testing" id="test"/>
+            <Folder name="Testing 2" id="kdsj;f"/>
+            <Folder name="Testing 3" id="dkafj;sd"/>
         </>
     );
 }
