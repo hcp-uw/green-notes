@@ -1,0 +1,283 @@
+.thumbnail {
+    width: max(15vw, 200px);
+    height: 25vh;
+    padding: 0;
+    margin: 20px 15px;
+    overflow: hidden;
+}
+
+.nav-page {
+    /* padding: 50px; */
+    padding: 4vh 5vw 0 5vw;
+}
+
+.nav-area {
+    flex-wrap: wrap;
+}
+
+/* Search Bar */
+
+.search-icon {
+    width: 1.7vw;
+    margin-left: 0.7rem;
+    margin-right: 0.7rem;
+}
+
+.search-text {
+    background: none;
+    border: none;
+    width: 80%;
+    font-family: "Fira Code";
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.search-text::placeholder {
+    color: var(--medium-gray);
+}
+
+.search-text:focus {
+    outline: none;
+}
+
+.search-bar {
+    background-color: var(--lightest-gray);
+    border-radius: 32px;
+    padding: 0.3rem;
+    margin-top: 1vh;
+    margin-bottom: 4vh;
+}
+
+/* Add Note */
+
+.add-note {
+    background-color: var(--lightest-gray);
+    border-radius: 11px;
+}
+
+.plus {
+    width: 100%;
+    margin: 0 auto;
+}
+/* clickable part of Add Note */
+.add-click {
+    width: max(15vw, 200px);
+    height: 25vh;
+    padding: 0;
+    margin: 20px 15px;
+    cursor: pointer;
+    position: absolute;
+    opacity: 0;
+}
+
+
+/* Folders */
+
+.tab {
+    background-color: var(--light-gray);
+    height: 20%;
+    width: 30%;
+    border-radius: 11px;
+    /* margin-bottom: -10%; */
+}
+
+.folder {
+    background-color: var(--folder-yellow);
+    height: 90%;
+    margin-top: -7%;
+    border-radius: 11px;
+}
+
+.folder-name {
+    margin: 0;
+    text-align: center;
+    padding: 25% 0;
+    font-family: "Fira Code";
+    font-size: 1.1rem;
+}
+
+/* Notes */
+
+.thumbnail-body {
+    background-color: var(--lightest-gray);
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    margin: 0;
+    height: 80%;
+    overflow: hidden;
+    padding: 14px 17px;
+}
+
+/* TO-DO: adjust spacing */
+.thumbnail-text {
+    margin: 0;
+    color: var(--dark-gray);
+    white-space: wrap;
+    overflow: hidden;
+    max-height: 5rem;
+    text-decoration: none;
+}
+
+.thumbnail-label {
+    background-color: var(--light-gray);
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+    margin: 0;
+    overflow: hidden;
+    height: 20%;
+}
+
+.thumbnail-title {
+    margin: 2px 17px;
+    font-size: 1.1rem;
+}
+
+/* Used for clickable part of link on thumbnails */
+.thumbnail-click {
+    position: absolute;
+    overflow: visible;
+    opacity: 0;
+    width: max(15vw, 200px);
+    height: 25vh;
+    padding: 0;
+    margin: 20px 15px;
+}
+
+/* Create pop-up backdrop */
+/* Creates the darkened effect behind the pop-up */
+.backdrop {
+    min-height: calc(100vh - 55px);
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin-top: 55px;
+    background-color: black;
+    opacity: 0.5;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.backdrop input {
+    opacity: 0;
+}
+
+/* From here to line 260 all css for the Create New popup
+    Very messy, definitely repurpose. Also consider moving
+    this to its own css file in order to not clutter
+    the current file */
+/* general wrapper for Create New note/temp pop-up */
+.make {
+    margin-top: 10px;
+    height: 80vh;
+    position: fixed;
+    overflow: scroll;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--offbase-white);
+    width: 60vw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* close button for Create Note pop-up */
+.make-exit {
+    top: 0;
+    right: 0;
+    position: absolute;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+    font-size: 20px;
+}
+
+.make-exit:hover {
+    background-color: red;
+    color: white;
+}
+
+/* header/title for Make New Note/Temp */
+.make-header {
+    font-size: 3rem;
+    top: 0;
+    left: 0;
+
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* wrapper for element where user can decide whether to make a note or a temp */
+.maketxt-wrap {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+/* txt specifcially for the "New: " */
+.make-text {
+    font-size: 2rem;
+    top: 0;
+    left: 0;
+
+    word-wrap: inherit;
+    display: block;
+}
+
+/* button indicating whether new note or temp */
+.make-ddown-btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    max-height: 2rem;
+    margin-left: 10px;
+    position: flex;
+    margin-bottom: 0px;
+
+    border: 1px solid black;
+}
+
+/* button that appears on hover of ddown. Make on click in future */
+.ddown-temp {
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    max-height: 2rem;
+    margin-left: 10px;
+    position: flex;
+    margin-bottom: 0px;
+
+    border: 1px solid black;
+}
+
+.d-arrow {
+    font-size: 1rem;
+}
+/* Make New Notes/Temps pop-up above
+    Said above earlier but consider moving
+    this to a different file */
+
+/* general dropdown css
+    usable anywhere */
+.dropdown-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+  }
+
+  .dropdown-wrap:hover .dropdown-content {
+    display: block;
+  }
+  /* end of general dropdown css */

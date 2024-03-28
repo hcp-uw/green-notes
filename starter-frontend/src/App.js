@@ -1,6 +1,8 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from './components/Navbar';
+import { Outlet, Link } from 'react-router-dom';
 
 const baseURL = 'http://localhost:3001';
 
@@ -20,8 +22,8 @@ function App() {
   console.log(message);
   return (
     <>
-      <h1>Hello, HCP</h1>
-      <p>{message}</p>
+      <Navbar />
+      <Outlet />
     </>
   );
 }
