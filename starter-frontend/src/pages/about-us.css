@@ -1,0 +1,71 @@
+/* Binary tree in the background */
+#tree {
+    position: fixed;
+    right: 220px;
+    top: 80px;
+    height: 720px; 
+}
+
+/* "Our Mission" Information Box */
+.mission-background {
+    position: fixed;
+    background-color: var(--lightest-gray);
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    width: 450px;
+    height: 200px;
+    left: 240px;
+    top: 150px;
+}
+
+.mission-title-background {
+    background-color: var(--green);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    position: fixed;
+    width: 450px;
+    height: 50px;
+    left: 240px;
+    top: 100px;
+}
+
+.mission-bodytext {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}
+
+.mission-title {
+    color: var(--offbase-white);
+    font-size: 20px;
+    text-align: center;
+}
+
+/* "Our Team" Information*/
+.team-background {
+    position: fixed;
+    background-color: var(--lightest-gray);
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    width: 520px;
+    height: 300px;
+    left: 410px;
+    top: 450px;
+}
+
+.team-title-background {
+    background-color: var(--green);
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    position: fixed;
+    width: 520px;
+    height: 50px;
+    left: 410px;
+    top: 400px;
+}
+
+.team-title {
+    color: var(--offbase-white);
+    font-size: 20px;
+    text-align: center;
+}
