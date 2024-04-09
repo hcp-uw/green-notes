@@ -7,6 +7,9 @@ import './Create.css'
 // to create a dropdown for the new: note/template but for simplicity's sake it will remain
 // as a simple toggle button. Some comments also extend in notes.js
 
+// TODO: try to make button same size no matter the text and also give it more style
+// Also give more style to the big popup box
+
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
 const Create = ({ isMaking, onMake/*, isTemp, onTemp*/ }) => {

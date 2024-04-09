@@ -3,7 +3,7 @@
     margin-top: 10px;
     height: 80vh;
     position: fixed;
-    overflow: scroll;
+    overflow: hidden;
     top: 0;
     left: 0;
     right: 0;
@@ -13,6 +13,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    border-radius: 10px;
 }
 
 /* close button for Create Note pop-up */
@@ -69,8 +70,14 @@
     margin-left: 10px;
     position: flex;
     margin-bottom: 0px;
+    min-width: 7rem;
 
     border: 1px solid black;
+    text-align: center;
+}
+
+.make-ddown-btn:hover {
+    background-color: var(--lightest-gray);
 }
 
 /* button that appears on hover of ddown. Make on click in future */
