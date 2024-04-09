@@ -1,0 +1,98 @@
+
+.make {
+    margin-top: 10px;
+    height: 80vh;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--offbase-white);
+    width: 60vw;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
+
+/* close button for Create Note pop-up */
+.make-exit {
+    top: 0;
+    right: 0;
+    position: absolute;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+    font-size: 20px;
+}
+
+.make-exit:hover {
+    background-color: red;
+    color: white;
+}
+
+/* header/title for Make New Note/Temp */
+.make-header {
+    font-size: 3rem;
+    top: 0;
+    left: 0;
+
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+/* wrapper for element where user can decide whether to make a note or a temp */
+.maketxt-wrap {
+    display: flex;
+    margin-left: 10px;
+    align-items: center;
+}
+
+/* txt specifcially for the "New: " */
+.make-text {
+    font-size: 2rem;
+    top: 0;
+    left: 0;
+
+    word-wrap: inherit;
+    display: block;
+}
+
+/* button indicating whether new note or temp */
+.make-ddown-btn {
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    max-height: 2rem;
+    margin-left: 10px;
+    position: flex;
+    margin-bottom: 0px;
+    min-width: 7rem;
+
+    border: 1px solid black;
+    text-align: center;
+}
+
+.make-ddown-btn:hover {
+    background-color: var(--lightest-gray);
+}
+
+/* button that appears on hover of ddown. Make on click in future */
+.ddown-temp {
+    font-size: 1.3rem;
+    cursor: pointer;
+
+    max-height: 2rem;
+    margin-left: 10px;
+    position: flex;
+    margin-bottom: 0px;
+
+    border: 1px solid black;
+}
+
+.d-arrow {
+    font-size: 1rem;
+}

@@ -26,7 +26,7 @@ export default function Notes() {
                 <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                 <Folders />
                 <NoteThumbnails />
-                <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
+                <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
             </div>
         </body>
     );  
