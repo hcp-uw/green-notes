@@ -18,7 +18,7 @@ type NoteThumbnailProps = {
  *  - title: title of note
  *  - text: text of note
  *  - id: id of note (used for link)
- * 
+ *  meowm oew
  * TO-DO: 
  *  - Direct to specific note instead of placeholder. 
  *  - Cut off text so that it fits in the thumbnail. (Currently the text is visually cut 
