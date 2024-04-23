@@ -9,13 +9,12 @@ export default function TextEditor() {
       }
     };
     return (
-      <>
-        <Editor
+      <div id="editor-area">
+        <Editor 
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
           onInit={(evt, editor) => editorRef.current = editor}
-          initialValue='<p>This is the initial content of the editor.</p>'
           init={{
-            height: 500,
+            height: 470,
             menubar: false,
             plugins: [
               'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
@@ -29,7 +28,6 @@ export default function TextEditor() {
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
           }}
         />
-        <button onClick={log}>Log editor content</button>
-      </>
+      </div>
     );
 }
