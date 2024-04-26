@@ -3,7 +3,7 @@ import React from 'react'
 // Returns the regester form for making new accounts
 export default function RegisterForm() {
     return (
-        <form>
+        <form className="authform">
             <div>
                 <input
                     id="email-address"
@@ -11,7 +11,7 @@ export default function RegisterForm() {
                     type="email"
                     autoComplete="email"
                     required
-                    className="FIX LATER!!!"
+                    className="authfield"
                     placeholder="Email address"
                 />
             </div>
@@ -22,7 +22,7 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="FIX LATER!!!"
+                    className="authfield"
                     placeholder="Password"
                 />
             </div>
@@ -33,8 +33,8 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    className="FIX LATER!!!"
-                    placeholder="Password"
+                    className="authfield"
+                    placeholder="Confirm Password"
                 />
             </div>
         </form>

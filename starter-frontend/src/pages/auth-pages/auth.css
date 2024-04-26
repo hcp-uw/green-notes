@@ -1,2 +1,28 @@
 /* empty for now, will be used to style login and register forms, as well
     as title text and redirection links */
+
+.authfield {
+    appearance: none;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem
+}
+
+.authfield:hover {
+    background-color: var(--lightest-gray);
+}
+
+.authform {
+    margin-bottom: 20px;
+}
+
+.authlink {
+    padding: 0px;
+    color: black;
+    position: block;
+}
+
+.authlink:hover {
+    color: blue;
+}

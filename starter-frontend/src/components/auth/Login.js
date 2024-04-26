@@ -3,7 +3,7 @@ import React from 'react'
 // Returns the login form for logging in
 export default function LoginForm() {
     return (
-    <form>
+    <form className="authform">
         <div>
         <input
             id="email-address"
@@ -11,7 +11,7 @@ export default function LoginForm() {
             type="email"
             autoComplete="email"
             required
-            className="FIX LATER!!!"
+            className="authfield"
             placeholder="Email address"
         />
         </div>
@@ -22,7 +22,7 @@ export default function LoginForm() {
             type="password"
             autoComplete="password"
             required
-            className="FIX LATER!!!"
+            className="authfield"
             placeholder="Password"
         />
         </div>
