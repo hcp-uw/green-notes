@@ -1,0 +1,5 @@
+#editor-area {
+    padding: 35px;
+    max-height: calc(100vh - 55px);
+    background-color: var(--light-gray);
+}

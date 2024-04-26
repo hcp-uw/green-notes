@@ -3,6 +3,8 @@
 @import "./pages/Home.css";
 @import "./components/TemplateToggleButton.css";
 @import "./pages/auth-pages/auth.css";
+@import "./components/TextEditor.css";
+@import "./pages/about-us.css";
 
 /*General*/
 

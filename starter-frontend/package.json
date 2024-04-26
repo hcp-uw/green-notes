@@ -7,18 +7,22 @@
     "axios": "^1.4.0",
     "firebase": "^10.11.0",
     "firebaseui": "^6.1.0",
+    "@tinymce/tinymce-react": "^5.0.1",
+    "fs-extra": "^11.2.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
-    "sort-by": "^1.2.0"
+    "sort-by": "^1.2.0",
+    "tinymce": "^7.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject", 
+    "postinstall": "node ./postinstall.js"
   },
   "proxy": "http://localhost:3001/",
   "eslintConfig": {
