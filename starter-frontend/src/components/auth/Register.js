@@ -37,6 +37,9 @@ export default function RegisterForm() {
                     placeholder="Confirm Password"
                 />
             </div>
+            <div>
+                <button type="submit" className="authsubmit">Create Account</button>
+            </div>
         </form>
         );
 }

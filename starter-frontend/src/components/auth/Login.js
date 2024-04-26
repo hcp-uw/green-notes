@@ -26,6 +26,9 @@ export default function LoginForm() {
             placeholder="Password"
         />
         </div>
+        <div>
+        <button type="submit" className="authsubmit">&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;</button>
+        </div>
     </form>
     );
 }

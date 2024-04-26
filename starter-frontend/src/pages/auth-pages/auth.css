@@ -6,7 +6,7 @@
     margin: 10px;
     border: none;
     border-radius: 10px;
-    font-size: 1.5rem
+    font-size: 1.5rem;
 }
 
 .authfield:hover {
@@ -25,4 +25,11 @@
 
 .authlink:hover {
     color: blue;
+}
+
+.authsubmit {
+    margin: 10px;
+    border-style: none;
+    font-size: 1.2rem;
+    border-radius: 10px;
 }
