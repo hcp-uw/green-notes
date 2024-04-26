@@ -10,7 +10,7 @@ export default function LoginForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register } = useAuth();
+    const { currentUser, register, setError } = useAuth();
 
 
     const navigate = useNavigate();
@@ -19,11 +19,12 @@ export default function LoginForm() {
         e.preventDefault();
       
           try {
+            setError("");
             setLoading(true);
             await register(email, password);
             navigate("/profile");
           } catch (e) {
-            alert("Failed to register");
+            setError("Failed to register");
           }
       
           setLoading(false);

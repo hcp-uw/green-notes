@@ -12,7 +12,7 @@ export default function RegisterForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register } = useAuth();
+    const { currentUser, register, setError } = useAuth();
 
     
     const navigate = useNavigate();
@@ -21,15 +21,16 @@ export default function RegisterForm() {
         e.preventDefault();
     
         if (password !== confirmPassword) {
-            return alert("Passwords do not match");
+            return setError("Passwords do not match");
           }
       
           try {
+            setError("");
             setLoading(true);
             await register(email, password);
             navigate("/profile");
           } catch (e) {
-            alert("Failed to register");
+            setError("Failed to register");
           }
       
           setLoading(false);

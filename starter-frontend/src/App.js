@@ -4,6 +4,7 @@ import axios from 'axios';
 import Navbar from './components/Navbar';
 import { Outlet, Link } from 'react-router-dom';
 import { AuthProvider } from "./contexts/AuthContext";
+import ErrorMessage from "./components/auth/ErrorMessage"
 
 
 const baseURL = 'http://localhost:3001';
@@ -29,6 +30,7 @@ function App() {
     <AuthProvider>
       <Navbar />
       <Outlet />
+      <ErrorMessage />
     </AuthProvider>
     </>
   );
