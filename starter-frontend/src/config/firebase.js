@@ -3,6 +3,9 @@ import { initializeApp } from "firebase/app";
 // import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth";
 
+// const firebase = require('firebase');
+// const firebaseui = require('firebaseui');
+
 // All sensitive data is in .env file that isn't part of
 // the github repo for obvious reasons.
 const firebaseConfig = {
@@ -21,5 +24,18 @@ const firebaseConfig = {
 
   // Starts and exports the auth part of firebase
   const auth = getAuth(app);
+
+  // const ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+  // ui.start('#firebaseui-auth-container', {
+  //   signInOptions: [
+  //     {
+  //       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+  //       signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+  //       requireDisplayName: true
+  //     }
+  //   ]
+  // });
+  
 
   export default auth;

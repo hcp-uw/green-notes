@@ -13,6 +13,8 @@ import HomeScreen from './pages/Home';
 import Note from './pages/note';
 import Notes from './pages/notes';
 import Profile from './pages/profile';
+import Login from './pages/auth-pages/login'
+import Register from './pages/auth-pages/register'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,14 @@ const router = createBrowserRouter([
         // path: "profile/:profileId", 
         element: <Profile />,
       }, 
+      {
+        path: "login",
+        element: <Login />
+      },
+      {
+        path: "register",
+        element: <Register />
+      },
       
       
     ]
