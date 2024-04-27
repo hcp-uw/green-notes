@@ -1,0 +1,74 @@
+/* empty for now, will be used to style login and register forms, as well
+    as title text and redirection links */
+
+.authfield {
+    appearance: none;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+.authfield:hover {
+    background-color: var(--lightest-gray);
+}
+
+.authform {
+    margin-bottom: 20px;
+}
+
+.authlink {
+    padding: 0px;
+    color: black;
+    position: block;
+}
+
+.authlink:hover {
+    color: blue;
+}
+
+.authsubmit {
+    margin: 10px;
+    border-style: none;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.errorX {
+    border-radius: 100%;
+    padding: 0px;
+    margin: 11px;
+}
+
+.errorX:hover {
+    cursor: pointer;
+}
+
+.errorbox {
+    background-color: red;
+    opacity: 0.5;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: -1;
+    border-radius: 0px;
+}
+
+.errortext {
+    font-size: 1.3rem;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 13%;
+    text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+.errorwrap {
+    border-radius: 6px;
+    border-style: solid;
+    border-color: black;
+}
