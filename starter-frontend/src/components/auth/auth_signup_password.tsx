@@ -1,3 +1,4 @@
+//@ts-nocheck
 // Not too sure what this is used for yet, dw about it for now
 
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";

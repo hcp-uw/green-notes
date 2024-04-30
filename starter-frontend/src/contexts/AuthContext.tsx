@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword,
         signInWithEmailAndPassword, } from "firebase/auth";

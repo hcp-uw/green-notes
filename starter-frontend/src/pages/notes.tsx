@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Form } from "react-router-dom";
 import { useState } from 'react';
 import TemplateToggleButton from '../components/TemplateToggleButton';

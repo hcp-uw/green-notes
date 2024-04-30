@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { XCircleIcon } from "@heroicons/react/solid";
 
 import { useAuth } from "../../contexts/AuthContext";

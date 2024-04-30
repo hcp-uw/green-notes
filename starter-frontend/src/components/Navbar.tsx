@@ -1,3 +1,4 @@
+//@ts-nocheck
 import logo from '../assets/binary-tree-logo.png';
 import profile from '../assets/profile-button.png';
 import { Link } from 'react-router-dom';

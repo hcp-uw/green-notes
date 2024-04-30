@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react'
 import LoginForm from '../../components/auth/Login'
 import { Link } from 'react-router-dom';

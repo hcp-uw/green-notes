@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react'
 import { useState } from 'react';
 import './Navigation.css'

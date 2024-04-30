@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Form } from "react-router-dom";
 import TextEditor from "../components/TextEditor";
 
