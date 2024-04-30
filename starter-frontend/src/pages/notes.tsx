@@ -1,6 +1,6 @@
 import { Form } from "react-router-dom";
 import { useState } from 'react';
-import TemplateToggleButton from '../components/TemplateToggleButton.js';
+import TemplateToggleButton from '../components/TemplateToggleButton';
 import AddNote from "../components/AddNote";
 import Folders from "../components/Folders";
 import NoteThumbnails from "../components/NoteThumbnails";
