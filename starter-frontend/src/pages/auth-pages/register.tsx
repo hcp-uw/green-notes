@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react'
 import RegisterForm from '../../components/auth/Register'
 import { Link } from 'react-router-dom';

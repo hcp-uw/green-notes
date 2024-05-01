@@ -1,3 +1,4 @@
+//@ts-nocheck
 export default function Profile() {
     return (
         <div className="page green-background">

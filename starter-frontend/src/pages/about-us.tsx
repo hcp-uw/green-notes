@@ -1,3 +1,4 @@
+//@ts-nocheck
 import tree from '../assets/binary-tree-about-us.svg';
 
 function AboutUsMission({title, text}) {

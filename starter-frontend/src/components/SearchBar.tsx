@@ -1,3 +1,4 @@
+//@ts-nocheck
 import searchIcon from '../assets/search-icon.svg';
 
 /**

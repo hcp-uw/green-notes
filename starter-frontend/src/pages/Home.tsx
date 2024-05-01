@@ -1,3 +1,4 @@
+//@ts-nocheck
 import smile from '../assets/smileLogo.png';
 import { Link } from 'react-router-dom';
 

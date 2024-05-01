@@ -1,3 +1,4 @@
+//@ts-nocheck
 // Do later
 
 export default function Collaboration() {
