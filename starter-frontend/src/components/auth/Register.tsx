@@ -29,7 +29,7 @@ export default function RegisterForm() {
             setError("");
             setLoading(true);
             await register(email, password);
-            navigate("/profile");
+            navigate("/new-profile");
           } catch (e) {
             setError("Failed to register");
           }

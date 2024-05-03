@@ -23,7 +23,7 @@ export default function LoginForm() {
             setError("");
             setLoading(true);
             await register(email, password);
-            navigate("/profile");
+            navigate("/notes");
           } catch (e) {
             setError("Failed to register");
           }

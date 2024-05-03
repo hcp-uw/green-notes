@@ -1,8 +1,11 @@
 //@ts-nocheck
 import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword,
-        signInWithEmailAndPassword, } from "firebase/auth";
+        signInWithEmailAndPassword,
+        signOut } from "firebase/auth";
 import auth from "../config/firebase";
+import { updateProfile } from "firebase/auth";
+
 
 
 
@@ -32,6 +35,15 @@ export function AuthProvider({ children }) {
     function login(email, password) {
       return signInWithEmailAndPassword(auth, email, password);
     }
+
+    function updateUserProfile(user, profile) {
+      return updateProfile(user, profile);
+    }
+
+    function logout() {
+      return signOut(auth);
+    }
+  
   
     useEffect(() => {
       const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -48,6 +60,7 @@ export function AuthProvider({ children }) {
       register,
       error,
       setError,
+      updateUserProfile,
     };
   
     return (

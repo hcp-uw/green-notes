@@ -15,6 +15,7 @@ import Notes from './pages/notes';
 import Profile from './pages/profile';
 import Login from './pages/auth-pages/login'
 import Register from './pages/auth-pages/register'
+import NewProfile from'./components/auth/NewProfile'
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />
+      },
+      {
+        path: "new-profile",
+        element: <NewProfile />
       },
       
       
