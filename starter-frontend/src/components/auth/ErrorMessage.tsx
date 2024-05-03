@@ -8,16 +8,19 @@ export default function ErrorMessage() {
 
     return (
         error && (
-            <div className="centText flex errorwrap">
-                    <XCircleIcon
-                    onClick={() => setError("")}
-                    className="errorX"
-                    aria-hidden="true" />
-                    <h3 className="errortext">
-                        Error: {error}
-                    </h3>
-                <div className="flex errorbox">
+            <div>
+                <div className="error-drop"  onClick={() => setError("")}>
 
+                </div>
+                <div className="centText flex errorwrap">
+                        <XCircleIcon
+                        onClick={() => setError("")}
+                        className="errorX"
+                        aria-hidden="true" />
+                        <h3 className="errortext">
+                            Error: {error}
+                        </h3>
+                    <div className="flex errorbox"></div>
                 </div>
             </div>
         )

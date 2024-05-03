@@ -38,9 +38,7 @@
     border-radius: 100%;
     padding: 0px;
     margin: 11px;
-}
-
-.errorX:hover {
+    z-index: 13;
     cursor: pointer;
 }
 
@@ -53,11 +51,12 @@
     left: 0;
     right: 0;
     width: 100%;
-    z-index: -1;
+    z-index: 11;
     border-radius: 0px;
 }
 
 .errortext {
+    z-index: 13;
     font-size: 1.3rem;
     top: 0;
     bottom: 0;
@@ -71,4 +70,25 @@
     border-radius: 6px;
     border-style: solid;
     border-color: black;
+    z-index: 12;
+}
+
+.error-drop {
+    min-height: 100vh;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    z-index: 11;
+}
+
+.prof-img {
+    height: 40vh;
+    margin-bottom: 30px;
+    cursor: pointer;
 }
