@@ -61,6 +61,7 @@ export function AuthProvider({ children }) {
       error,
       setError,
       updateUserProfile,
+      logout,
     };
   
     return (

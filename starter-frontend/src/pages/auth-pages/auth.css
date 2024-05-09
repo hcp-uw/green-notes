@@ -92,3 +92,19 @@
     margin-bottom: 30px;
     cursor: pointer;
 }
+
+.logout-popup {
+    height: 30vh;
+    margin-top: 10px;
+    position: fixed;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--offbase-white);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+}
