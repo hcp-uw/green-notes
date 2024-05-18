@@ -17,9 +17,12 @@
     --folder-yellow: #F2EFA6;
     --offbase-white: #fdfdfd;
     --lightest-gray: #EDE7E7;
+    --lighter-gray: #E8DDDD;
     --light-gray: #D4CBC2;
     --medium-gray: #A9A9A9;
     --dark-gray: #313638; 
+    --offbase-black: #161616;
+    ;
 }
 
 * {
