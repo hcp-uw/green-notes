@@ -11,6 +11,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "firebase": "^10.11.0"
+    "firebase": "^10.11.0",
+    "run": "^1.5.0"
   }
 }
