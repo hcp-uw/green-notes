@@ -1,0 +1,34 @@
+/*Background*/
+#background {
+    width: 1407px;
+    height: 807px;
+    flex-shrink: 0;
+    fill: #FFFCFC;
+}
+
+.profile-icon {
+    width: 400px;
+    height: 400px;
+    flex-shrink: 0;
+}
+
+.bio-box {
+    width: 324px;
+    height: 199px;
+    flex-shrink: 0;
+    border-radius: 36px;
+    background: #EDE7E7;
+}
+
+.bio-text {
+    width: 286px;
+    height: 112px;
+    flex-shrink: 0;
+    color: #201F1F;
+    text-align: center;
+    font-family: "Fira Code";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
