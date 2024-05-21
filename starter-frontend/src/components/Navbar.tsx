@@ -32,7 +32,6 @@ function NavigationLinks() {
  */
 function Profile() {
     // return <Link to={`ProfileDropdown`}><img id="profile-icon" src={profile} /></Link>;
-    // Try to make it a button, make on-state a dropdown
 
     const [open, setOpen] = React.useState(false);
 
