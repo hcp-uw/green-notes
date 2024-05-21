@@ -1,6 +1,8 @@
 //@ts-nocheck
 import logo from '../assets/binary-tree-logo.png';
 import profile from '../assets/profile-button.png';
+import * as React from 'react';
+import '../components/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
 // import { useAuth } from '../contexts/AuthContext';
 // import  auth  from '../config/firebase';
@@ -33,7 +35,35 @@ function NavigationLinks() {
  * TO-DO: Make so that it shows the user's image. 
  */
 function Profile() {
-    return <Link to={`profile`}><img id="profile-icon" src={profile} /></Link>;
+    // return <Link to={`ProfileDropdown`}><img id="profile-icon" src={profile} /></Link>;
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleOpen = () => {
+        setOpen(!open);
+    };
+
+    return (
+        <div>
+        <a alignment="end" onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
+        {open ? (
+        <ul className="menu">
+          <li className="menu-item">
+            <button>Your Profile</button>
+          </li>
+          <li className="menu-item">
+            <button>Shared Files</button>
+          </li>
+          <li className="menu-item">
+            <button>Settings</button>
+          </li>
+          <li className="menu-item">
+            <button>Sign out</button>
+          </li>
+        </ul>
+        ) : null}
+        </div>
+    );
 }
 
 /**
