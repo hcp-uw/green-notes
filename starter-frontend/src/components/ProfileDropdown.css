@@ -41,3 +41,13 @@
     position: absolute;
     right: 10px;
 }
+
+.menu > li > Link {
+    padding: 5px;
+}
+
+.ddown-option {
+    margin-left: 5px;
+    text-decoration: none;
+    color: black;
+}

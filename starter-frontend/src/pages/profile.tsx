@@ -17,17 +17,17 @@ export default function Profile() {
 
     return (
 
+        // TODO: get background for logout modal to work again
         <div className="profile-page">
-          <div className="background">
+          {/* <div className="background"></div> */}
             <div className="white-box">
                 <User />
-                <p className="profile-icon"><img id="profile-icon" src={profile}></img></p>
+                {/* <p className="profile-icon"><img id="profile-icon" src={profile}></img></p> */}
+                <button onClick={onOpen}>Logout?</button>
+                <Logout isModal={isModal} setIsModal={setIsModal}/>
             </div>  
-              <button onClick={onOpen}>Logout?</button>
-              <Logout isModal={isModal} setIsModal={setIsModal}/>
-            <div>
-                
-            </div>
+            
+          
         </div>        
     );
 }
