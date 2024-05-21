@@ -1,23 +1,47 @@
 /*Background*/
-#background {
-    width: 1407px;
-    height: 807px;
-    flex-shrink: 0;
-    fill: #FFFCFC;
+.profile-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light-green);
+    height: 100vh;
+  }
+
+.white-box {
+    /*
+    display: flex;
+    justify-content: center;
+    align-items: center;\*/
+    margin-top: 50px;
+    width: 95%;
+    height: 85%;
+    top: 50px;
+    background-color: var(--offbase-white);
+    border-radius: 15px;
 }
 
 .profile-icon {
-    width: 400px;
-    height: 400px;
-    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    position:absolute;
+    margin-top: 30px;
+    margin-left: 35px;
 }
 
 .bio-box {
-    width: 324px;
-    height: 199px;
+    width: 250px;
+    height: 200px;
     flex-shrink: 0;
     border-radius: 36px;
     background: #EDE7E7;
+
+    position:absolute;
+    margin-top: 240px;
+    margin-left: 30px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .bio-text {
@@ -27,7 +51,7 @@
     color: #201F1F;
     text-align: center;
     font-family: "Fira Code";
-    font-size: 24px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
