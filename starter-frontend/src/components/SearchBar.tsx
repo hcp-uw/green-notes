@@ -106,10 +106,10 @@ function LastRow(collaboration: boolean): JSX.Element {
 /**
  * Returns the whole search bar.
  */
-export default function SearchBar({isAdvanced, onAdvance}) {
+export default function SearchBar({isAdvanced, onAdvance, collaboration}) {
     return (
         <form action="/notes">
-            <AdvancedSearch isAdvanced={isAdvanced}/>
+            <AdvancedSearch isAdvanced={isAdvanced} collaboration={collaboration}/>
             <div className="search-bar flex" onClick={onAdvance}>
                 <SearchIcon />
                 <MainSearch />
