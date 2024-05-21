@@ -1,0 +1,98 @@
+/* Main Search Bar */
+
+.search-icon {
+    width: 1.7vw;
+    margin-left: 0.7rem;
+    margin-right: 0.7rem;
+}
+
+.search-text {
+    background: none;
+    border: none;
+    width: 80%;
+    font-family: "Fira Code";
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+}
+
+.search-text::placeholder {
+    color: var(--medium-gray);
+}
+
+.search-text:focus {
+    outline: none;
+}
+
+.search-bar {
+    position: relative;
+    z-index: 10;
+    background-color: var(--lightest-gray);
+    border-radius: 32px;
+    padding: 0.3rem;
+    margin-top: 1vh;
+    margin-bottom: 4vh;
+}
+
+/* Advanced Search Bar */
+
+.advanced-search {
+    width: 90%;
+    z-index: 1;
+    position: absolute;
+    top: calc(55px + 5vh + 0.3rem);
+    background-color: var(--lighter-gray);
+    border-radius: 15px 15px 32px 32px;
+    padding: 2.5rem 2.5rem 2rem;
+    margin-top: 0;
+}
+
+.search-field {
+    font-family: Fira Code;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 28.86px;
+    text-align: left;
+    color: var(--offbase-black);
+    flex-grow: 1;
+}
+
+.search-line {
+    max-width: 100%;
+    gap: 40px;
+}
+
+.search-full {
+    width: 100%;
+    justify-content: space-around;
+}
+
+.search-half {
+    width: 50%;
+    justify-content: space-around;
+    gap: 40px;
+}
+
+.search-box {
+    background-color: var(--lightest-gray);
+    border: none;
+    width: 100%;
+    font-family: "Fira Code";
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--dark-gray);
+    border-radius: 10px;
+    padding: 0.3rem;
+    height: 5vh;
+    flex-grow: 10;
+}
+
+.submit-button {
+   margin-top: 1rem;
+   margin-bottom: 0;
+}
+
+.submit-button:hover {
+    background-color: var(--dark-gray);
+    color: var(--offbase-white);
+}
