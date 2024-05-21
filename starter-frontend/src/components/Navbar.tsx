@@ -2,9 +2,10 @@
 import logo from '../assets/binary-tree-logo.png';
 import profile from '../assets/profile-button.png';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import  auth  from '../config/firebase';
-import { useEffect } from 'react';
+// import { useAuth } from '../contexts/AuthContext';
+// import  auth  from '../config/firebase';
+// import { useEffect } from 'react';
+// import axios from 'axios';
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
 function HomeLogo() {
@@ -52,29 +53,30 @@ function LogInButton() {
  */
 export default function NavigationBar() {
 
-    const { currentUser } = useAuth();
+    /*Code to access/verify current user. Look into later*/
+    // const { currentUser } = useAuth();
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const user = auth.currentUser;
-            const token = user && (await user.getIdToken());
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const user = auth.currentUser;
+    //         const token = user && (await user.getIdToken());
     
-            const payloadHeader = {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            };
-            const res = await fetch("http://localhost:3001", payloadHeader);
-            console.log(await res.text());
-          } catch (e) {
-            console.log(e);
-          }
-        };
+    //         const payloadHeader = {
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${token}`,
+    //           },
+    //         };
+    //         const res = await fetch("http://localhost:3001", payloadHeader);
+    //         console.log(await res.text());
+    //       } catch (e) {
+    //         console.log(e);
+    //       }
+    //     };
     
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     return (
       <nav>

@@ -11,7 +11,8 @@ export default function LoginForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register, setError } = useAuth();
+    const { currentUser, login, setError } = useAuth();
+
 
 
     const navigate = useNavigate();
