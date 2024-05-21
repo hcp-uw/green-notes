@@ -45,6 +45,8 @@ export default function NoteThumbnails() {
         <>
             <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " id="123" />
             <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " id="cactus" />
+            <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " id="smth" />
+            <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" id="ahhh" />
         </>
     );
 }
