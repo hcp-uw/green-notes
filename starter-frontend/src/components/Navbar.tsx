@@ -42,7 +42,7 @@ function Profile() {
 
     return (
         <div>
-        <a data-alignment="right" onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
+        <a alignment="end" onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
         {open ? (
         <ul className="menu">
           <li className="menu-item">
@@ -58,7 +58,7 @@ function Profile() {
             <button>Sign out</button>
           </li>
         </ul>
-      ) : null}
+        ) : null}
         </div>
     );
 }

@@ -11,15 +11,9 @@
     margin: 5px 0;
     padding: 0;
 
-    border: #1E5B5E;
-    /* border: 1px solid grey; */
-    /* border: var(--darker-green); */
+    border: 1px solid var(--darker-green);
     width: 150px;
 }
-
-/* .main-button {
-    alignment: end;
-} */
 
 .menu > li {
     margin: 0;
@@ -43,4 +37,9 @@
     margin: 0;
     font: inherit;
     cursor: pointer;
+}
+
+.menu {
+    position: absolute;
+    right: 10px;
 }
