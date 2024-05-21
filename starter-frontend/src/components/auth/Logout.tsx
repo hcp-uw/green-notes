@@ -1,12 +1,10 @@
 //@ts-nocheck
-import { Fragment, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationIcon } from "@heroicons/react/outline";
 
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function Logout({ modal, setModal }) {
+export default function Logout({ isModal, setIsModal }) {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
@@ -16,16 +14,25 @@ export default function Logout({ modal, setModal }) {
     try {
       setError("");
       await logout();
-      setModal(false);
+      setIsModal(false);
       navigate("/login");
     } catch {
       setError("Failed to logout");
     }
   }
 
-  return (
-    <div>
-        {/* logout popup */}
-    </div>
-  );
+  // TODO: make logout popup and Private routes
+  if (!isModal) {
+    return null;
+  } else {
+    return (
+      <div>
+          <div className="centText logout-popup">
+            <h2>Are you sure you want to log out?</h2>
+            <button onClick={handleLogout}>Logout</button>
+            <button onClick={() => setIsModal(false)}>Cancel</button>
+          </div>
+      </div>
+    );
+  }
 }

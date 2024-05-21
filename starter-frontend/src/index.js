@@ -13,10 +13,13 @@ import HomeScreen from './pages/Home';
 import Note from './pages/note';
 import Notes from './pages/notes';
 import Profile from './pages/profile';
-import Login from './pages/auth-pages/login'
-import Register from './pages/auth-pages/register'
-import NewProfile from'./components/auth/NewProfile'
+import Login from './pages/auth-pages/login';
+import Register from './pages/auth-pages/register';
+import NewProfile from'./components/auth/NewProfile';
+import PrivateRoute from './components/auth/PrivateRoute';
 
+// Private route element redirects people to login first
+// No real authentication yet, any fake email and password will do
 const router = createBrowserRouter([
   {
     path: "/", 
@@ -30,25 +33,25 @@ const router = createBrowserRouter([
       }, 
       {
         path: "collaboration",
-        element: <Collaboration />,
+        element: <PrivateRoute><Collaboration /></PrivateRoute>,
       }, 
       {
         path: "note",
         // Later change to
         // path: "note/:noteId",
-        element: <Note />,
+        element: <PrivateRoute><Note /></PrivateRoute>,
       }, 
       {
         //Later change to
         //path: "notes/:folderId",
         path: "notes",
-        element: <Notes />,
+        element: <PrivateRoute><Notes /></PrivateRoute>,
       }, 
       {
         path: "profile",
         // Later change to
         // path: "profile/:profileId", 
-        element: <Profile />,
+        element: <PrivateRoute><Profile /></PrivateRoute>,
       }, 
       {
         path: "login",
@@ -60,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "new-profile",
-        element: <NewProfile />
+        element: <PrivateRoute><NewProfile /></PrivateRoute>
       },
       
       

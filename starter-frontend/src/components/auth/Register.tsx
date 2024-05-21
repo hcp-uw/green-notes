@@ -2,7 +2,7 @@
 import React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Returns the regester form for making new accounts
 export default function RegisterForm() {
@@ -17,6 +17,12 @@ export default function RegisterForm() {
 
     
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (currentUser) {
+          navigate("/");
+        }
+      }, [currentUser, navigate]);
 
     async function handleFormSubmit(e) {
         e.preventDefault();
