@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A simple Express.js backend",
   "main": "server.js",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "firebase": "^10.11.0",
     "run": "^1.5.0"

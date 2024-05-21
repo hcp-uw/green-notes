@@ -4,6 +4,10 @@ import profile from '../assets/profile-button.png';
 import * as React from 'react';
 import '../components/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
+// import { useAuth } from '../contexts/AuthContext';
+// import  auth  from '../config/firebase';
+// import { useEffect } from 'react';
+// import axios from 'axios';
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
 function HomeLogo() {
@@ -78,6 +82,32 @@ function LogInButton() {
  * TO-DO: Change between Profile or LogInButton depending on whether the user is logged in or not.
  */
 export default function NavigationBar() {
+
+    /*Code to access/verify current user. Look into later*/
+    // const { currentUser } = useAuth();
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const user = auth.currentUser;
+    //         const token = user && (await user.getIdToken());
+    
+    //         const payloadHeader = {
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${token}`,
+    //           },
+    //         };
+    //         const res = await fetch("http://localhost:3001", payloadHeader);
+    //         console.log(await res.text());
+    //       } catch (e) {
+    //         console.log(e);
+    //       }
+    //     };
+    
+    //     fetchData();
+    // }, []);
+
     return (
       <nav>
             <div id="left-side">

@@ -1,46 +1,37 @@
-/*
-    Notice that most of the comments are for setting up firebase stuff
-    Will get back to backend firebase once firebase in the front end
-    is set up, because apparently that's a thing?
-*/
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+// import { VerifyToken } from "./middlewears/VerifyToken.js";
+
+import { unknownEndpoint } from "./middleware.js";
 
 
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// import { getFirestore } from "firebase/firestore"
-
-// const firebase = require("firebase");
-const express = require("express");
-const cors = require("cors");
-const { unknownEndpoint } = require('./middleware');
-
-// create your express application
 const app = express();
-// enable cors
+
 app.use(cors());
-//json parsing
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+// app.use(VerifyToken);
 
+// app.use(function(req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000/"); // update to match the domain you will make the request from
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+//   });
 
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_API_KEY,
-//   authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-//   projectId: process.env.REACT_APP_PROJECT_ID,
-//   storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-//   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-//   appId: process.env.REACT_APP_APP_ID,
-//   measurementId: process.env.REACT_APP_MEASUREMENT_ID
-// };
+dotenv.config();
 
-// const analytics = getAnalytics(app);
-// firebase.initializeApp(firebaseConfig);
-// const db = getFirestore(app);
-// initializeApp();
 
 // test endpoint
 app.get('/hello', (req, res) => { 
     res.send('Attention HCP Project Team! If you see this, your front end and back end are connected') 
 })
+
+app.get("/", (req, res) => {
+    res.send("working fine");
+});
 
 
 
@@ -48,7 +39,7 @@ app.get('/hello', (req, res) => {
 app.use(unknownEndpoint);
 
 // set port to listen on
-const PORT = 3001;
+const PORT = process.env.PORT || 8080;
 
 // start your server
 app.listen(PORT, () => {

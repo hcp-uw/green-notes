@@ -1,5 +1,5 @@
 //@ts-nocheck
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
 
@@ -11,10 +11,17 @@ export default function LoginForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register, setError } = useAuth();
+    const { currentUser, login, setError } = useAuth();
+
 
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (currentUser) {
+          navigate("/");
+        }
+      }, [currentUser, navigate]);
 
     async function handleFormSubmit(e) {
         e.preventDefault();
@@ -22,10 +29,10 @@ export default function LoginForm() {
           try {
             setError("");
             setLoading(true);
-            await register(email, password);
+            await login(email, password);
             navigate("/notes");
           } catch (e) {
-            setError("Failed to register");
+            setError("Failed to login");
           }
       
           setLoading(false);
