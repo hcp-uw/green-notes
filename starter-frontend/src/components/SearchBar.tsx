@@ -1,7 +1,17 @@
 //@ts-nocheck
 import searchIcon from '../assets/search-icon.svg';
 
+// type SearchBarProps = {
+//     isAdvanced: boolean;
 
+//     onAdvancedClick: () => void;
+// };
+
+// type SearchBarState = {
+//     isAdvanced: boolean;
+
+//     // TO-DO: add states for all fields
+// };
 
 /**
  * Magnifying glass icon.
@@ -25,41 +35,82 @@ function MainSearch() {
     );
 }
 
-function AdvancedSearch( { isAdvanced } ): JSX.Element {
+function AdvancedSearch( { isAdvanced, onAdvance, collaboration } ): JSX.Element {
     if (isAdvanced) {
         return (
             <div className="advanced-search">
-                <div className="search-line search-full"><p className="search-field">Tags <input className="search-box" type="text" name="tags"autocomplete="off" ></input></p></div>
-                <div className="search-line flex">
-                    <div className="search-half"><p className="search-field search-half">Author <input className="search-box" type="text" name="author"autocomplete="off" ></input></p></div>
-                    <div className="search-half"><p className="search-field search-half">Class <input className="search-box" type="text" name="class"autocomplete="off" ></input></p></div>    
+                <div className="search-line search-full flex-hor">
+                    <p className="search-field">Tags </p>
+                    <input className="search-box" type="text" name="tags"autocomplete="off" ></input>
                 </div>
-                <div className="search-line flex">
-                    <div className="search-half"><p className="search-field search-half">Teacher <input className="search-box" type="text" name="teacher"autocomplete="off" ></input></p></div>
-                    <div className="search-half"><p className="search-field search-half">Quarter 
-                        <select className="search-box" name="season">
-                            <option value="autumn">Autumn</option>
-                            <option value="winter">Winter</option>
-                            <option value="spring">Spring</option>
-                            <option value="summer">Summer</option>
-                        </select>
-                        <input className="search-box" type="number" name="year" min="1861" max="2050" autocomplete="off" ></input>
-                    </p></div>
+                <div className="search-line flex-hor">  
+                    <div className="search-half flex-hor">
+                        <p className="search-field">Class </p>
+                        <input className="search-box" type="text" name="class"autocomplete="off" ></input>
+                    </div>  
+                    <div className="search-half flex-hor">
+                        <p className="search-field">Teacher </p>
+                        <input className="search-box" type="text" name="teacher"autocomplete="off" ></input>
+                    </div>  
                 </div>
-                <input className="submit-button" type="submit" value="Search"></input>
+                {LastRow(collaboration)}
+                <div className="search-line search-full flex-hor">
+                    <input className="search-box submit-button" type="submit" value="Search"></input>
+                </div>
             </div>
         );
     } 
 }
 
+function LastRow(collaboration: boolean): JSX.Element {
+    if (collaboration) {
+        return (
+            // change later
+            <div className="search-line flex-hor">
+                <div className="search-half flex-hor">
+                    <p className="search-field">Quarter </p>
+                    <select className="search-box" name="season">
+                        <option value="autumn">Autumn</option>
+                        <option value="winter">Winter</option>
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                    </select>
+                </div>
+                <div className="search-half flex-hor">
+                    <p className="search-field" >Year</p>
+                    <input className="search-box" type="number" name="year" min="1861" max="2050" autocomplete="off"></input> 
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className="search-line flex-hor">
+                <div className="search-half flex-hor">
+                    <p className="search-field">Quarter </p>
+                    <select className="search-box" name="season">
+                        <option value="autumn">Autumn</option>
+                        <option value="winter">Winter</option>
+                        <option value="spring">Spring</option>
+                        <option value="summer">Summer</option>
+                    </select>
+                </div>
+                <div className="search-half flex-hor">
+                    <p className="search-field" >Year</p>
+                    <input className="search-box" type="number" name="year" min="1861" max="2050" autocomplete="off"></input> 
+                </div>
+            </div>
+        );
+    }
+}
+
 /**
  * Returns the whole search bar.
  */
-export default function SearchBar({isAdvanced}) {
+export default function SearchBar({isAdvanced, onAdvance}) {
     return (
         <form action="/notes">
             <AdvancedSearch isAdvanced={isAdvanced}/>
-            <div className="search-bar flex">
+            <div className="search-bar flex" onClick={onAdvance}>
                 <SearchIcon />
                 <MainSearch />
             </div>

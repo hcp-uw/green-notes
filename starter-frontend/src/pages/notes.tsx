@@ -23,11 +23,11 @@ export default function Notes() {
     const search: string | null = params.get("search");
 
     // TO-DO: Make updateable
-    const [isAdvanced, setIsAdvanced] = useState(true);
+    const [isAdvanced, setIsAdvanced] = useState(false);
     
     return (
         <body className="page green-background nav-page">
-            <SearchBar isAdvanced={isAdvanced} />
+            <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
             <h1>Your <TemplateToggleButton isToggled={isToggled} onToggle={() => setIsToggled(!isToggled)} /></h1>
             <div className="nav-area flex">
                 <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
