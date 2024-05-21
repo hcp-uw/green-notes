@@ -4,6 +4,7 @@ import profile from '../assets/profile-button.png';
 import * as React from 'react';
 import '../components/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
+import Logout from '../components/auth/Logout';
 // import { useAuth } from '../contexts/AuthContext';
 // import  auth  from '../config/firebase';
 // import { useEffect } from 'react';
@@ -43,22 +44,30 @@ function Profile() {
         setOpen(!open);
     };
 
+    const[isModal, setIsModal] = React.useState<Boolean>(false);
+
+    const onOpen = () => {
+        setIsModal(!isModal);
+    }
+
     return (
         <div>
+            <Logout isModal={isModal} setIsModal={setIsModal}/>
         <a alignment="end" onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
         {open ? (
         <ul className="menu">
           <li className="menu-item">
-            <button>Your Profile</button>
+            {/* TODO: figure out how to give ddown-option more height and convert other things to links */}
+            <Link to={'profile'} className='ddown-option' onClick={handleOpen}>Your Profile</Link>
           </li>
           <li className="menu-item">
-            <button>Shared Files</button>
+            <button onClick={handleOpen}>Shared Files</button>
           </li>
           <li className="menu-item">
-            <button>Settings</button>
+            <button onClick={handleOpen}>Settings</button>
           </li>
           <li className="menu-item">
-            <button>Sign out</button>
+            <button onClick={onOpen}>Sign out</button>
           </li>
         </ul>
         ) : null}
@@ -107,6 +116,8 @@ export default function NavigationBar() {
     
     //     fetchData();
     // }, []);
+
+    
 
     return (
       <nav>

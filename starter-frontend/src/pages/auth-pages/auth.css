@@ -102,7 +102,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--offbase-white);
+    background-color: var(--green);
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
