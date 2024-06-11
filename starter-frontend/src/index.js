@@ -9,7 +9,7 @@ import ErrorPage from "./pages/error-page";
 // import "./App.css";
 import AboutUs from './pages/about-us';
 import Collaboration from './pages/collaboration';
-import HomeScreen from './pages/Home';
+import Home from './pages/Home';
 import Note from './pages/note';
 import Notes from './pages/notes';
 import Profile from './pages/profile';
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />, 
     children: [
-      { index: true, element: <HomeScreen />},
+      { index: true, element: <Home />},
       {
         path: "about-us",
         element: <AboutUs />,
