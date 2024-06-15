@@ -18,7 +18,8 @@ type NavigationBarState = {
     /** True if the profile dropdown is open. */
     profileOpen: boolean; 
 
-    isModal: boolean;
+    /** True if logout confirmation pop-up is open. */
+    logoutConfirmation: boolean;
 };
 
 
@@ -31,7 +32,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
     constructor(props: NavigationBarProps) {
         super(props);
 
-        this.state = { profileOpen: false, isModal: false };
+        this.state = { profileOpen: false, logoutConfirmation: false };
     }
 
     render = (): JSX.Element => {
@@ -115,7 +116,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
     
         return (
             <div>
-                <Logout isModal={this.state.isModal} setIsModal={this.doLogoutClick}/>
+                <Logout isModal={this.state.logoutConfirmation} setIsModal={this.doSignOutClick}/>
             <a onClick={this.doOpenClick}><img id="profile-icon" src={profile} /></a>
             {this.state.profileOpen ? (
             <ul className="menu">
@@ -130,7 +131,7 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
                 <button onClick={this.doOpenClick}>Settings</button>
                 </li>
                 <li className="menu-item">
-                <button onClick={this.doLogoutClick}>Sign out</button>
+                <button onClick={this.doSignOutClick}>Sign out</button>
                 </li>
             </ul>
             ) : null}
@@ -138,11 +139,13 @@ export default class NavigationBar extends Component<NavigationBarProps, Navigat
         );
     };
 
+    /** On click, opens dropdown if not already, closes dropdown if open. */
     doOpenClick = (_evt: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLAnchorElement> ): void => {
         this.setState({ profileOpen: !this.state.profileOpen });
     };
 
-    doLogoutClick = (_evt: MouseEvent<HTMLButtonElement>): void => {
-        this.setState({ isModal: !this.state.isModal, profileOpen: false });
+    /** On sign out click, shows confirmation to log out and closes profile dropdown. */
+    doSignOutClick = (_evt: MouseEvent<HTMLButtonElement>): void => {
+        this.setState({ logoutConfirmation: !this.state.logoutConfirmation, profileOpen: false });
     }; 
 }
