@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 // import { getAnalytics } from "firebase/analytics";
 // import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // const firebase = require('firebase');
 // const firebaseui = require('firebaseui');
@@ -26,17 +27,9 @@ const firebaseConfig = {
   // Starts and exports the auth part of firebase
   const auth = getAuth(app);
 
-  // const ui = new firebaseui.auth.AuthUI(firebase.auth());
-
-  // ui.start('#firebaseui-auth-container', {
-  //   signInOptions: [
-  //     {
-  //       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-  //       signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
-  //       requireDisplayName: true
-  //     }
-  //   ]
-  // });
+  // Starts and exports the database part of firebase
+  const db = getFirestore(app);
   
 
-  export default auth;
+  export { auth, db };
+  // export default auth;

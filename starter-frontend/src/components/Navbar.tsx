@@ -5,9 +5,9 @@ import * as React from 'react';
 import '../components/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
 import Logout from '../components/auth/Logout';
-// import { useAuth } from '../contexts/AuthContext';
-// import  auth  from '../config/firebase';
-// import { useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { auth }  from '../config/firebase';
+import { useEffect } from 'react';
 // import axios from 'axios';
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
@@ -93,29 +93,29 @@ function LogInButton() {
 export default function NavigationBar() {
 
     /*Code to access/verify current user. Look into later*/
-    // const { currentUser } = useAuth();
+    const { currentUser } = useAuth();
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const user = auth.currentUser;
-    //         const token = user && (await user.getIdToken());
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
     
-    //         const payloadHeader = {
-    //           headers: {
-    //             "Content-Type": "application/json",
-    //             Authorization: `Bearer ${token}`,
-    //           },
-    //         };
-    //         const res = await fetch("http://localhost:3001", payloadHeader);
-    //         console.log(await res.text());
-    //       } catch (e) {
-    //         console.log(e);
-    //       }
-    //     };
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            };
+            const res = await fetch("http://localhost:3001", payloadHeader);
+            console.log(await res.text());
+          } catch (e) {
+            console.log(e);
+          }
+        };
     
-    //     fetchData();
-    // }, []);
+        fetchData();
+    }, []);
 
     
 

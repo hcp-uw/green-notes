@@ -13,15 +13,15 @@ const baseURL = 'http://localhost:3001';
 function App() {
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    axios.get(`${baseURL}/hello`)
-      .then(res => {
-        setMessage(res.data); 
-      })
-      .catch(error => {
-        console.error('error fetching data: ', error);
-      });
-  }, []); 
+  // useEffect(() => {
+  //   axios.get(`${baseURL}/hello`)
+  //     .then(res => {
+  //       setMessage(res.data); 
+  //     })
+  //     .catch(error => {
+  //       console.error('error fetching data: ', error);
+  //     });
+  // }, []); 
 
   console.log(message);
   return (

@@ -31,7 +31,7 @@ function SearchIcon() {
  */
 function MainSearch() {
     return (
-        <input className="search-text" type="text" name="search" placeholder="Search notes and templates" autocomplete="off" />
+        <input className="search-text" type="text" name="search" placeholder="Search notes and templates" autoComplete="off" />
     );
 }
 
@@ -41,16 +41,16 @@ function AdvancedSearch( { isAdvanced, onAdvance, collaboration } ): JSX.Element
             <div className="advanced-search">
                 <div className="search-line search-full flex-hor">
                     <p className="search-field">Tags </p>
-                    <input className="search-box" type="text" name="tags"autocomplete="off" ></input>
+                    <input className="search-box" type="text" name="tags"autoComplete="off" ></input>
                 </div>
                 <div className="search-line flex-hor">  
                     <div className="search-half flex-hor">
                         <p className="search-field">Class </p>
-                        <input className="search-box" type="text" name="class"autocomplete="off" ></input>
+                        <input className="search-box" type="text" name="class"autoComplete="off" ></input>
                     </div>  
                     <div className="search-half flex-hor">
                         <p className="search-field">Teacher </p>
-                        <input className="search-box" type="text" name="teacher"autocomplete="off" ></input>
+                        <input className="search-box" type="text" name="teacher"autoComplete="off" ></input>
                     </div>  
                 </div>
                 {LastRow(collaboration)}
