@@ -23,7 +23,7 @@ function App() {
   //     });
   // }, []); 
 
-  console.log(message);
+  // console.log(message);
   return (
     <>
     {/* wrapped everything in AuthProvider so

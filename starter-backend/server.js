@@ -6,6 +6,7 @@ import { VerifyToken } from "./middlewears/VerifyToken.js";
 
 import { unknownEndpoint } from "./middleware.js";
 
+import { test } from "./routes.js";
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.get('/hello', (req, res) => {
 app.get("/", (req, res) => {
     res.send("working fine");
 });
+
+app.get("/test", test);
 
 
 

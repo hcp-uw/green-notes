@@ -93,7 +93,6 @@ function LogInButton() {
 export default function NavigationBar() {
 
     /*Code to access/verify current user. Look into later*/
-    const { currentUser } = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -107,7 +106,7 @@ export default function NavigationBar() {
                 Authorization: `Bearer ${token}`,
               },
             };
-            const res = await fetch("http://localhost:3001", payloadHeader);
+            const res = await fetch("http://localhost:3001/test", payloadHeader);
             console.log(await res.text());
           } catch (e) {
             console.log(e);
