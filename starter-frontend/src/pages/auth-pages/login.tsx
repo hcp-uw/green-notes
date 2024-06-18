@@ -1,10 +1,9 @@
-//@ts-nocheck
 import React from 'react'
 import LoginForm from '../../components/auth/Login'
 import { Link } from 'react-router-dom';
 
 // Returns the login page
-export default function Login() {
+export default function Login(): JSX.Element {
     return (
         <div className="page flex green-background">
             <div className="centText">
