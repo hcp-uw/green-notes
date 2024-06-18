@@ -1,17 +1,13 @@
-//@ts-nocheck
 import { useState } from 'react';
-import TemplateToggleButton from '../components/TemplateToggleButton';
-import Folders from "../components/Folders";
 import NoteThumbnails from "../components/NoteThumbnails";
 import SearchBar from "../components/SearchBar";
-// Do later
 
-export default function Collaboration() {
+export default function Collaboration(): JSX.Element {
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
 
     // TO-DO: Make updateable
-    const [isAdvanced, setIsAdvanced] = useState(false);
+    const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
     
     return (
         <body className="page green-background nav-page">
