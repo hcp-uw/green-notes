@@ -1,4 +1,3 @@
-//@ts-nocheck
 import logo from '../assets/binary-tree-logo.png';
 import profile from '../assets/profile-button.png';
 import * as React from 'react';
@@ -11,7 +10,7 @@ import Logout from '../components/auth/Logout';
 // import axios from 'axios';
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
-function HomeLogo() {
+function HomeLogo(): JSX.Element {
     return (
         <Link to={`/`} id="home-logo">
             <img id="logo" src={logo} />
@@ -21,7 +20,7 @@ function HomeLogo() {
 }
 
 /* Main links to Notes, Collaboration, and About Us.*/
-function NavigationLinks() {
+function NavigationLinks(): JSX.Element {
     return (
         <ul id="nav-links">
             <li><Link to={`notes`} className="nav-link">Notes</Link></li>
@@ -35,16 +34,16 @@ function NavigationLinks() {
  * 
  * TO-DO: Make so that it shows the user's image. 
  */
-function Profile() {
+function Profile(): JSX.Element {
     // return <Link to={`ProfileDropdown`}><img id="profile-icon" src={profile} /></Link>;
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState<boolean>(false);
 
     const handleOpen = () => {
         setOpen(!open);
     };
 
-    const[isModal, setIsModal] = React.useState<Boolean>(false);
+    const[isModal, setIsModal] = React.useState<boolean>(false);
 
     const onOpen = () => {
         setIsModal(!isModal);
@@ -53,7 +52,7 @@ function Profile() {
     return (
         <div>
             <Logout isModal={isModal} setIsModal={setIsModal}/>
-        <a alignment="end" onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
+        <a onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
         {open ? (
         <ul className="menu">
           <li className="menu-item">
@@ -80,7 +79,7 @@ function Profile() {
  * 
  * TO-DO
  */
-function LogInButton() {
+function LogInButton(): JSX.Element {
     return (
         <></>
     )
@@ -90,7 +89,7 @@ function LogInButton() {
  *
  * TO-DO: Change between Profile or LogInButton depending on whether the user is logged in or not.
  */
-export default function NavigationBar() {
+export default function NavigationBar(): JSX.Element {
 
     /*Code to access/verify current user. Look into later*/
     // const { currentUser } = useAuth();
