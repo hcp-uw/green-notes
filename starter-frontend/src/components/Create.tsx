@@ -13,7 +13,7 @@ import './Create.css'
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake/*, isTemp, onTemp*/ }) => {
+const Create = ({ isMaking, onMake, isTemp/*, onTemp*/ }) => {
 
     const [isTempLocal, setIsTemp] = useState(false);
 
