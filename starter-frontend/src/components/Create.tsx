@@ -1,8 +1,18 @@
-//@ts-nocheck
-import React from 'react'
+import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState } from 'react';
 import './Navigation.css'
 import './Create.css'
+
+type CreateProps = {
+    /** True if make new note/template pop-up is open. */
+    isMaking: boolean;
+    
+    /** Function to update isMaking. */
+    onMake: (event: MouseEvent<HTMLButtonElement> | ChangeEvent<HTMLInputElement>) => void;
+
+    /** True if making template, false if making note. */
+    isTemp: boolean; 
+}
 
 // There are a lot of comments, most of the commented code exists for the sake of trying
 // to create a dropdown for the new: note/template but for simplicity's sake it will remain
@@ -13,12 +23,12 @@ import './Create.css'
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake, isTemp/*, onTemp*/ }) => {
+const Create = ({ isMaking, onMake, isTemp/*, onTemp*/ } : CreateProps): JSX.Element => {
 
-    const [isTempLocal, setIsTemp] = useState(false);
+    const [isTempLocal, setIsTemp] = useState<boolean>(false);
 
     if (!isMaking) {
-        return null;
+        return <></>;
     } else {
         return  (
             <div>
@@ -43,7 +53,7 @@ const Create = ({ isMaking, onMake, isTemp/*, onTemp*/ }) => {
     }
 }
 
-const DdownBut = ({ isTempLocal }) => {
+const DdownBut = ({ isTempLocal }: {isTempLocal: boolean}): JSX.Element => {
     if (!isTempLocal) {
         return (
             <div>
