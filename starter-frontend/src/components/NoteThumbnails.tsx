@@ -1,5 +1,15 @@
-//@ts-nocheck
 import { Link } from 'react-router-dom';
+
+type NoteThumbnailProps = {
+    /** Title of note. */
+    title: string;
+
+    /** Beginning text of note. */
+    text: string;
+
+    /** ID of note (used in link). */
+    id: string;
+}
 
 /**
  * Note thumbnail that displays beginning of note text and title.
@@ -14,7 +24,7 @@ import { Link } from 'react-router-dom';
  *  - Cut off text so that it fits in the thumbnail. (Currently the text is visually cut 
  *    off but the text is still on the page if you copy-paste or use a screen reader.)
  */
-function NoteThumbnail({title, text, id}) {
+function NoteThumbnail({title, text, id}: NoteThumbnailProps): JSX.Element {
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
@@ -40,7 +50,7 @@ function NoteThumbnail({title, text, id}) {
  * 
  * TO-DO: Change to actually use data to return notes from the current folder page.
  */
-export default function NoteThumbnails() {
+export default function NoteThumbnails(): JSX.Element {
     return (
         <>
             <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " id="123" />

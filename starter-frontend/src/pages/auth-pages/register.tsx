@@ -1,10 +1,9 @@
-//@ts-nocheck
 import React from 'react'
 import RegisterForm from '../../components/auth/Register'
 import { Link } from 'react-router-dom';
 
 // Returns the register page
-export default function Register() {
+export default function Register(): JSX.Element {
     return (
         <div className="page flex green-background">
             <div className="centText">

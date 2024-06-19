@@ -1,8 +1,15 @@
-//@ts-nocheck
+import { ChangeEvent } from 'react';
 import './TemplateToggleButton.css'
 
+type ToggleProps = {
+    /** True if toggled to templates. */
+    isToggled: boolean;
 
-const TemplateToggleButton = ({ isToggled, onToggle }) => {
+    /** Function to update isToggled. */
+    onToggle: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+const TemplateToggleButton = ({ isToggled, onToggle }: ToggleProps): JSX.Element => {
 
     return (
         // Label holds everything together and positions it

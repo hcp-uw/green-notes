@@ -1,5 +1,12 @@
-//@ts-nocheck
 import { Link } from 'react-router-dom';
+
+type FolderProps = {
+    /** Name of folder. */
+    name: string;
+
+    /** ID of folder (used in link). */
+    id: string;
+}
 
 /* 
  * Folder displaying name. Click on to navigate to inside the folder.
@@ -8,7 +15,7 @@ import { Link } from 'react-router-dom';
  * name: name of folder
  * id: id to be used in the link to show what folder to display
  */
-function Folder( {name, id}) {
+function Folder({name, id}: FolderProps): JSX.Element {
     return (
         <div>
             <Link to={`/notes/${id}`} className="link">
@@ -30,7 +37,7 @@ function Folder( {name, id}) {
  * 
  * TO-DO: Use actual data from the server to return the folders inside the current page folder.
  */
-export default function Folders() {
+export default function Folders(): JSX.Element {
     return (
         <>
             <Folder name="Testing" id="test"/>
