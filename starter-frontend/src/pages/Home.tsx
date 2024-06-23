@@ -1,14 +1,13 @@
-//@ts-nocheck
 import smile from '../assets/smileLogo.png';
 import { Link } from 'react-router-dom';
 
 
-export default function HomeScreen() {
+export default function HomeScreen(): JSX.Element {
     return (<Background />)
 }
 
 // Returns all of the functions for Home.js
-function Background() {
+function Background(): JSX.Element {
     return (
         <div  className = "home">
             <SmileLogo/>
@@ -19,14 +18,14 @@ function Background() {
 }
 
 // Returns the background smile logo
-function SmileLogo() {
+function SmileLogo(): JSX.Element {
     return (
         <img className="smile" src={smile} />        
     )
 }
 
 // Returns the center text and start notes button
-function CenterText() {
+function CenterText(): JSX.Element {
     return (
         <div className = "centText">
             <div>

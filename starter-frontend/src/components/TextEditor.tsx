@@ -1,19 +1,12 @@
-//@ts-nocheck
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 export default function TextEditor() {
     const editorRef = useRef(null);
-    const log = () => {
-      if (editorRef.current) {
-        console.log(editorRef.current.getContent());
-      }
-    };
     return (
       <div id="editor-area">
         <Editor 
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
-          onInit={(evt, editor) => editorRef.current = editor}
           init={{
             height: 470,
             menubar: false,

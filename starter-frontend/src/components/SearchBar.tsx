@@ -1,11 +1,23 @@
-//@ts-nocheck
 import searchIcon from '../assets/search-icon.svg';
 
-// type SearchBarProps = {
-//     isAdvanced: boolean;
+type AdvancedSearchProps = {
+    /** True if advanced search bar is open. */
+    isAdvanced: boolean;
 
-//     onAdvancedClick: () => void;
-// };
+    /** True if search bar for collaboration page, false if search bar for notes page. */
+    collaboration: boolean;
+};
+
+type SearchBarProps = {
+    /** True if advanced search bar is open. */
+    isAdvanced: boolean;
+
+    /** Updates isAdvanced. */
+    onAdvance: () => void;
+
+    /** True if search bar for collaboration page, false if search bar for notes page. */
+    collaboration: boolean;
+};
 
 // type SearchBarState = {
 //     isAdvanced: boolean;
@@ -35,7 +47,7 @@ function MainSearch() {
     );
 }
 
-function AdvancedSearch( { isAdvanced, onAdvance, collaboration } ): JSX.Element {
+function AdvancedSearch( { isAdvanced, collaboration } : AdvancedSearchProps ): JSX.Element {
     if (isAdvanced) {
         return (
             <div className="advanced-search">
@@ -59,7 +71,9 @@ function AdvancedSearch( { isAdvanced, onAdvance, collaboration } ): JSX.Element
                 </div>
             </div>
         );
-    } 
+    } else {
+        return <></>;
+    }
 }
 
 function LastRow(collaboration: boolean): JSX.Element {
@@ -78,7 +92,7 @@ function LastRow(collaboration: boolean): JSX.Element {
                 </div>
                 <div className="search-half flex-hor">
                     <p className="search-field" >Year</p>
-                    <input className="search-box" type="number" name="year" min="1861" max="2050" autocomplete="off"></input> 
+                    <input className="search-box" type="number" name="year" min="1861" max="2050" autoComplete="off"></input> 
                 </div>
             </div>
         );
@@ -96,7 +110,7 @@ function LastRow(collaboration: boolean): JSX.Element {
                 </div>
                 <div className="search-half flex-hor">
                     <p className="search-field" >Year</p>
-                    <input className="search-box" type="number" name="year" min="1861" max="2050" autocomplete="off"></input> 
+                    <input className="search-box" type="number" name="year" min="1861" max="2050" autoComplete="off"></input> 
                 </div>
             </div>
         );
@@ -106,7 +120,7 @@ function LastRow(collaboration: boolean): JSX.Element {
 /**
  * Returns the whole search bar.
  */
-export default function SearchBar({isAdvanced, onAdvance, collaboration}) {
+export default function SearchBar({isAdvanced, onAdvance, collaboration} : SearchBarProps) {
     return (
         <form action="/notes">
             <AdvancedSearch isAdvanced={isAdvanced} collaboration={collaboration}/>

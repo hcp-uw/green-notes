@@ -1,5 +1,3 @@
-//@ts-nocheck
-import { Form } from "react-router-dom";
 import { useState } from 'react';
 import TemplateToggleButton from '../components/TemplateToggleButton';
 import AddNote from "../components/AddNote";
@@ -8,22 +6,22 @@ import NoteThumbnails from "../components/NoteThumbnails";
 import SearchBar from "../components/SearchBar";
 import Create from "../components/Create";
 
-export default function Notes() {
+export default function Notes(): JSX.Element {
 
     // isToggled represents the state of the templates button
     // false is notes, true is templates
     // setIsToggled is used to update the isToggled value
-    const [isToggled, setIsToggled] = useState(false);
+    const [isToggled, setIsToggled] = useState<boolean>(false);
     // isMaking represents state of whether user is making note.
     // Plan is to add element that only shows up and is clickable when isMaking
     // is true. Clicking on x or outside of pop-up closes the pop-up.
-    const [isMaking, setIsMaking] = useState(false);
+    const [isMaking, setIsMaking] = useState<boolean>(false);
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
 
     // TO-DO: Make updateable
-    const [isAdvanced, setIsAdvanced] = useState(false);
+    const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
     
     return (
         <body className="page green-background nav-page">

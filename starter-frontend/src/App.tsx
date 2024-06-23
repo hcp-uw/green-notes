@@ -1,16 +1,15 @@
-//@ts-nocheck
 import './App.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Navbar from './components/Navbar';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { AuthProvider } from "./contexts/AuthContext";
 import ErrorMessage from "./components/auth/ErrorMessage"
 
 
-const baseURL = 'http://localhost:3001';
+const baseURL: string = 'http://localhost:3001';
 
-function App() {
+function App(): JSX.Element {
   const [message, setMessage] = useState('');
 
   // useEffect(() => {
