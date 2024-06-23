@@ -76,16 +76,20 @@ const DdownBut = ({ isTempLocal }) => {
 // Look at docs for more info and commands, but plan to move to backend
 async function test() {
     console.log("clicked!");
-    try {
-        const docRef = await addDoc(collection(db, "users"), {
-          first: "Ada",
-          last: "Lovelace",
-          born: 1815
-        });
-        console.log("Document written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+    // Commented out so that we don't update our db without realizing it
+    // Also this adds to the db through the front end, we want to
+    // do it purely through the back end so we can easily authenticate.
+    
+    // try {
+    //     const docRef = await addDoc(collection(db, "users"), {
+    //       first: "Ada",
+    //       last: "Lovelace",
+    //       born: 1815
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+    //   } catch (e) {
+    //     console.error("Error adding document: ", e);
+    //   }
 }
 
 // const DdownContent = ({ isTempLocal, onTemp }) => {

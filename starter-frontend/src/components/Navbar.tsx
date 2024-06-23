@@ -92,29 +92,32 @@ function LogInButton() {
  */
 export default function NavigationBar() {
 
-    /*Code to access/verify current user. Look into later*/
+    // Just an example method that calls a server request to get a note.
+    // Commented out b/c it runs every time the NavigationBar element is opened 
+    // And we don't want to constantly be reading from our db for literally no reason.
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const user = auth.currentUser;
-            const token = user && (await user.getIdToken());
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const user = auth.currentUser;
+    //         const token = user && (await user.getIdToken());
     
-            const payloadHeader = {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            };
-            const res = await fetch("http://localhost:3001/test", payloadHeader);
-            console.log(await res.text());
-          } catch (e) {
-            console.log(e);
-          }
-        };
+    //         const payloadHeader = {
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${token}`,
+    //           },
+    //         };
+    //         const res = await fetch("http://localhost:3001/getNote?route=" + encodeURIComponent("notes-test/fd0T4ryzutUIDb3LpwEY"), payloadHeader);
+    //         // console.log(await res.text());
+    //         console.log(res.data.content);
+    //       } catch (e) {
+    //         console.log(e);
+    //       }
+    //     };
     
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     
 
