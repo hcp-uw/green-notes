@@ -1,7 +1,11 @@
 import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState } from 'react';
-import './Navigation.css'
-import './Create.css'
+import './Navigation.css';
+import './Create.css';
+
+import { collection, addDoc } from "firebase/firestore"; 
+import { db } from '../config/firebase';
+
 
 type CreateProps = {
     /** True if make new note/template pop-up is open. */
@@ -47,6 +51,12 @@ const Create = ({ isMaking, onMake, isTemp/*, onTemp*/ } : CreateProps): JSX.Ele
                             {/* <DdownContent isTempLocal={isTempLocal} onTemp={() => setIsTemp(!isTempLocal)}/> */}
                         {/* </div> */}
                     </div>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Create: </p>
+                        <button onClick={() => test()}>
+                            WE PRAY
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -67,6 +77,29 @@ const DdownBut = ({ isTempLocal }: {isTempLocal: boolean}): JSX.Element => {
             </div>
         )
     }
+}
+
+// *** Example function for adding with the database! *** //
+// Consider having this in front end or writing this for backend
+// Probably makes sense to move to back end to be able to properly authenticate
+// Also maybe allows us to make it more difficult for clients to do annoying things
+// Look at docs for more info and commands, but plan to move to backend
+async function test() {
+    console.log("clicked!");
+    // Commented out so that we don't update our db without realizing it
+    // Also this adds to the db through the front end, we want to
+    // do it purely through the back end so we can easily authenticate.
+    
+    // try {
+    //     const docRef = await addDoc(collection(db, "users"), {
+    //       first: "Ada",
+    //       last: "Lovelace",
+    //       born: 1815
+    //     });
+    //     console.log("Document written with ID: ", docRef.id);
+    //   } catch (e) {
+    //     console.error("Error adding document: ", e);
+    //   }
 }
 
 // const DdownContent = ({ isTempLocal, onTemp }) => {

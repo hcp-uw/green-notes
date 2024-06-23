@@ -4,9 +4,9 @@ import * as React from 'react';
 import '../components/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
 import Logout from '../components/auth/Logout';
-// import { useAuth } from '../contexts/AuthContext';
-// import  auth  from '../config/firebase';
-// import { useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { auth }  from '../config/firebase';
+import { useEffect } from 'react';
 // import axios from 'axios';
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
@@ -91,8 +91,9 @@ function LogInButton(): JSX.Element {
  */
 export default function NavigationBar(): JSX.Element {
 
-    /*Code to access/verify current user. Look into later*/
-    // const { currentUser } = useAuth();
+    // Just an example method that calls a server request to get a note.
+    // Commented out b/c it runs every time the NavigationBar element is opened 
+    // And we don't want to constantly be reading from our db for literally no reason.
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -106,8 +107,9 @@ export default function NavigationBar(): JSX.Element {
     //             Authorization: `Bearer ${token}`,
     //           },
     //         };
-    //         const res = await fetch("http://localhost:3001", payloadHeader);
-    //         console.log(await res.text());
+    //         const res = await fetch("http://localhost:3001/getNote?route=" + encodeURIComponent("notes-test/fd0T4ryzutUIDb3LpwEY"), payloadHeader);
+    //         // console.log(await res.text());
+    //         console.log(res.data.content);
     //       } catch (e) {
     //         console.log(e);
     //       }

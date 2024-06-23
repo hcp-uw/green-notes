@@ -1,4 +1,4 @@
-import auth from "../config/firebase-config.js";
+import { auth } from "../config/firebase-config.js";
 // const auth = require("../config/firebase-config.js");
 
 export const VerifyToken = async (req, res, next) => {

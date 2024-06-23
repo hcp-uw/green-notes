@@ -12,17 +12,17 @@ const baseURL: string = 'http://localhost:3001';
 function App(): JSX.Element {
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    axios.get(`${baseURL}/hello`)
-      .then(res => {
-        setMessage(res.data); 
-      })
-      .catch(error => {
-        console.error('error fetching data: ', error);
-      });
-  }, []); 
+  // useEffect(() => {
+  //   axios.get(`${baseURL}/hello`)
+  //     .then(res => {
+  //       setMessage(res.data); 
+  //     })
+  //     .catch(error => {
+  //       console.error('error fetching data: ', error);
+  //     });
+  // }, []); 
 
-  console.log(message);
+  // console.log(message);
   return (
     <>
     {/* wrapped everything in AuthProvider so

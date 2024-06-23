@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
         signOut } from "firebase/auth";
-import auth from "../config/firebase";
+import { auth } from "../config/firebase";
 import { updateProfile } from "firebase/auth";
 
 

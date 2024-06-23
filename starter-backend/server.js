@@ -2,10 +2,11 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 
-// import { VerifyToken } from "./middlewears/VerifyToken.js";
+import { VerifyToken } from "./middlewears/VerifyToken.js";
 
 import { unknownEndpoint } from "./middleware.js";
 
+import { test, getNote } from "./routes.js";
 
 const app = express();
 
@@ -13,7 +14,9 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// app.use(VerifyToken);
+// May not need to include this if we can properly configure database permissions, 
+// would make life simpler probably.
+app.use(VerifyToken);
 
 // app.use(function(req, res, next) {
 //     res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000/"); // update to match the domain you will make the request from
@@ -32,6 +35,10 @@ app.get('/hello', (req, res) => {
 app.get("/", (req, res) => {
     res.send("working fine");
 });
+
+app.get("/test", test);
+
+app.get("/getNote", getNote);
 
 
 
