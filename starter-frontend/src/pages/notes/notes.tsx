@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import TemplateToggleButton from '../components/TemplateToggleButton';
-import AddNote from "../components/AddNote";
-import Folders from "../components/Folders";
-import NoteThumbnails from "../components/NoteThumbnails";
-import SearchBar from "../components/SearchBar";
-import Create from "../components/Create";
+import TemplateToggleButton from '../../components/personal/TemplateToggleButton';
+import AddNote from "../../components/personal/AddNote";
+import Folders from "../../components/file-navigation/Folders";
+import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
+import SearchBar from "../../components/file-navigation/SearchBar";
+import Create from "../../components/personal/Create";
 
 export default function Notes(): JSX.Element {
 

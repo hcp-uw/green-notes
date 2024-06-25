@@ -1,10 +1,10 @@
 //@ts-nocheck
 
-import  Logout  from '../components/auth/Logout';
+import  Logout  from '../../components/auth/Logout';
 import React from 'react';
 import { useState } from 'react';
 
-import profile from '../assets/profile-button.png';
+import profile from '../../assets/profile-button.png';
 import "./profile.css";
 
 export default function Profile() {

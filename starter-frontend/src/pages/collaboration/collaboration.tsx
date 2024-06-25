@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import NoteThumbnails from "../components/NoteThumbnails";
-import SearchBar from "../components/SearchBar";
+import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
+import SearchBar from "../../components/file-navigation/SearchBar";
 
 export default function Collaboration(): JSX.Element {
     const params: URLSearchParams = new URLSearchParams(window.location.search);

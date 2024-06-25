@@ -1,11 +1,11 @@
-@import "./components/Navbar.css";
-@import "./components/Navigation.css";
-@import "./pages/Home.css";
-@import "./components/TemplateToggleButton.css";
+@import "./components/navbar/Navbar.css";
+@import "./components/file-navigation/Navigation.css";
+@import "./pages/home/Home.css";
+@import "./components/personal/TemplateToggleButton.css";
 @import "./pages/auth-pages/auth.css";
-@import "./components/TextEditor.css";
-@import "./pages/about-us.css";
-@import "./pages/profile.css";
+@import "./components/editor/TextEditor.css";
+@import "./pages/about-us/about-us.css";
+@import "./pages/profile/profile.css";
 
 /*General*/
 

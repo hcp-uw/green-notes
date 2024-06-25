@@ -1,10 +1,10 @@
 import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState } from 'react';
-import './Navigation.css';
+import '../file-navigation/Navigation.css';
 import './Create.css';
 
 import { collection, addDoc } from "firebase/firestore"; 
-import { db } from '../config/firebase';
+import { db } from '../../config/firebase';
 
 
 type CreateProps = {
