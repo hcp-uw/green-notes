@@ -5,17 +5,17 @@ import {
   createBrowserRouter, 
   RouterProvider,
 } from "react-router-dom";
-import ErrorPage from "./pages/error-page";
+import ErrorPage from "./pages/error-page/error-page";
 // import "./App.css";
-import AboutUs from './pages/about-us';
-import Collaboration from './pages/collaboration';
-import HomeScreen from './pages/Home';
-import Note from './pages/note';
-import Notes from './pages/notes';
-import Profile from './pages/profile';
+import AboutUs from './pages/about-us/about-us';
+import Collaboration from './pages/collaboration/collaboration'
+import HomeScreen from './pages/home/Home';
+import Note from './pages/editor/editor';
+import Notes from './pages/notes/notes';
+import Profile from './pages/profile/profile';
 import Login from './pages/auth-pages/login';
 import Register from './pages/auth-pages/register';
-import NewProfile from'./components/auth/NewProfile';
+import NewProfile from'./pages/edit-profile/EditProfile';
 import PrivateRoute from './components/auth/PrivateRoute';
 
 // Private route element redirects people to login first

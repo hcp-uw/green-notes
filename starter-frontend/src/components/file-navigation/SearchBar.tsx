@@ -1,4 +1,4 @@
-import searchIcon from '../assets/search-icon.svg';
+import searchIcon from '../../assets/search-icon.svg';
 
 type AdvancedSearchProps = {
     /** True if advanced search bar is open. */

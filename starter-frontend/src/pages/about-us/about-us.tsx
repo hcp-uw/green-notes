@@ -1,5 +1,5 @@
 //@ts-nocheck
-import tree from '../assets/binary-tree-about-us.svg';
+import tree from '../../assets/binary-tree-about-us.svg';
 
 function AboutUsMission({title, text}) {
     return (

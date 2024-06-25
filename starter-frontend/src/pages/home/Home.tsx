@@ -1,4 +1,4 @@
-import smile from '../assets/smileLogo.png';
+import smile from '../../assets/smileLogo.png';
 import { Link } from 'react-router-dom';
 
 

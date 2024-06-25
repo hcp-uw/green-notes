@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import smile from '../../assets/profile-button.png';
 
+// edit profile page
+
 // function classNames(...classes) {
 //   return classes.filter(Boolean).join(" ");
 // }

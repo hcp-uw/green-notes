@@ -1,4 +1,4 @@
-import TextEditor from "../components/TextEditor";
+import TextEditor from "../../components/editor/TextEditor";
 
 export default function Note(): JSX.Element {
     return (

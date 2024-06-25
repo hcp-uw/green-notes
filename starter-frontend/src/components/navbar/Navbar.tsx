@@ -1,11 +1,11 @@
-import logo from '../assets/binary-tree-logo.png';
-import profile from '../assets/profile-button.png';
+import logo from '../../assets/binary-tree-logo.png';
+import profile from '../../assets/profile-button.png';
 import * as React from 'react';
-import '../components/ProfileDropdown.css';
+import '../navbar/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
-import Logout from '../components/auth/Logout';
-import { useAuth } from '../contexts/AuthContext';
-import { auth }  from '../config/firebase';
+import Logout from '../auth/Logout';
+import { useAuth } from '../../contexts/AuthContext';
+import { auth }  from '../../config/firebase';
 import { useEffect } from 'react';
 // import axios from 'axios';
 
