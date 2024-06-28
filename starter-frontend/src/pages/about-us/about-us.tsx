@@ -1,7 +1,7 @@
 //@ts-nocheck
-import tree from '../assets/binary-tree-about-us.svg';
-import github from '../assets/github.png';
-import linkedin from '../assets/linkedin.png';
+import tree from '../../assets/binary-tree-about-us.svg';
+import github from '../../assets/github.png';
+import linkedin from '../../assets/linkedin.png';
 
 function AboutUsMission({title, text}) {
     return (
