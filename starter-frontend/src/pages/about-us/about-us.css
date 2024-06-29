@@ -6,6 +6,20 @@
     height: 720px; 
 }
 
+/* Dimensions for github and linkedin logos */
+#github {
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-left: 4px;
+}
+
+#linkedin {
+    height: 23px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
 /* "Our Mission" Information Box */
 .mission-background {
     position: fixed;
@@ -68,4 +82,9 @@
     color: var(--offbase-white);
     font-size: 20px;
     text-align: center;
+}
+
+.team-bodytext {
+    margin: auto;
+    padding: 10px;
 }
