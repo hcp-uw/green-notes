@@ -64,13 +64,10 @@ export async function getFolderContents(req, res) {
     const collectionRef = db.collection(route);
     const snapshot = await collectionRef.get();
 
-    if (!snapshot.exists) {
-        res.send("no folder found :(");
-        return;
-    } else {
-        snapshot.forEach(item => {
 
-        })
-        return;
-    }
+    snapshot.forEach(item => {
+
+    })
+    return;
+
 }
