@@ -1,8 +1,12 @@
-// import { Request, Response } from "express";
-// import { ParamsDictionary } from "express-serve-static-core";
+import { Request, Response } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 import { db } from "./config/firebase-config.js"
 
-export async function test(req, res)  {
+// Require type checking of request body.
+type SafeRequest = Request<ParamsDictionary, {}, Record<string, unknown>>;
+type SafeResponse = Response;
+
+export async function test(req: SafeRequest, res: SafeResponse)  {
 
     // // goes into/makes the collectoin "test"
     // const docRef = db.collection('test').doc('omg it worked');
@@ -25,7 +29,7 @@ export async function test(req, res)  {
 // curly brackets is necessary for every call (a "/content" is required after
 // every subfolder in "Notes" due to how firebase works).
 // You may have any number of subfolders in the route, but each must be followed by a "/content"
-export async function getNote(req, res) {
+export async function getNote(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
 
@@ -52,7 +56,7 @@ export async function getNote(req, res) {
 
 // Gets all folders and docs inside given route to a collection
 // See route parameterse in get doc function above
-export async function getFolderContents(req, res) {
+export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
 
