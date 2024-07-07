@@ -4,12 +4,8 @@ import { getFirestore } from "firebase-admin/firestore";
 
 // import serviceAccountKey from "./serviceAccountKey.json" assert { type: "json" };
 
-// const { initializeApp } = require("firebase-admin/app");
-// const { cert } = require("firebase-admin/app");
-// const { getAuth } = "firebase-admin/auth";
-
 const app = initializeApp({
-  credential: cert("../../serviceAccountKey.json"),
+  credential: cert("./serviceAccountKey.json"),
 });
 
 const auth = getAuth(app);

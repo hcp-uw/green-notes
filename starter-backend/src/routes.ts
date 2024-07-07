@@ -53,7 +53,7 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
     }
 };
 
-type thumbnailInfo = {name: string, iD: string, kind: "folder" | "note"}
+type thumbnailInfo = {name: string, iD: string, kind: "folder" | "doc"}
 
 // Gets all folders and docs inside given route to a collection
 // See route parameterse in get doc function above
@@ -69,20 +69,34 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     const collectionRef = db.collection(route);
     const snapshot = await collectionRef.get();
 
-    const info: any[] = [];
+    const info: thumbnailInfo[] = [];
 
-    // Should return an array? of objects where each obj is the data for a folder/doc
-    // Need to send back names and IDs and obj type
+
     snapshot.forEach(item => {
         const iD: string = item.id;
-        const data = item.data;
+        const data = item.data();
+
         // if (typeof data.name !== "string") {
-        //     res.status(500).send("error with db");
+        //     res.status(500).send("db error");
         //     return;
         // }
-        info.push(data);
+
+        const name: string = data.name;
+        const typeUnchecked: string = data.type;
+
+        if (typeUnchecked !== "folder" && typeUnchecked !== "doc") {
+            res.status(500).send("db error");
+             return;
+        }
+
+        const type: "folder" | "doc" = typeUnchecked;
+
+        const obj: thumbnailInfo = {name: name, iD: iD, kind: type}
+        info.push(obj);
+
     })
-    
+
+    console.log("sent");
     res.send({data: info})
     return;
 
