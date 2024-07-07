@@ -37,7 +37,6 @@ export default function Notes(): JSX.Element {
         if (user.email === null) { // if user doesn't have email (shouldn't be possible)
             return<p>error</p>
         }
-        setCurrRoute(cons(user.email, currRoute));
     } else { // If user isn't logged in (should be impossible on this page)
         return<p>error</p>
     }
@@ -105,7 +104,7 @@ const getFolderContents = (name: string): JSX.Element[] => {
     return [];
 };
 
-const onFolderClick = (name: string): void => {
+const onFolderClick = (iD: string): void => {
     // call getFolderContents and update the current states to
     // show the proper things
 }

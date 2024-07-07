@@ -9,7 +9,7 @@ import { getFirestore } from "firebase-admin/firestore";
 // const { getAuth } = "firebase-admin/auth";
 
 const app = initializeApp({
-  credential: cert("./serviceAccountKey.json"),
+  credential: cert("../../serviceAccountKey.json"),
 });
 
 const auth = getAuth(app);

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 type FolderProps = {
     /** Name of folder. */
@@ -18,9 +18,12 @@ type FolderProps = {
 function Folder({name, id}: FolderProps): JSX.Element {
     return (
         <div>
-            <Link to={`/notes/${id}`} className="link">
+            {/* <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
-            </Link>
+            </Link> */}
+            <button onClick={()=> console.log("clicked")} className="folder-link">
+                <span className="thumbnail-click"></span>
+            </button>
             <div className="thumbnail">
                 <div className="tab"></div>
                 <div className="tab-space"></div>
