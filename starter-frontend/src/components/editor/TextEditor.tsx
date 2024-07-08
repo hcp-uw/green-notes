@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import tinymce from 'tinymce';
 
 export default function TextEditor() {
     const editorRef = useRef(null);
@@ -27,33 +26,4 @@ export default function TextEditor() {
         />
       </div>
     );
-}
-
-
-function editorHeight(): number {
-  const area: HTMLElement | null = document.getElementById('editor-area');
-  if (area === null) {
-    throw new Error("editor-area is null");
-  }
-
-  const areaHeight: number = area.offsetHeight;
-  const editorHeight: number = areaHeight - 75;
-  return editorHeight;
-}
-
-function resizeHeight(): void {
-  const editor: HTMLElement | null = document.getElementById('editor');
-  if (editor === null) {
-    throw new Error("tox-tinymce is null");
-  }
-
-  editor.style.height = `150px`;
-}
-
-document.onload = function () {
-  resizeHeight();
-};
-
-window.onresize = function(): void {
-  resizeHeight();
 }
