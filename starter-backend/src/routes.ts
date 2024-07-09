@@ -53,7 +53,7 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
     }
 };
 
-type thumbnailInfo = {name: string, iD: string, kind: "folder" | "doc"}
+type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc"}
 
 // Gets all folders and docs inside given route to a collection
 // See route parameterse in get doc function above
@@ -69,7 +69,7 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     const collectionRef = db.collection(route);
     const snapshot = await collectionRef.get();
 
-    const info: thumbnailInfo[] = [];
+    const info: ThumbnailInfo[] = [];
 
 
     snapshot.forEach(item => {
@@ -91,7 +91,7 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
 
         const type: "folder" | "doc" = typeUnchecked;
 
-        const obj: thumbnailInfo = {name: name, iD: iD, kind: type}
+        const obj: ThumbnailInfo = {name: name, iD: iD, kind: type}
         info.push(obj);
 
     })
