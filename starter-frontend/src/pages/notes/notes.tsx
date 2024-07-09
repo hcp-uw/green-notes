@@ -150,10 +150,10 @@ const parseFolderInfo = (data: unknown): ThumbnailInfo[] => {
 
     // Iterates through each element of the given array of server data
     for (const info of data.data) {
-        if (!isRecord(info) || !Array.isArray(info)) { // Checks that the element is of type record
-            console.error('Invalid JSON from /getFolderContents', info);
-            return [];
-        }
+        // if (!isRecord(info) || !Array.isArray(info)) { // Checks that the element is of type record
+        //     console.error('Invalid JSON from /getFolderContents asdf', info);
+        //     return [];
+        // }
 
         if (typeof info.name !== "string") { // Checks that the element has a vaild name field
             console.error('Invalid JSON from /getFolderContents', info.name);
@@ -181,6 +181,7 @@ const parseFolderInfo = (data: unknown): ThumbnailInfo[] => {
     }
 
     // Returns all the folders and docs organized seperately, where folders are first
+    console.log("getFolders succeeded");
     return folders.concat(docs);
 }
 
