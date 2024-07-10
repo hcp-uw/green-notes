@@ -6,7 +6,7 @@ import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import { auth } from "../../config/firebase";
-import { route, nil, cons, ThumbnailInfo, isRecord } from '../../components/file-navigation/routes';
+import { route, nil, cons, ThumbnailInfo, isRecord, NoteInfo } from '../../components/file-navigation/routes';
 
 export function Notes(): JSX.Element {
 
@@ -110,6 +110,9 @@ const getFolderContents = async (route: string): Promise<ThumbnailInfo[]> => {
           },
         };
 
+        // Temp string for the route. Will update to be the given route parameter
+        // but first need to add code for that and be able to actually 
+        // write to the db, not just read it.
         const temp: string = "Users/user@example.com/Notes"
 
         // const res = await fetch("http://localhost:3001/getFolderContents?route=" 
@@ -190,4 +193,74 @@ export const doFolderClick = (iD: string): void => {
     // show the proper things
     console.log(iD);
     getFolderContents("temp");
+};
+
+
+const getNoteContents = async (route: string): Promise<string> => {
+
+    try {
+        const user = auth.currentUser;
+        const token = user && (await user.getIdToken());
+  
+        const payloadHeader = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        // Temp string for the route. Will update to be the given route parameter
+        // but first need to add code for that and be able to actually 
+        // write to the db, not just read it.
+        const temp: string = "Users/user@example.com/Notes/iPus3TmqPh3M30QlkzSM"
+
+  
+        // Fetches the /getNote. The string in the encodeURIComponent is the route
+        // and the payload header is necessary stuff for server authentication
+        fetch("http://localhost:3001/getNote?route="+encodeURIComponent(temp), payloadHeader)
+            .then((res) => { // If the intial call works
+                if (res.status === 200) { // If the status is good
+                    // Currently parseNoteInfo just returns the body in a string, but doesn't do anything with it yet, no update happens on the page
+                    res.json().then((val) => parseNoteInfo(val))
+                      .catch(() => console.error("Error fetching /getNote: 200 response is not JSON"))
+                } else { // If the status isn't good
+                    console.error(`Error fetching /getNote: bad status code: ${res.status}`)
+                }
+            }) // If the initial call doesn't connect
+            .catch(() => console.error("Error fetching /getNote: Failed to connect to server"));
+        
+
+      } catch (e) {
+        console.log(e);
+      }
+    console.log("note fetched")
+    return "test2";
+};
+
+// takes JSON from server and gets body of note
+const parseNoteInfo = (data: unknown): string => {
+
+    if (!isRecord(data)) {
+        console.error("Invalid JSON from /getFolderContents", data);
+        return "error";
+    };
+
+    if (!isRecord(data.data)) {
+        console.error("Invalid JSON from /getFolderContents", data.data);
+        return "error";
+    }
+
+    if (typeof data.data.body !== "string") {
+        console.error("Invalid JSON from /getFolderContents", data.data.body);
+        return "error";
+    }
+
+    console.log(data.data.body)
+    return data.data.body;
+}
+
+
+export const doNoteClick = (iD: string): void => {
+    console.log(iD);
+    getNoteContents("temp");
 };

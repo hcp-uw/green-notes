@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { doNoteClick } from '../../pages/notes/notes';
 
 type NoteThumbnailProps = {
     /** Title of note. */
@@ -9,6 +10,8 @@ type NoteThumbnailProps = {
 
     /** ID of note (used in link). */
     id: string;
+
+    onNoteClick: (id: string) => void;
 }
 
 /**
@@ -24,14 +27,17 @@ type NoteThumbnailProps = {
  *  - Cut off text so that it fits in the thumbnail. (Currently the text is visually cut 
  *    off but the text is still on the page if you copy-paste or use a screen reader.)
  */
-function NoteThumbnail({title, text, id}: NoteThumbnailProps): JSX.Element {
+function NoteThumbnail({title, text, id, onNoteClick}: NoteThumbnailProps): JSX.Element {
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
         <div>
-            <Link to={`../note`} className="link">
+            {/* <Link to={`../note`} className="link">
                 <span className="thumbnail-click"></span>
-            </Link>
+            </Link> */}
+            <button onClick={() => onNoteClick(id)} className="folder-link">
+                <span className="thumbnail-click"></span>
+            </button>
             <div className="thumbnail">
                 <div className="thumbnail-body">
                     <p className="thumbnail-text">{text}</p>
@@ -53,10 +59,10 @@ function NoteThumbnail({title, text, id}: NoteThumbnailProps): JSX.Element {
 export default function NoteThumbnails(): JSX.Element {
     return (
         <>
-            <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " id="123" />
-            <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " id="cactus" />
-            <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " id="smth" />
-            <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" id="ahhh" />
+            <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " id="123" onNoteClick={doNoteClick}/>
+            <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " id="cactus" onNoteClick={doNoteClick}/>
+            <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " id="smth" onNoteClick={doNoteClick}/>
+            <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" id="ahhh" onNoteClick={doNoteClick}/>
         </>
     );
 }

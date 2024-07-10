@@ -35,6 +35,8 @@ export const rev = (R: route): route => {
 
 export type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc"}
 
+// Type for note data
+export type NoteInfo = {name: string, iD: string, body: string}
 
 /**
  * Determines whether the given value is a record.
