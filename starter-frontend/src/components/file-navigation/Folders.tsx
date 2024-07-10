@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import { ThumbnailInfo } from "./routes";
+import { doFolderClick } from "../../pages/notes/notes";
 
 type FolderProps = {
     /** Name of folder. */
@@ -6,6 +8,8 @@ type FolderProps = {
 
     /** ID of folder (used in link). */
     id: string;
+
+    onFolderClick: (id: string) => void;
 }
 
 /* 
@@ -15,12 +19,15 @@ type FolderProps = {
  * name: name of folder
  * id: id to be used in the link to show what folder to display
  */
-function Folder({name, id}: FolderProps): JSX.Element {
+function Folder({name, id, onFolderClick}: FolderProps): JSX.Element {
     return (
         <div>
-            <Link to={`/notes/${id}`} className="link">
+            {/* <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
-            </Link>
+            </Link> */}
+            <button onClick={() => onFolderClick(id)} className="folder-link">
+                <span className="thumbnail-click"></span>
+            </button>
             <div className="thumbnail">
                 <div className="tab"></div>
                 <div className="tab-space"></div>
@@ -32,17 +39,19 @@ function Folder({name, id}: FolderProps): JSX.Element {
     )
 }
 
+
+type FoldersProps = {data: ThumbnailInfo[]};
 /* 
  * Returns all the folders in the current page. 
  * 
  * TO-DO: Use actual data from the server to return the folders inside the current page folder.
  */
-export default function Folders(): JSX.Element {
+export default function Folders({data}: FoldersProps): JSX.Element {
     return (
         <>
-            <Folder name="Testing" id="test"/>
-            <Folder name="Testing 2" id="kdsj;f"/>
-            <Folder name="Testing 3" id="dkafj;sd"/>
+            <Folder name="Testing" id="test" onFolderClick={doFolderClick}/>
+            <Folder name="Testing 2" id="kdsj;f" onFolderClick={doFolderClick}/>
+            <Folder name="Testing 3" id="dkafj;sd" onFolderClick={doFolderClick}/>
         </>
     );
 }

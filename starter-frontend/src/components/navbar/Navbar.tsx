@@ -107,9 +107,13 @@ export default function NavigationBar(): JSX.Element {
     //             Authorization: `Bearer ${token}`,
     //           },
     //         };
-    //         const res = await fetch("http://localhost:3001/getNote?route=" + encodeURIComponent("notes-test/fd0T4ryzutUIDb3LpwEY"), payloadHeader);
-    //         // console.log(await res.text());
-    //         console.log(res.data.content);
+    //         const res = await fetch("http://localhost:3001/getFolderContents?route=" + encodeURIComponent("Users/user@example.com/Notes"), payloadHeader);
+    //         // const res = await fetch("http://localhost:3001/getNote?route=" + encodeURIComponent("Users/user@example.com/Notes/iPus3TmqPh3M30QlkzSM"), payloadHeader);
+    //         // const res = await fetch("http://localhost:3001/getFolderContents", payloadHeader);
+
+    //         // const res = await fetch("http://localhost:3001/test", payloadHeader);
+    //         console.log(await res.text());
+    //         // console.log(res.data.content);
     //       } catch (e) {
     //         console.log(e);
     //       }
