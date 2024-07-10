@@ -31,6 +31,7 @@ export function Notes(): JSX.Element {
     // Starts empty since we haven't checked what user id they are yet.
     const [currLocation, setcurrLocation] = useState<string>("");
 
+
     const test: ThumbnailInfo[] = [];
 
     // Gets user object from auth in order to get user info
@@ -260,7 +261,10 @@ const parseNoteInfo = (data: unknown): string => {
 }
 
 
-export const doNoteClick = (iD: string): void => {
+export const doNoteClick = (iD: string): string => {
     console.log(iD);
+
     getNoteContents("temp");
+
+    return "test123123";
 };
