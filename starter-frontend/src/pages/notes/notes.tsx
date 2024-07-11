@@ -197,7 +197,7 @@ export const doFolderClick = (iD: string): void => {
 };
 
 
-const getNoteContents = async (route: string): Promise<string> => {
+const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {
 
     try {
         const user = auth.currentUser;
@@ -222,7 +222,7 @@ const getNoteContents = async (route: string): Promise<string> => {
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseNoteInfo just returns the body in a string, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseNoteInfo(val))
+                    res.json().then((val) => parseNoteInfo(val, cb))
                       .catch(() => console.error("Error fetching /getNote: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getNote: bad status code: ${res.status}`)
@@ -234,37 +234,39 @@ const getNoteContents = async (route: string): Promise<string> => {
       } catch (e) {
         console.log(e);
       }
-    console.log("note fetched")
-    return "test2";
+    // console.log("note fetched")
+    return "asdfasdf";
 };
 
 // takes JSON from server and gets body of note
-const parseNoteInfo = (data: unknown): string => {
+const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
 
     if (!isRecord(data)) {
         console.error("Invalid JSON from /getFolderContents", data);
-        return "error";
+        return;
     };
 
     if (!isRecord(data.data)) {
         console.error("Invalid JSON from /getFolderContents", data.data);
-        return "error";
+        return;
     }
 
     if (typeof data.data.body !== "string") {
         console.error("Invalid JSON from /getFolderContents", data.data.body);
-        return "error";
+        return;
     }
 
-    console.log(data.data.body)
-    return data.data.body;
+    // console.log(data.data.body);
+    cb("example route", data.data.body);
+    return;
 }
 
 
-export const doNoteClick = (iD: string): string => {
-    console.log(iD);
+export const doNoteClick = async (route: string, cb: NoteCallback): Promise<string> => {
+    // console.log(iD);
 
-    getNoteContents("temp");
+    return getNoteContents(route, cb);
 
-    return "test123123";
 };
+
+export type NoteCallback = (body: string, route: string) => void;
