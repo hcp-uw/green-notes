@@ -41,7 +41,7 @@ export function Notes(): JSX.Element {
     test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
     test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
 
-    // Initial load
+    // Initial load of "Home" Folder
     useEffect(() => {
 
         const user = auth.currentUser;
@@ -89,7 +89,7 @@ export function Notes(): JSX.Element {
         same location*/
 
 
-    if (isLoading) {
+    if (isLoading) { // If page is loading
         return(
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
