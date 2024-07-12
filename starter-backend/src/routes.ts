@@ -119,3 +119,27 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
         .then(() => res.status(200).send("account succesfully added"))
         .catch(() => res.status(400).send("error in adding account to db"))
 }
+
+// Placeholder code for when we want to make updates to account data, such as prefered name and profile picture
+export async function updateAccount(req: SafeRequest, res: SafeResponse) {
+    /* Example code for getting body parameters and checking them to be strings */
+    // const data = req.body.data;
+    // if (typeof data !== "string") {
+    //     res.status(400).send('missing or invalid "data" parameter');
+    //     return;
+    // }
+
+    const email = req.body.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    };
+
+    const data = {
+        example: "example data"
+    }
+
+    await db.collection("Users").doc(email).set(data)
+        .then(() => res.status(200).send("account succesfully added"))
+        .catch(() => res.status(400).send("error in adding account to db"))
+}
