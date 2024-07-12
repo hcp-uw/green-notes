@@ -36,6 +36,7 @@ export function Notes(): JSX.Element {
     const test: ThumbnailInfo[] = [];
     test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
 
+    // Initial load
     useEffect(() => {
 
         const user = auth.currentUser;
@@ -49,13 +50,12 @@ export function Notes(): JSX.Element {
                 throw new Error("User doesn't have associated email");
             }
             console.log(user.email)
-            getFolderContents("Users/" + user.email, doFolderResponse)
+            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
                 .then(() => console.log("loaded?"))
                 .catch(() => console.log("error"))
         }
 
         fetchHome(user);
-        console.log("hello");
         
     }, [auth.currentUser])
 
@@ -102,7 +102,7 @@ export function Notes(): JSX.Element {
                 <h1>Your <TemplateToggleButton isToggled={isToggled} onToggle={() => setIsToggled(!isToggled)} /></h1>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test}/>
+                    <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails />
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
@@ -115,7 +115,7 @@ export function Notes(): JSX.Element {
                 <PreviousFolder name={currLocation}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test}/>
+                    <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails />
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
@@ -134,10 +134,10 @@ const PreviousFolder = ({name}: PreviousFolderProps): JSX.Element => {
     )
 };
 
-type FolderCallback = (contents: ThumbnailInfo[]) => void;
+type FolderCallback = (contents: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>) => void;
 
 // Method to be called to grab folder contents from server
-const getFolderContents = async (route: string, cb: FolderCallback): Promise<void> => {
+const getFolderContents = async (route: string, cb: FolderCallback, resp: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> => {
 
     try {
         const user = auth.currentUser;
@@ -164,7 +164,7 @@ const getFolderContents = async (route: string, cb: FolderCallback): Promise<voi
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseFolderInfo(val, cb))
+                    res.json().then((val) => parseFolderInfo(val, cb, resp))
                       .catch(() => console.error("Error fetching /getFolderContents: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getFolderContents: bad status code: ${res.status}`)
@@ -179,7 +179,7 @@ const getFolderContents = async (route: string, cb: FolderCallback): Promise<voi
 };
 
 // Helper method to process given folder data fetched from server
-const parseFolderInfo = (data: unknown, cb: FolderCallback): ThumbnailInfo[] => {
+const parseFolderInfo = (data: unknown, cb: FolderCallback, resp: React.Dispatch<React.SetStateAction<boolean>>): ThumbnailInfo[] => {
 
     const folders: ThumbnailInfo[] = [];
     const docs: ThumbnailInfo[] = [];
@@ -223,21 +223,22 @@ const parseFolderInfo = (data: unknown, cb: FolderCallback): ThumbnailInfo[] => 
 
     // Returns all the folders and docs organized seperately, where folders are first
     console.log("getFolders succeeded");
-    cb(folders.concat(docs));
+    cb(folders.concat(docs), resp);
     return folders.concat(docs);
 }
 
-export const doFolderClick = (iD: string): void => {
+export const doFolderClick = (iD: string, resp: React.Dispatch<React.SetStateAction<boolean>>): void => {
     // call getFolderContents and update the current states to
     // show the proper things
     console.log(iD);
-    getFolderContents("temp", doFolderResponse);
+    getFolderContents("temp", doFolderResponse, resp);
 };
 
-const doFolderResponse = (contents: ThumbnailInfo[]): void => {
+const doFolderResponse = (contents: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>): void => {
     for (const temp of contents) {
         console.log(temp);
     }
+    resp(false);
 }
 
 // Async method which calls server for a specific note given the route to the note
