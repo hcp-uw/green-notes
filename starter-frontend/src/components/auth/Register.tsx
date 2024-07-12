@@ -3,6 +3,7 @@ import React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import { auth } from '../../config/firebase';
 
 // Returns the regester form for making new accounts
 export default function RegisterForm() {
@@ -34,7 +35,7 @@ export default function RegisterForm() {
           try {
             setError("");
             setLoading(true);
-            await register(email, password);
+            await register(email, password).then(() => createAccount(email));
             navigate("/new-profile");
           } catch (e) {
             setError("Failed to register");
@@ -42,6 +43,29 @@ export default function RegisterForm() {
       
           setLoading(false);
     }
+
+    const createAccount = async (email: string): void => {    
+        try {
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
+
+            const body = {email: email};
+      
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: 'POST',
+              body: JSON.stringify(body)
+            };
+
+            fetch("http://localhost:3001/createAccount", payloadHeader)
+
+          } catch (e) {
+            console.log(e);
+          }
+    };
     
 
     return (

@@ -8,7 +8,7 @@ type SafeResponse = Response;
 
 export async function test(req: SafeRequest, res: SafeResponse)  {
 
-    // // goes into/makes the collectoin "test"
+    // // goes into/makes the collection "test"
     // const docRef = db.collection('test').doc('omg it worked');
 
     // // Gives the doc fields
@@ -99,5 +99,23 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     console.log("sent");
     res.send({data: info})
     return;
+}
 
+// Creates a new account in the db with a given email.
+export async function createAccount(req: SafeRequest, res: SafeResponse) {
+    const email = req.body.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    }
+
+    // Currently we have no user data to be stored. If we do and we need basic default
+    // values, we can set them here.
+    const data = {
+        dataAndThings: "random example stuff" 
+    };
+
+    await db.collection("Users").doc(email).set(data)
+        .then(() => res.status(200).send("account succesfully added"))
+        .catch(() => res.status(400).send("error in adding account to db"))
 }

@@ -196,7 +196,7 @@ export const doFolderClick = (iD: string): void => {
     getFolderContents("temp");
 };
 
-
+// Async method which calls server for a specific note given the route to the note
 const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {
 
     try {
@@ -239,6 +239,7 @@ const getNoteContents = async (route: string, cb: NoteCallback): Promise<string>
 };
 
 // takes JSON from server and gets body of note
+// Then calls given callback method. In context of NoteThumbnails, it is the navigate method
 const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
 
     if (!isRecord(data)) {
@@ -256,17 +257,16 @@ const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
         return;
     }
 
-    // console.log(data.data.body);
     cb("example route", data.data.body);
     return;
 }
 
-
+// Method exported for NoteThumbnails, allows notes to be clicked on
+// Currently does literally nothing other than call another method
 export const doNoteClick = async (route: string, cb: NoteCallback): Promise<string> => {
-    // console.log(iD);
 
     return getNoteContents(route, cb);
-
 };
 
+// NoteCallback type used to update website state during getNote fetch
 export type NoteCallback = (body: string, route: string) => void;
