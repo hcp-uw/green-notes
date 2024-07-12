@@ -11,8 +11,8 @@ import { User } from "firebase/auth";
 
 export function Notes(): JSX.Element {
 
-    // isToggled represents the state of the templates button
-    const [isToggled, setIsToggled] = useState<boolean>(false);
+    // isTemp represents the state of the templates button
+    const [isTemp, setIsTemp] = useState<boolean>(false);
 
     // isMaking represents state of whether user is making note.
     const [isMaking, setIsMaking] = useState<boolean>(false);
@@ -104,12 +104,12 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <h1>Your <TemplateToggleButton isToggled={isToggled} onToggle={() => setIsToggled(!isToggled)} /></h1>
+                <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails data={test}/>
-                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
+                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
             </div>
         );  
@@ -122,7 +122,7 @@ export function Notes(): JSX.Element {
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails data={test}/>
-                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
+                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
             </div>
         );  
