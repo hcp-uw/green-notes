@@ -95,8 +95,6 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
         info.push(obj);
 
     })
-
-    console.log("sent");
     res.send({data: info})
     return;
 }
@@ -129,16 +127,19 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
     //     return;
     // }
 
+    // We will need an email to find the user in the db
     const email = req.body.email;
     if (typeof email !== "string") {
         res.status(400).send('missing or invalid "email" parameter');
         return;
     };
 
+    // Example data that we can populate with body params
     const data = {
         example: "example data"
     }
 
+    // Firebase call to update the "email" doc in the "users" collection with "data"
     await db.collection("Users").doc(email).set(data)
         .then(() => res.status(200).send("account succesfully added"))
         .catch(() => res.status(400).send("error in adding account to db"))

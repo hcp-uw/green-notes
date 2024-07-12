@@ -14,24 +14,19 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// May not need to include this if we can properly configure database permissions, 
-// would make life simpler probably.
+
+// Middlewear that checks to ensure user is logged in
 app.use(VerifyToken);
 
-// app.use(function(req, res, next) {
-//     res.header("Access-Control-Allow-Origin", "http://127.0.0.1:3000/"); // update to match the domain you will make the request from
-//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//     next();
-//   });
 
 dotenv.config();
 
 
-// test endpoint
+// Basic test, ignore, probably delete
 app.get('/hello', (req, res) => { 
     res.send('Attention HCP Project Team! If you see this, your front end and back end are connected') 
 })
-
+// Basic test, ignore, probably delete
 app.get("/", (req, res) => {
     res.send("working fine");
 });

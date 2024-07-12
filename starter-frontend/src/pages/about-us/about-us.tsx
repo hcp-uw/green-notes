@@ -1,9 +1,10 @@
-//@ts-nocheck
 import tree from '../../assets/binary-tree-about-us.svg';
 import github from '../../assets/github.png';
 import linkedin from '../../assets/linkedin.png';
 
-function AboutUsMission({title, text}) {
+type AboutUsMissionProps = {title: string, text: string};
+
+function AboutUsMission({title, text}: AboutUsMissionProps) {
     return (
         <div>
             <div className="mission-background">

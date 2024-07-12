@@ -39,12 +39,7 @@ function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnai
             {/* <Link to={`../note`} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
-            <button onClick={() => {
-                // const body = onNoteClick(id);
-                // navigate("test route" + id, body)
-                // onNoteClick(id).then((body) => navigate("test route" + id, body));
-                onNoteClick(route, navigate);
-                }} className="folder-link">
+            <button onClick={() => onNoteClick(route, navigate)}className="folder-link">
                 <span className="thumbnail-click"></span>
             </button>
             <div className="thumbnail">

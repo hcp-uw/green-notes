@@ -7,29 +7,16 @@ import smile from '../../assets/profile-button.png';
 
 // edit profile page
 
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(" ");
-// }
 
 export default function NewProfile() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  // const [avatars, setAvatars] = useState([]);
-  // const [selectedAvatar, setSelectedAvatar] = useState(); //Figure out what to do with
+
   const [loading, setLoading] = useState(false);
 
   const { currentUser, updateUserProfile, setError } = useAuth();
 
-  // I don't think this code is necessary
-  // useEffect(() => {
-  //   const fetchData = () => {
-  //     const res = generateAvatar();
-  //     setAvatars(res);
-  //   };
-
-  //   fetchData();
-  // }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
