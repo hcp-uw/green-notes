@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TemplateToggleButton from '../../components/personal/TemplateToggleButton';
 import AddNote from "../../components/personal/AddNote";
 import Folders from "../../components/file-navigation/Folders";
@@ -7,16 +7,14 @@ import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import { auth } from "../../config/firebase";
 import { route, nil, cons, ThumbnailInfo, isRecord, NoteInfo } from '../../components/file-navigation/routes';
+import { User } from "firebase/auth";
 
 export function Notes(): JSX.Element {
 
     // isToggled represents the state of the templates button
-    // false is notes, true is templates
-    // setIsToggled is used to update the isToggled value
     const [isToggled, setIsToggled] = useState<boolean>(false);
+
     // isMaking represents state of whether user is making note.
-    // Plan is to add element that only shows up and is clickable when isMaking
-    // is true. Clicking on x or outside of pop-up closes the pop-up.
     const [isMaking, setIsMaking] = useState<boolean>(false);
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
@@ -31,8 +29,35 @@ export function Notes(): JSX.Element {
     // Starts empty since we haven't checked what user id they are yet.
     const [currLocation, setcurrLocation] = useState<string>("");
 
+    // Keeps track of when the notes page is loading
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
     const test: ThumbnailInfo[] = [];
+    test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
+
+    useEffect(() => {
+
+        const user = auth.currentUser;
+
+        const fetchHome = async (user: User | null): Promise<void> => {
+            setIsLoading(true);
+            if (user === null) {
+                throw new Error("User isn't logged in");
+            }
+            if (user.email === null) {
+                throw new Error("User doesn't have associated email");
+            }
+            console.log(user.email)
+            getFolderContents("Users/" + user.email, doFolderResponse)
+                .then(() => console.log("loaded?"))
+                .catch(() => console.log("error"))
+        }
+
+        fetchHome(user);
+        console.log("hello");
+        
+    }, [auth.currentUser])
 
     // Gets user object from auth in order to get user info
     const user = auth.currentUser;
@@ -43,6 +68,7 @@ export function Notes(): JSX.Element {
     } else { // If user isn't logged in (should be impossible on this page)
         return<p>error</p>
     }
+
 
     /* TODO:
         Make a way to store server side data for contents in folders
@@ -57,9 +83,21 @@ export function Notes(): JSX.Element {
         in different places. There cant be 2 folders of the same name in the
         same location*/
 
+
+    if (isLoading) {
+        return(
+            <div className="page green-background nav-page">
+                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                <div className="nav-area flex">
+                    <h1>Loading...</h1>
+                </div>
+            </div>
+        )
+    }
+
     if (currLocation === "") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
-            <body className="page green-background nav-page">
+            <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                 <h1>Your <TemplateToggleButton isToggled={isToggled} onToggle={() => setIsToggled(!isToggled)} /></h1>
                 <div className="nav-area flex">
@@ -68,11 +106,11 @@ export function Notes(): JSX.Element {
                     <NoteThumbnails />
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
-            </body>
+            </div>
         );  
     } else { // If user is in a folder
         return (
-            <body className="page green-background nav-page">
+            <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                 <PreviousFolder name={currLocation}></PreviousFolder>
                 <div className="nav-area flex">
@@ -81,7 +119,7 @@ export function Notes(): JSX.Element {
                     <NoteThumbnails />
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
-            </body>
+            </div>
         );  
     }
 };
@@ -96,9 +134,10 @@ const PreviousFolder = ({name}: PreviousFolderProps): JSX.Element => {
     )
 };
 
+type FolderCallback = (contents: ThumbnailInfo[]) => void;
+
 // Method to be called to grab folder contents from server
-const getFolderContents = async (route: string): Promise<ThumbnailInfo[]> => {
-    let data: ThumbnailInfo[] = [];
+const getFolderContents = async (route: string, cb: FolderCallback): Promise<void> => {
 
     try {
         const user = auth.currentUser;
@@ -125,7 +164,7 @@ const getFolderContents = async (route: string): Promise<ThumbnailInfo[]> => {
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseFolderInfo(val))
+                    res.json().then((val) => parseFolderInfo(val, cb))
                       .catch(() => console.error("Error fetching /getFolderContents: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getFolderContents: bad status code: ${res.status}`)
@@ -137,12 +176,10 @@ const getFolderContents = async (route: string): Promise<ThumbnailInfo[]> => {
       } catch (e) {
         console.log(e);
       }
-
-    return data;
 };
 
 // Helper method to process given folder data fetched from server
-const parseFolderInfo = (data: unknown): ThumbnailInfo[] => {
+const parseFolderInfo = (data: unknown, cb: FolderCallback): ThumbnailInfo[] => {
 
     const folders: ThumbnailInfo[] = [];
     const docs: ThumbnailInfo[] = [];
@@ -186,6 +223,7 @@ const parseFolderInfo = (data: unknown): ThumbnailInfo[] => {
 
     // Returns all the folders and docs organized seperately, where folders are first
     console.log("getFolders succeeded");
+    cb(folders.concat(docs));
     return folders.concat(docs);
 }
 
@@ -193,8 +231,14 @@ export const doFolderClick = (iD: string): void => {
     // call getFolderContents and update the current states to
     // show the proper things
     console.log(iD);
-    getFolderContents("temp");
+    getFolderContents("temp", doFolderResponse);
 };
+
+const doFolderResponse = (contents: ThumbnailInfo[]): void => {
+    for (const temp of contents) {
+        console.log(temp);
+    }
+}
 
 // Async method which calls server for a specific note given the route to the note
 const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {

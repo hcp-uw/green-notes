@@ -46,7 +46,7 @@ function AboutUsTeam() {
                 <p>- Audrey Shen: {' '}
                     <a href='https://github.com/audrey157'><img id='github' src={github}></img></a>
                     <a href='https://github.com/audrey157'>Github</a> {' '}
-                    <a href='https://www.linkedin.com/in/kemin-li-a01a73101/'><img id='linkedin' src={linkedin}></img></a>
+                    <a href='https://www.linkedin.com/in/audrey-shen-989a97261/'><img id='linkedin' src={linkedin}></img></a>
                     <a href='https://www.linkedin.com/in/audrey-shen-989a97261/'>LinkedIn</a>
                 </p>  
             </div>

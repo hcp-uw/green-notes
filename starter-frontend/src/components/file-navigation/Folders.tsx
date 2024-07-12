@@ -47,11 +47,23 @@ type FoldersProps = {data: ThumbnailInfo[]};
  * TO-DO: Use actual data from the server to return the folders inside the current page folder.
  */
 export default function Folders({data}: FoldersProps): JSX.Element {
+
+    const folders: JSX.Element[] = [];
+
+    for (const thumbnail of data) {
+        if (thumbnail.kind === "folder") {
+            folders.push(
+                <Folder key={thumbnail.iD} name={thumbnail.name} id={thumbnail.iD} onFolderClick={doFolderClick}/>
+            )
+        }
+    }
+
     return (
-        <>
-            <Folder name="Testing" id="test" onFolderClick={doFolderClick}/>
-            <Folder name="Testing 2" id="kdsj;f" onFolderClick={doFolderClick}/>
-            <Folder name="Testing 3" id="dkafj;sd" onFolderClick={doFolderClick}/>
-        </>
+        // <>
+        //     <Folder name="Testing" id="test" onFolderClick={doFolderClick}/>
+        //     <Folder name="Testing 2" id="kdsj;f" onFolderClick={doFolderClick}/>
+        //     <Folder name="Testing 3" id="dkafj;sd" onFolderClick={doFolderClick}/>
+        // </>
+        <>{folders}</>
     );
 }
