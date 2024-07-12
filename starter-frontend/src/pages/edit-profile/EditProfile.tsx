@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,10 +14,23 @@ export default function NewProfile() {
 
   const [loading, setLoading] = useState(false);
 
-  const { currentUser, updateUserProfile, setError } = useAuth();
+  // const { currentUser, updateUserProfile, setError } = useAuth();
+
+  const used = useAuth();
+  if (used === null) {
+    throw new Error("bad");
+  }
+
+  const currentUser = used.currentUser;
+  const updateUserProfile = used.updateUserProfile;
+  const setError = used.setError;
+
+  if (currentUser === null) {
+    throw new Error("user can't be null right now");
+  }
 
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
@@ -55,7 +67,7 @@ export default function NewProfile() {
               required
               placeholder="Enter a Display Name"
               className="authfield"
-              defaultValue={currentUser.displayName && currentUser.displayName}
+              // defaultValue={currentUser.displayName && currentUser.displayName}
                 onChange={(e) => setUsername(e.target.value)}
               />
           </div>

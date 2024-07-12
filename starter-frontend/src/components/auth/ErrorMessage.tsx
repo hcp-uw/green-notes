@@ -1,5 +1,4 @@
 import { XCircleIcon } from "@heroicons/react/solid";
-
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function ErrorMessage() {
