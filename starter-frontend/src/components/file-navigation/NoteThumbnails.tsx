@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { doNoteClick, NoteCallback } from '../../pages/notes/notes';
 import { useNavigate } from 'react-router-dom';
+import { ThumbnailInfo } from './routes';
 
 
 type NoteThumbnailProps = {
@@ -55,13 +56,14 @@ function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnai
     );
 }
 
+type NotesProps = {data: ThumbnailInfo[]}
 
 /**
  * Returns all thumbnails of all the notes in the current folder.
  * 
  * TO-DO: Change to actually use data to return notes from the current folder page.
  */
-export default function NoteThumbnails(): JSX.Element {
+export default function NoteThumbnails({data}: NotesProps): JSX.Element {
 
     const navigate = useNavigate();
     const linkToNote = (route: string, body: string): void => {
@@ -69,12 +71,24 @@ export default function NoteThumbnails(): JSX.Element {
         console.log("Route:", route, "Body:", body);
     };
 
+    const notes: JSX.Element[] = [];
+    for (const thumbnail of data) {
+        if (thumbnail.kind === "doc") {
+            notes.push(
+                <NoteThumbnail title={thumbnail.name} route={thumbnail.iD} 
+                  text="blah blah placeholder text worry about this later"
+                  onNoteClick={doNoteClick} navigate={linkToNote}/>
+            )
+        }
+    }
+
     return (
-        <>
-            <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " route="123" onNoteClick={doNoteClick} navigate={linkToNote}/>
-            <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " route="cactus" onNoteClick={doNoteClick} navigate={linkToNote}/>
-            <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " route="smth" onNoteClick={doNoteClick} navigate={linkToNote}/>
-            <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" route="ahhh" onNoteClick={doNoteClick} navigate={linkToNote}/>
-        </>
+        // <>
+        //     <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " route="123" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " route="cactus" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " route="smth" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" route="ahhh" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        // </>
+        <>{notes}</>
     );
 }

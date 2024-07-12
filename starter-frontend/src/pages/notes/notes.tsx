@@ -35,6 +35,11 @@ export function Notes(): JSX.Element {
 
     const test: ThumbnailInfo[] = [];
     test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
+    test.push({name: "example 2", iD: "fghfghfghfgh", kind: "folder"});
+    test.push({name: "hmmm", iD: "rprprprpr", kind: "doc"});
+    test.push({name: "this a folder", iD: "opopopopo", kind: "folder"});
+    test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
+    test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
 
     // Initial load
     useEffect(() => {
@@ -103,7 +108,7 @@ export function Notes(): JSX.Element {
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
-                    <NoteThumbnails />
+                    <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
             </div>
@@ -116,7 +121,7 @@ export function Notes(): JSX.Element {
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
-                    <NoteThumbnails />
+                    <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isToggled} /*onTemp={() => setIsToggled(!isToggled)}*//>
                 </div>
             </div>
@@ -191,10 +196,6 @@ const parseFolderInfo = (data: unknown, cb: FolderCallback, resp: React.Dispatch
 
     // Iterates through each element of the given array of server data
     for (const info of data.data) {
-        // if (!isRecord(info) || !Array.isArray(info)) { // Checks that the element is of type record
-        //     console.error('Invalid JSON from /getFolderContents asdf', info);
-        //     return [];
-        // }
 
         if (typeof info.name !== "string") { // Checks that the element has a vaild name field
             console.error('Invalid JSON from /getFolderContents', info.name);
@@ -227,9 +228,8 @@ const parseFolderInfo = (data: unknown, cb: FolderCallback, resp: React.Dispatch
     return folders.concat(docs);
 }
 
+// Exported method for folders to have in order to have clicking functionality
 export const doFolderClick = (iD: string, resp: React.Dispatch<React.SetStateAction<boolean>>): void => {
-    // call getFolderContents and update the current states to
-    // show the proper things
     console.log(iD);
     getFolderContents("temp", doFolderResponse, resp);
 };
@@ -279,7 +279,6 @@ const getNoteContents = async (route: string, cb: NoteCallback): Promise<string>
       } catch (e) {
         console.log(e);
       }
-    // console.log("note fetched")
     return "asdfasdf";
 };
 
