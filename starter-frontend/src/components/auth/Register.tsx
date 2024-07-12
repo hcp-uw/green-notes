@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
@@ -14,7 +13,15 @@ export default function RegisterForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, register, setError } = useAuth();
+    // const { currentUser, register, setError } = useAuth();
+    const used = useAuth();
+    if (used === null) {
+      throw new Error("bad");
+    }
+
+    const currentUser = used.currentUser;
+    const register = used.register;
+    const setError = used.setError;
 
     
     const navigate = useNavigate();
@@ -25,7 +32,7 @@ export default function RegisterForm() {
         }
       }, [currentUser, navigate]);
 
-    async function handleFormSubmit(e) {
+    async function handleFormSubmit(e: any) {
         e.preventDefault();
     
         if (password !== confirmPassword) {
@@ -44,7 +51,7 @@ export default function RegisterForm() {
           setLoading(false);
     }
 
-    const createAccount = async (email: string): void => {    
+    const createAccount = async (email: string): Promise<void> => {    
         try {
             const user = auth.currentUser;
             const token = user && (await user.getIdToken());

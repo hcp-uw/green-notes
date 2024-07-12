@@ -8,7 +8,14 @@ export default function Logout({ isModal, setIsModal }) {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
-  const { logout, setError } = useAuth();
+  // const { logout, setError } = useAuth();
+  const used = useAuth();
+  if (used === null) {
+    throw new Error("bad");
+  }
+
+  const logout = used.logout;
+  const setError = used.setError;
 
   async function handleLogout() {
     try {

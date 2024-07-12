@@ -1,19 +1,37 @@
-//@ts-nocheck
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { createUserWithEmailAndPassword,
         signInWithEmailAndPassword,
-        signOut } from "firebase/auth";
+        signOut, User, UserCredential } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { updateProfile } from "firebase/auth";
 
 
+// type ContextParams = {
+//   currentUser: User | null,
+//   login: (email: string, password: string) => Promise<UserCredential>,
+//   register: (email: string, password: string) => Promise<UserCredential>,
+//   error: string,
+//   setError: React.Dispatch<React.SetStateAction<string>>,
+//   updateUserProfile: (user: User, profile: any) => Promise<void>,
+//   logout: () => Promise<void>,
+// }
 
+interface ContextParams {
+  currentUser: User | null;
+  login: (email: string, password: string) => Promise<UserCredential>;
+  register: (email: string, password: string) => Promise<UserCredential>;
+  error: string;
+  setError: React.Dispatch<React.SetStateAction<string>>;
+  updateUserProfile: (user: User, profile: any) => Promise<void>;
+  logout: () => Promise<void>;
+}
 
 // returns a Consumer and Procider compenent.
 // Provider gives state to its children. 
 // Takes in the value prop and passes it down to child components.
 // Confumer consumes and uses the state passed down to it by the provider
-const AuthContext = createContext();
+const AuthContext = createContext<ContextParams | null>(null);
 
 // useAuth hook allows us to consume context by returning
 // a useContext instance of AuthContext
@@ -21,22 +39,23 @@ export function useAuth() {
     return useContext(AuthContext);
 }
 
+type AuthProviderParams = {children: any}
 
-export function AuthProvider({ children }) {
-    const [currentUser, setCurrentUser] = useState();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+export function AuthProvider({ children }: AuthProviderParams) {
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>("");
 
   
-    function register(email, password) {
+    function register(email: string, password: string) {
       return createUserWithEmailAndPassword(auth, email, password);
     }
   
-    function login(email, password) {
+    function login(email: string, password: string) {
       return signInWithEmailAndPassword(auth, email, password);
     }
 
-    function updateUserProfile(user, profile) {
+    function updateUserProfile(user: User, profile: any) {
       return updateProfile(user, profile);
     }
 
