@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
@@ -11,7 +10,16 @@ export default function LoginForm() {
 
     const [loading, setLoading] = useState(false);
 
-    const { currentUser, login, setError } = useAuth();
+    // const { currentUser, login, setError } = useAuth();
+    const used = useAuth();
+    if (used === null) {
+      throw new Error("bad");
+    }
+
+    const currentUser = used.currentUser;
+    const login = used.login;
+    const setError = used.setError;
+
 
 
 
@@ -23,7 +31,7 @@ export default function LoginForm() {
         }
       }, [currentUser, navigate]);
 
-    async function handleFormSubmit(e) {
+    async function handleFormSubmit(e: any) {
         e.preventDefault();
       
           try {

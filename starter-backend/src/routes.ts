@@ -8,7 +8,7 @@ type SafeResponse = Response;
 
 export async function test(req: SafeRequest, res: SafeResponse)  {
 
-    // // goes into/makes the collectoin "test"
+    // // goes into/makes the collection "test"
     // const docRef = db.collection('test').doc('omg it worked');
 
     // // Gives the doc fields
@@ -95,9 +95,52 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
         info.push(obj);
 
     })
-
-    console.log("sent");
     res.send({data: info})
     return;
+}
 
+// Creates a new account in the db with a given email.
+export async function createAccount(req: SafeRequest, res: SafeResponse) {
+    const email = req.body.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    }
+
+    // Currently we have no user data to be stored. If we do and we need basic default
+    // values, we can set them here.
+    const data = {
+        dataAndThings: "random example stuff" 
+    };
+
+    await db.collection("Users").doc(email).set(data)
+        .then(() => res.status(200).send("account succesfully added"))
+        .catch(() => res.status(400).send("error in adding account to db"))
+}
+
+// Placeholder code for when we want to make updates to account data, such as prefered name and profile picture
+export async function updateAccount(req: SafeRequest, res: SafeResponse) {
+    /* Example code for getting body parameters and checking them to be strings */
+    // const data = req.body.data;
+    // if (typeof data !== "string") {
+    //     res.status(400).send('missing or invalid "data" parameter');
+    //     return;
+    // }
+
+    // We will need an email to find the user in the db
+    const email = req.body.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    };
+
+    // Example data that we can populate with body params
+    const data = {
+        example: "example data"
+    }
+
+    // Firebase call to update the "email" doc in the "users" collection with "data"
+    await db.collection("Users").doc(email).set(data)
+        .then(() => res.status(200).send("account succesfully added"))
+        .catch(() => res.status(400).send("error in adding account to db"))
 }

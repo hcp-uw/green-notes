@@ -101,11 +101,14 @@
     margin: 0;
     overflow: hidden;
     height: 20%;
+    text-overflow: ellipsis;
 }
 
 .thumbnail-title {
     margin: 2px 17px;
     font-size: 1.1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Used for clickable part of link on thumbnails */

@@ -1,14 +1,21 @@
-//@ts-nocheck
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function Logout({ isModal, setIsModal }) {
+type LogoutParams = {isModal: boolean, setIsModal: React.Dispatch<React.SetStateAction<boolean>>}
+
+export default function Logout({ isModal, setIsModal }: LogoutParams) {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
-  const { logout, setError } = useAuth();
+  // const { logout, setError } = useAuth();
+  const used = useAuth();
+  if (used === null) {
+    throw new Error("bad");
+  }
+
+  const logout = used.logout;
+  const setError = used.setError;
 
   async function handleLogout() {
     try {

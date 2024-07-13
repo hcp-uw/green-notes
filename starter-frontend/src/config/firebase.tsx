@@ -1,12 +1,7 @@
-//@ts-nocheck
 import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// import { getFirestore } from "firebase/firestore"
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// const firebase = require('firebase');
-// const firebaseui = require('firebaseui');
 
 // All sensitive data is in .env file that isn't part of
 // the github repo for obvious reasons.
@@ -19,17 +14,16 @@ const firebaseConfig = {
     appId:process.env.REACT_APP_APP_ID,
     measurementId:process.env.REACT_APP_MEASUREMENT_ID
   };
-;
 
-  // Starts the firebase app in the frontend, seperate from firebase in the backend
-  const app = initializeApp(firebaseConfig);
 
-  // Starts and exports the auth part of firebase
-  const auth = getAuth(app);
+// Starts the firebase app in the frontend, seperate from firebase in the backend
+const app = initializeApp(firebaseConfig);
 
-  // Starts and exports the database part of firebase
-  const db = getFirestore(app);
+// Starts and exports the auth part of firebase
+const auth = getAuth(app);
+
+// Starts and exports the database part of firebase
+const db = getFirestore(app);
   
 
-  export { auth, db };
-  // export default auth;
+export { auth, db };

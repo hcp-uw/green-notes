@@ -9,7 +9,9 @@ type FolderProps = {
     /** ID of folder (used in link). */
     id: string;
 
-    onFolderClick: (id: string) => void;
+    onFolderClick: (id: string, resp: React.Dispatch<React.SetStateAction<boolean>>) => void;
+
+    resp: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /* 
@@ -19,13 +21,13 @@ type FolderProps = {
  * name: name of folder
  * id: id to be used in the link to show what folder to display
  */
-function Folder({name, id, onFolderClick}: FolderProps): JSX.Element {
+function Folder({name, id, onFolderClick, resp}: FolderProps): JSX.Element {
     return (
         <div>
             {/* <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
-            <button onClick={() => onFolderClick(id)} className="folder-link">
+            <button onClick={() => onFolderClick(id, resp)} className="folder-link">
                 <span className="thumbnail-click"></span>
             </button>
             <div className="thumbnail">
@@ -40,18 +42,30 @@ function Folder({name, id, onFolderClick}: FolderProps): JSX.Element {
 }
 
 
-type FoldersProps = {data: ThumbnailInfo[]};
+type FoldersProps = {data: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>};
 /* 
  * Returns all the folders in the current page. 
  * 
  * TO-DO: Use actual data from the server to return the folders inside the current page folder.
  */
-export default function Folders({data}: FoldersProps): JSX.Element {
+export default function Folders({data, resp}: FoldersProps): JSX.Element {
+
+    const folders: JSX.Element[] = [];
+
+    for (const thumbnail of data) {
+        if (thumbnail.kind === "folder") {
+            folders.push(
+                <Folder key={thumbnail.iD} name={thumbnail.name} id={thumbnail.iD} onFolderClick={doFolderClick} resp={resp}/>
+            )
+        }
+    }
+
     return (
-        <>
-            <Folder name="Testing" id="test" onFolderClick={doFolderClick}/>
-            <Folder name="Testing 2" id="kdsj;f" onFolderClick={doFolderClick}/>
-            <Folder name="Testing 3" id="dkafj;sd" onFolderClick={doFolderClick}/>
-        </>
+        // <>
+        //     <Folder name="Testing" id="test" onFolderClick={doFolderClick}/>
+        //     <Folder name="Testing 2" id="kdsj;f" onFolderClick={doFolderClick}/>
+        //     <Folder name="Testing 3" id="dkafj;sd" onFolderClick={doFolderClick}/>
+        // </>
+        <>{folders}</>
     );
 }

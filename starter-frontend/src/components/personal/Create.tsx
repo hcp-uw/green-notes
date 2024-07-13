@@ -6,6 +6,7 @@ import './Create.css';
 import { collection, addDoc } from "firebase/firestore"; 
 import { db } from '../../config/firebase';
 
+/* In general just needs to be cleaned up */
 
 type CreateProps = {
     /** True if make new note/template pop-up is open. */

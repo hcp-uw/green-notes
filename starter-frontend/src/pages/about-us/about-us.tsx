@@ -1,9 +1,10 @@
-//@ts-nocheck
 import tree from '../../assets/binary-tree-about-us.svg';
 import github from '../../assets/github.png';
 import linkedin from '../../assets/linkedin.png';
 
-function AboutUsMission({title, text}) {
+type AboutUsMissionProps = {title: string, text: string};
+
+function AboutUsMission({title, text}: AboutUsMissionProps) {
     return (
         <div>
             <div className="mission-background">
@@ -45,7 +46,7 @@ function AboutUsTeam() {
                 <p>- Audrey Shen: {' '}
                     <a href='https://github.com/audrey157'><img id='github' src={github}></img></a>
                     <a href='https://github.com/audrey157'>Github</a> {' '}
-                    <a href='https://www.linkedin.com/in/kemin-li-a01a73101/'><img id='linkedin' src={linkedin}></img></a>
+                    <a href='https://www.linkedin.com/in/audrey-shen-989a97261/'><img id='linkedin' src={linkedin}></img></a>
                     <a href='https://www.linkedin.com/in/audrey-shen-989a97261/'>LinkedIn</a>
                 </p>  
             </div>
