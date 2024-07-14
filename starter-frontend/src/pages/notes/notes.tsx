@@ -19,6 +19,7 @@ export function Notes(): JSX.Element {
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
+    const routeParam: string | null = params.get("route");
 
     // TO-DO: Make updateable
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
@@ -43,28 +44,55 @@ export function Notes(): JSX.Element {
 
     // Initial load of "Home" Folder, Comment out if you don't want
     // to call the server every time you reload the "Notes" page
-    
-    // useEffect(() => {
 
-    //     const user = auth.currentUser;
+    useEffect(() => {
 
-    //     const fetchHome = async (user: User | null): Promise<void> => {
-    //         setIsLoading(true);
-    //         if (user === null) {
-    //             throw new Error("User isn't logged in");
-    //         }
-    //         if (user.email === null) {
-    //             throw new Error("User doesn't have associated email");
-    //         }
-    //         console.log(user.email)
-    //         getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
-    //             .then(() => console.log("loaded?"))
-    //             .catch(() => console.log("error"))
-    //     }
+        if (routeParam === null) {
+            const user = auth.currentUser;
 
-    //     fetchHome(user);
+        const fetchHome = async (user: User | null): Promise<void> => {
+            setIsLoading(true);
+            if (user === null) {
+                throw new Error("User isn't logged in");
+            }
+            if (user.email === null) {
+                throw new Error("User doesn't have associated email");
+            }
+            // console.log(user.email)
+            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
+                .then(() => console.log("loaded?"))
+                .catch(() => console.log("error"))
+        }
+        fetchHome(user);
+
+        } else {
+            const user = auth.currentUser;
+
+            const fetchFolder = async (user: User | null, route: string): Promise<void> => {
+            setIsLoading(true);
+            if (user === null) {
+                throw new Error("User isn't logged in");
+            }
+            if (user.email === null) {
+                throw new Error("User doesn't have associated email");
+            }
+            console.log(routeParam);
+            /* Commented out since the full backend architecture isn't 100% yet */
+            // const fullRoute = "Users/" + user.email + routeParam;
+            // getFolderContents(fullRoute, doFolderResponse, setIsLoading)
+            //     .then(() => console.log("loaded?"))
+            //     .catch(() => console.log("error"))
+
+            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
+                .then(() => console.log("loaded?"))
+                .catch(() => console.log("error"))
+
+        }
+
+        fetchFolder(user, routeParam);
+        }
         
-    // }, [auth.currentUser])
+    }, [auth.currentUser])
 
     // Gets user object from auth in order to get user info
     const user = auth.currentUser;
