@@ -6,7 +6,7 @@ import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import { auth } from "../../config/firebase";
-import { route, nil, cons, ThumbnailInfo, isRecord, NoteInfo } from '../../components/file-navigation/routes';
+import { route, nil, cons, ThumbnailInfo, isRecord, NoteInfo, rev } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
 
 export function Notes(): JSX.Element {
@@ -41,28 +41,30 @@ export function Notes(): JSX.Element {
     test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
     test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
 
-    // Initial load of "Home" Folder
-    useEffect(() => {
+    // Initial load of "Home" Folder, Comment out if you don't want
+    // to call the server every time you reload the "Notes" page
+    
+    // useEffect(() => {
 
-        const user = auth.currentUser;
+    //     const user = auth.currentUser;
 
-        const fetchHome = async (user: User | null): Promise<void> => {
-            setIsLoading(true);
-            if (user === null) {
-                throw new Error("User isn't logged in");
-            }
-            if (user.email === null) {
-                throw new Error("User doesn't have associated email");
-            }
-            console.log(user.email)
-            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
-                .then(() => console.log("loaded?"))
-                .catch(() => console.log("error"))
-        }
+    //     const fetchHome = async (user: User | null): Promise<void> => {
+    //         setIsLoading(true);
+    //         if (user === null) {
+    //             throw new Error("User isn't logged in");
+    //         }
+    //         if (user.email === null) {
+    //             throw new Error("User doesn't have associated email");
+    //         }
+    //         console.log(user.email)
+    //         getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
+    //             .then(() => console.log("loaded?"))
+    //             .catch(() => console.log("error"))
+    //     }
 
-        fetchHome(user);
+    //     fetchHome(user);
         
-    }, [auth.currentUser])
+    // }, [auth.currentUser])
 
     // Gets user object from auth in order to get user info
     const user = auth.currentUser;
@@ -109,7 +111,8 @@ export function Notes(): JSX.Element {
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails data={test}/>
-                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} /*onTemp={() => setIsToggled(!isToggled)}*//>
+                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
+                        givenPath={rev(currRoute)}/>
                 </div>
             </div>
         );  
@@ -122,7 +125,8 @@ export function Notes(): JSX.Element {
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={setIsLoading}/>
                     <NoteThumbnails data={test}/>
-                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} /*onTemp={() => setIsToggled(!isToggled)}*//>
+                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
+                        givenPath={rev(currRoute)} />
                 </div>
             </div>
         );  
