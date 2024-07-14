@@ -38,21 +38,23 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
 
     // Updates pop-up whenever it is shown again
     useEffect(() => {
+        let temp: string = "";
 
         setIsTemp(isTemp);
-        setCurrPath("");
         let tempPath: route = concat(nil, givenPath);
         if (isTempLocal) {
-            setCurrPath("TemplateHome/");
+            temp = "TemplateHome/";
             setTitle("Template");
         } else {
-            setCurrPath("NotesHome/");
+            temp = "NotesHome/";
             setTitle("Note");
         }
         while (tempPath.kind !== "nil") {
-            setCurrPath(currPath + tempPath.hd + "/");
+            temp = temp + tempPath.hd + "/";
             tempPath = tempPath.tl;
         }
+
+        setCurrPath(temp);
 
     }, [isMaking, isTemp, givenPath] )
 

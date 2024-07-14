@@ -110,8 +110,12 @@ export function Notes(): JSX.Element {
         setCurrRouteId(cons(folderId, currRouteId));
         setCurrRouteName(cons(folderName, currRouteName));
 
+
+
         console.log("Name:", folderName);
         console.log("Folder ID:", folderId);
+
+
         setIsLoading(false);
     } 
 
