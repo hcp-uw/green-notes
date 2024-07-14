@@ -38,7 +38,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
 
     // Updates pop-up whenever it is shown again
     useEffect(() => {
-        console.log("updated");
+
         setIsTemp(isTemp);
         setCurrPath("");
         let tempPath: route = concat(nil, givenPath);

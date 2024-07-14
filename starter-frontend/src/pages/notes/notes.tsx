@@ -6,7 +6,7 @@ import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import { auth } from "../../config/firebase";
-import { route, nil, cons, ThumbnailInfo, isRecord, NoteInfo, rev } from '../../components/file-navigation/routes';
+import { route, nil, cons, ThumbnailInfo, isRecord, rev } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
 
 export function Notes(): JSX.Element {
@@ -29,9 +29,6 @@ export function Notes(): JSX.Element {
 
     // Keeps track of the IDs of the folder route user is in
     const [currRouteId, setCurrRouteId] = useState<route>(nil);
-
-    // Starts empty since we haven't checked what user id they are yet.
-    const [currLocation, setCurrLocation] = useState<string>("");
 
     // Keeps track of when the notes page is loading
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -107,6 +104,7 @@ export function Notes(): JSX.Element {
         return<p>error</p>
     }
 
+    // Method that is called when folder is clicked and data is fetched
     const folderResponse = (folderId: string, folderName: string, folderContent: ThumbnailInfo[]) => {
 
         setCurrRouteId(cons(folderId, currRouteId));
@@ -118,18 +116,17 @@ export function Notes(): JSX.Element {
     } 
 
 
-    /* TODO:
-        Make a way to store server side data for contents in folders
-        so we don't need to make a new call every single time someone
-        clicks on a folder, only when they click on the folder for 
-        the first time in the window.
-        
-        Perhaps use a map with strings as the keys and jsx.element arrays
-        as the locations and use "current location" as a way find it.
-        "current location" would be in "home/folder/folder" format to ensure
-        that it still works even if there are several folders with the same name
-        in different places. There cant be 2 folders of the same name in the
-        same location*/
+//  TODO:
+//     Make a way to store server side data for contents in folders
+//     so we don't need to make a new call every single time someone
+//     clicks on a folder, only when they click on the folder for 
+//     the first time in the window.
+//     Perhaps use a map with strings as the keys and jsx.element arrays
+//     as the locations and use "current location" as a way find it.
+//     "current location" would be in "home/folder/folder" format to ensure
+//     that it still works even if there are several folders with the same name
+//     in different places. There cant be 2 folders of the same name in the
+//     same location
 
 
     if (isLoading) { // If page is loading
@@ -143,7 +140,7 @@ export function Notes(): JSX.Element {
         )
     }
 
-    if (currLocation === "") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
+    if (currRouteName.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
@@ -161,7 +158,7 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <PreviousFolder name={currLocation}></PreviousFolder>
+                <PreviousFolder name={currRouteName.hd}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={folderResponse}/>
@@ -184,8 +181,16 @@ const PreviousFolder = ({name}: PreviousFolderProps): JSX.Element => {
     )
 };
 
+
 type FolderCallback = (contents: ThumbnailInfo[], iD: string, name: string,
     resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void) => void;
+
+// Exported method for folders to have in order to have clicking functionality
+export const doFolderClick = (iD: string, name: string,
+    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
+    console.log(iD);
+    getFolderContents("temp", iD, name, doFolderResponse, resp);
+};
 
 // Method to be called to grab folder contents from server
 const getFolderContents = async (route: string, iD: string, name: string, cb: FolderCallback, 
@@ -271,13 +276,6 @@ const parseFolderInfo = (data: unknown, iD: string, name: string, cb: FolderCall
     return folders.concat(docs);
 }
 
-// Exported method for folders to have in order to have clicking functionality
-export const doFolderClick = (iD: string, name: string,
-    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
-    console.log(iD);
-    getFolderContents("temp", iD, name, doFolderResponse, resp);
-};
-
 // Method that gets called if the getFolder fetch works properly
 const doFolderResponse = (contents: ThumbnailInfo[], iD: string, name: string,
      resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
@@ -286,6 +284,13 @@ const doFolderResponse = (contents: ThumbnailInfo[], iD: string, name: string,
     // }
     resp(iD, name, contents);
 }
+
+// Method exported for NoteThumbnails, allows notes to be clicked on
+// Currently does literally nothing other than call another method
+export const doNoteClick = async (route: string, cb: NoteCallback): Promise<string> => {
+
+    return getNoteContents(route, cb);
+};
 
 // Async method which calls server for a specific note given the route to the note
 const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {
@@ -351,12 +356,6 @@ const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
     return;
 }
 
-// Method exported for NoteThumbnails, allows notes to be clicked on
-// Currently does literally nothing other than call another method
-export const doNoteClick = async (route: string, cb: NoteCallback): Promise<string> => {
-
-    return getNoteContents(route, cb);
-};
 
 // NoteCallback type used to update website state during getNote fetch
 export type NoteCallback = (body: string, route: string) => void;
