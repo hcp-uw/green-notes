@@ -105,7 +105,7 @@ export function Notes(): JSX.Element {
     }
 
     // Method that is called when folder is clicked and data is fetched
-    const folderResponse = (folderId: string, folderName: string, folderContent: ThumbnailInfo[]) => {
+    const folderResponse = (folderId: string, folderName: string, folderContent: ThumbnailInfo[]): void => {
 
         setCurrRouteId(cons(folderId, currRouteId));
         setCurrRouteName(cons(folderName, currRouteName));
@@ -117,7 +117,14 @@ export function Notes(): JSX.Element {
 
 
         setIsLoading(false);
-    } 
+    }
+
+    const backResponse = (): void => {
+        if (currRouteId.kind !== "nil" && currRouteName.kind !== "nil") {
+            setCurrRouteId(currRouteId.tl);
+            setCurrRouteName(currRouteName.tl);
+        }
+    }
 
 
 //  TODO:
@@ -144,7 +151,7 @@ export function Notes(): JSX.Element {
         )
     }
 
-    if (currRouteName.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
+    if (currRouteName.kind === "nil" || currRouteId.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
@@ -162,7 +169,7 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <PreviousFolder name={currRouteName.hd}></PreviousFolder>
+                <PreviousFolder name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders data={test} resp={folderResponse}/>
@@ -175,12 +182,12 @@ export function Notes(): JSX.Element {
     }
 };
 
-type PreviousFolderProps = {name: string};
+type PreviousFolderProps = {name: string, doBackClick: () => void};
 // Back button for when in folder
-const PreviousFolder = ({name}: PreviousFolderProps): JSX.Element => {
+const PreviousFolder = ({name, doBackClick}: PreviousFolderProps): JSX.Element => {
     return(
         <div>
-            <button>&lt; {name}</button>
+            <button onClick={() => doBackClick()}>&lt; {name}</button>
         </div>
     )
 };
