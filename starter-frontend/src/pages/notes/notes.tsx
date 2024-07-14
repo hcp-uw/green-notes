@@ -24,11 +24,14 @@ export function Notes(): JSX.Element {
     // TO-DO: Make updateable
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
 
-    // Keeps track of folder route user is in
-    const [currRoute, setCurrRoute] = useState<route>(nil);
+    // Keeps track of names of the folder route user is in
+    const [currRouteName, setCurrRouteName] = useState<route>(nil);
+
+    // Keeps track of the IDs of the folder route user is in
+    const [currRouteId, setCurrRouteId] = useState<route>(nil);
 
     // Starts empty since we haven't checked what user id they are yet.
-    const [currLocation, setcurrLocation] = useState<string>("");
+    const [currLocation, setCurrLocation] = useState<string>("");
 
     // Keeps track of when the notes page is loading
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,54 +48,54 @@ export function Notes(): JSX.Element {
     // Initial load of "Home" Folder, Comment out if you don't want
     // to call the server every time you reload the "Notes" page
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (routeParam === null) {
-            const user = auth.currentUser;
+    //     if (routeParam === null) {
+    //         const user = auth.currentUser;
 
-        const fetchHome = async (user: User | null): Promise<void> => {
-            setIsLoading(true);
-            if (user === null) {
-                throw new Error("User isn't logged in");
-            }
-            if (user.email === null) {
-                throw new Error("User doesn't have associated email");
-            }
-            // console.log(user.email)
-            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
-                .then(() => console.log("loaded?"))
-                .catch(() => console.log("error"))
-        }
-        fetchHome(user);
+    //     const fetchHome = async (user: User | null): Promise<void> => {
+    //         setIsLoading(true);
+    //         if (user === null) {
+    //             throw new Error("User isn't logged in");
+    //         }
+    //         if (user.email === null) {
+    //             throw new Error("User doesn't have associated email");
+    //         }
+    //         // console.log(user.email)
+    //         getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
+    //             .then(() => console.log("loaded?"))
+    //             .catch(() => console.log("error"))
+    //     }
+    //     fetchHome(user);
 
-        } else {
-            const user = auth.currentUser;
+    //     } else {
+    //         const user = auth.currentUser;
 
-            const fetchFolder = async (user: User | null, route: string): Promise<void> => {
-            setIsLoading(true);
-            if (user === null) {
-                throw new Error("User isn't logged in");
-            }
-            if (user.email === null) {
-                throw new Error("User doesn't have associated email");
-            }
-            console.log(routeParam);
-            /* Commented out since the full backend architecture isn't 100% yet */
-            // const fullRoute = "Users/" + user.email + routeParam;
-            // getFolderContents(fullRoute, doFolderResponse, setIsLoading)
-            //     .then(() => console.log("loaded?"))
-            //     .catch(() => console.log("error"))
+    //         const fetchFolder = async (user: User | null, route: string): Promise<void> => {
+    //         setIsLoading(true);
+    //         if (user === null) {
+    //             throw new Error("User isn't logged in");
+    //         }
+    //         if (user.email === null) {
+    //             throw new Error("User doesn't have associated email");
+    //         }
+    //         console.log(routeParam);
+    //         /* Commented out since the full backend architecture isn't 100% yet */
+    //         // const fullRoute = "Users/" + user.email + routeParam;
+    //         // getFolderContents(fullRoute, doFolderResponse, setIsLoading)
+    //         //     .then(() => console.log("loaded?"))
+    //         //     .catch(() => console.log("error"))
 
-            getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
-                .then(() => console.log("loaded?"))
-                .catch(() => console.log("error"))
+    //         getFolderContents("Users/" + user.email, doFolderResponse, setIsLoading)
+    //             .then(() => console.log("loaded?"))
+    //             .catch(() => console.log("error"))
 
-        }
+    //     }
 
-        fetchFolder(user, routeParam);
-        }
+    //     fetchFolder(user, routeParam);
+    //     }
         
-    }, [auth.currentUser])
+    // }, [auth.currentUser])
 
     // Gets user object from auth in order to get user info
     const user = auth.currentUser;
@@ -103,6 +106,16 @@ export function Notes(): JSX.Element {
     } else { // If user isn't logged in (should be impossible on this page)
         return<p>error</p>
     }
+
+    const folderResponse = (folderId: string, folderName: string, folderContent: ThumbnailInfo[]) => {
+
+        setCurrRouteId(cons(folderId, currRouteId));
+        setCurrRouteName(cons(folderName, currRouteName));
+
+        console.log("Name:", folderName);
+        console.log("Folder ID:", folderId);
+        setIsLoading(false);
+    } 
 
 
     /* TODO:
@@ -137,10 +150,10 @@ export function Notes(): JSX.Element {
                 <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test} resp={setIsLoading}/>
+                    <Folders data={test} resp={folderResponse}/>
                     <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
-                        givenPath={rev(currRoute)}/>
+                        givenPath={rev(currRouteName)}/>
                 </div>
             </div>
         );  
@@ -151,10 +164,10 @@ export function Notes(): JSX.Element {
                 <PreviousFolder name={currLocation}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test} resp={setIsLoading}/>
+                    <Folders data={test} resp={folderResponse}/>
                     <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
-                        givenPath={rev(currRoute)} />
+                        givenPath={rev(currRouteName)} />
                 </div>
             </div>
         );  
@@ -171,10 +184,12 @@ const PreviousFolder = ({name}: PreviousFolderProps): JSX.Element => {
     )
 };
 
-type FolderCallback = (contents: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>) => void;
+type FolderCallback = (contents: ThumbnailInfo[], iD: string, name: string,
+    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void) => void;
 
 // Method to be called to grab folder contents from server
-const getFolderContents = async (route: string, cb: FolderCallback, resp: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> => {
+const getFolderContents = async (route: string, iD: string, name: string, cb: FolderCallback, 
+    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[])=> void): Promise<void> => {
 
     try {
         const user = auth.currentUser;
@@ -187,13 +202,8 @@ const getFolderContents = async (route: string, cb: FolderCallback, resp: React.
           },
         };
 
-        // Temp string for the route. Will update to be the given route parameter
-        // but first need to add code for that and be able to actually 
-        // write to the db, not just read it.
+        // Temp string for the route.
         const temp: string = "Users/user@example.com/Notes"
-
-        // const res = await fetch("http://localhost:3001/getFolderContents?route=" 
-        //             + encodeURIComponent(temp), payloadHeader);
   
         // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
@@ -201,7 +211,7 @@ const getFolderContents = async (route: string, cb: FolderCallback, resp: React.
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseFolderInfo(val, cb, resp))
+                    res.json().then((val) => parseFolderInfo(val, iD, name, cb, resp))
                       .catch(() => console.error("Error fetching /getFolderContents: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getFolderContents: bad status code: ${res.status}`)
@@ -216,7 +226,8 @@ const getFolderContents = async (route: string, cb: FolderCallback, resp: React.
 };
 
 // Helper method to process given folder data fetched from server
-const parseFolderInfo = (data: unknown, cb: FolderCallback, resp: React.Dispatch<React.SetStateAction<boolean>>): ThumbnailInfo[] => {
+const parseFolderInfo = (data: unknown, iD: string, name: string, cb: FolderCallback, 
+    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): ThumbnailInfo[] => {
 
     const folders: ThumbnailInfo[] = [];
     const docs: ThumbnailInfo[] = [];
@@ -256,21 +267,24 @@ const parseFolderInfo = (data: unknown, cb: FolderCallback, resp: React.Dispatch
 
     // Returns all the folders and docs organized seperately, where folders are first
     console.log("getFolders succeeded");
-    cb(folders.concat(docs), resp);
+    cb(folders.concat(docs), iD, name, resp);
     return folders.concat(docs);
 }
 
 // Exported method for folders to have in order to have clicking functionality
-export const doFolderClick = (iD: string, resp: React.Dispatch<React.SetStateAction<boolean>>): void => {
+export const doFolderClick = (iD: string, name: string,
+    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
     console.log(iD);
-    getFolderContents("temp", doFolderResponse, resp);
+    getFolderContents("temp", iD, name, doFolderResponse, resp);
 };
 
-const doFolderResponse = (contents: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>): void => {
-    for (const temp of contents) {
-        console.log(temp);
-    }
-    resp(false);
+// Method that gets called if the getFolder fetch works properly
+const doFolderResponse = (contents: ThumbnailInfo[], iD: string, name: string,
+     resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
+    // for (const temp of contents) {
+    //     console.log(temp);
+    // }
+    resp(iD, name, contents);
 }
 
 // Async method which calls server for a specific note given the route to the note

@@ -9,9 +9,9 @@ type FolderProps = {
     /** ID of folder (used in link). */
     id: string;
 
-    onFolderClick: (id: string, resp: React.Dispatch<React.SetStateAction<boolean>>) => void;
+    onFolderClick: (id: string, name: string, resp: (id: string, name: string, contents: ThumbnailInfo[]) => void) => void;
 
-    resp: React.Dispatch<React.SetStateAction<boolean>>;
+    resp: (id: string, name: string, contents: ThumbnailInfo[]) => void;
 }
 
 /* 
@@ -27,7 +27,7 @@ function Folder({name, id, onFolderClick, resp}: FolderProps): JSX.Element {
             {/* <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
-            <button onClick={() => onFolderClick(id, resp)} className="folder-link">
+            <button onClick={() => onFolderClick(id, name, resp)} className="folder-link">
                 <span className="thumbnail-click"></span>
             </button>
             <div className="thumbnail">
@@ -42,7 +42,7 @@ function Folder({name, id, onFolderClick, resp}: FolderProps): JSX.Element {
 }
 
 
-type FoldersProps = {data: ThumbnailInfo[], resp: React.Dispatch<React.SetStateAction<boolean>>};
+type FoldersProps = {data: ThumbnailInfo[], resp: (id: string, name: string, contents: ThumbnailInfo[]) => void};
 /* 
  * Returns all the folders in the current page. 
  * 
