@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,31 +6,31 @@ import smile from '../../assets/profile-button.png';
 
 // edit profile page
 
-// function classNames(...classes) {
-//   return classes.filter(Boolean).join(" ");
-// }
 
 export default function NewProfile() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  // const [avatars, setAvatars] = useState([]);
-  // const [selectedAvatar, setSelectedAvatar] = useState(); //Figure out what to do with
+
   const [loading, setLoading] = useState(false);
 
-  const { currentUser, updateUserProfile, setError } = useAuth();
+  // const { currentUser, updateUserProfile, setError } = useAuth();
 
-  // I don't think this code is necessary
-  // useEffect(() => {
-  //   const fetchData = () => {
-  //     const res = generateAvatar();
-  //     setAvatars(res);
-  //   };
+  const used = useAuth();
+  if (used === null) {
+    throw new Error("bad");
+  }
 
-  //   fetchData();
-  // }, []);
+  const currentUser = used.currentUser;
+  const updateUserProfile = used.updateUserProfile;
+  const setError = used.setError;
 
-  const handleFormSubmit = async (e) => {
+  if (currentUser === null) {
+    throw new Error("user can't be null right now");
+  }
+
+
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
@@ -68,7 +67,7 @@ export default function NewProfile() {
               required
               placeholder="Enter a Display Name"
               className="authfield"
-              defaultValue={currentUser.displayName && currentUser.displayName}
+              // defaultValue={currentUser.displayName && currentUser.displayName}
                 onChange={(e) => setUsername(e.target.value)}
               />
           </div>

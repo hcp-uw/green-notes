@@ -4,10 +4,7 @@ import * as React from 'react';
 import '../navbar/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
 import Logout from '../auth/Logout';
-import { useAuth } from '../../contexts/AuthContext';
-import { auth }  from '../../config/firebase';
-import { useEffect } from 'react';
-// import axios from 'axios';
+
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
 function HomeLogo(): JSX.Element {
@@ -89,36 +86,7 @@ function LogInButton(): JSX.Element {
  *
  * TO-DO: Change between Profile or LogInButton depending on whether the user is logged in or not.
  */
-export default function NavigationBar(): JSX.Element {
-
-    // Just an example method that calls a server request to get a note.
-    // Commented out b/c it runs every time the NavigationBar element is opened 
-    // And we don't want to constantly be reading from our db for literally no reason.
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const user = auth.currentUser;
-    //         const token = user && (await user.getIdToken());
-    
-    //         const payloadHeader = {
-    //           headers: {
-    //             "Content-Type": "application/json",
-    //             Authorization: `Bearer ${token}`,
-    //           },
-    //         };
-    //         const res = await fetch("http://localhost:3001/getNote?route=" + encodeURIComponent("notes-test/fd0T4ryzutUIDb3LpwEY"), payloadHeader);
-    //         // console.log(await res.text());
-    //         console.log(res.data.content);
-    //       } catch (e) {
-    //         console.log(e);
-    //       }
-    //     };
-    
-    //     fetchData();
-    // }, []);
-
-    
+export default function NavigationBar(): JSX.Element {    
 
     return (
       <nav>

@@ -65,6 +65,13 @@
     font-size: 1.1rem;
 }
 
+.folder-link {
+    background: transparent;
+    border: none !important;
+    position: absolute;
+    cursor: pointer;
+}
+
 /* Notes */
 
 .thumbnail-body {
@@ -94,14 +101,22 @@
     margin: 0;
     overflow: hidden;
     height: 20%;
+    text-overflow: ellipsis;
 }
 
 .thumbnail-title {
     margin: 2px 17px;
     font-size: 1.1rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Used for clickable part of link on thumbnails */
+/* added the transform part since the link element was changed to a button */
+/* Continue to make slight adjustments, doesn't really matter too much though */
+/* Due to this, since the regular note links are still Links instead of notes,
+    they will appear slightly off when hovering. They will eventually get changed
+    to buttons as well. */
 .thumbnail-click {
     position: absolute;
     overflow: visible;
@@ -110,6 +125,7 @@
     height: 25vh;
     padding: 0;
     margin: 20px 15px;
+    transform: translate(-6px, 0px);
 }
 
 /* Create pop-up backdrop */

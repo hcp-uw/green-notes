@@ -11,7 +11,7 @@ import AboutUs from './pages/about-us/about-us';
 import Collaboration from './pages/collaboration/collaboration'
 import HomeScreen from './pages/home/Home';
 import Note from './pages/editor/editor';
-import Notes from './pages/notes/notes';
+import { Notes } from './pages/notes/notes';
 import Profile from './pages/profile/profile';
 import Login from './pages/auth-pages/login';
 import Register from './pages/auth-pages/register';

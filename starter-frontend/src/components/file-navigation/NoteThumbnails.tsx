@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom';
+import { doNoteClick, NoteCallback } from '../../pages/notes/notes';
+import { useNavigate } from 'react-router-dom';
+import { ThumbnailInfo } from './routes';
+
 
 type NoteThumbnailProps = {
     /** Title of note. */
@@ -8,7 +12,11 @@ type NoteThumbnailProps = {
     text: string;
 
     /** ID of note (used in link). */
-    id: string;
+    route: string;
+
+    onNoteClick: (route: string, cb: NoteCallback) => Promise<string>;
+
+    navigate: (route: string, body: string) => void;
 }
 
 /**
@@ -24,14 +32,17 @@ type NoteThumbnailProps = {
  *  - Cut off text so that it fits in the thumbnail. (Currently the text is visually cut 
  *    off but the text is still on the page if you copy-paste or use a screen reader.)
  */
-function NoteThumbnail({title, text, id}: NoteThumbnailProps): JSX.Element {
+function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnailProps): JSX.Element {
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
         <div>
-            <Link to={`../note`} className="link">
+            {/* <Link to={`../note`} className="link">
                 <span className="thumbnail-click"></span>
-            </Link>
+            </Link> */}
+            <button onClick={() => onNoteClick(route, navigate)}className="folder-link">
+                <span className="thumbnail-click"></span>
+            </button>
             <div className="thumbnail">
                 <div className="thumbnail-body">
                     <p className="thumbnail-text">{text}</p>
@@ -45,18 +56,39 @@ function NoteThumbnail({title, text, id}: NoteThumbnailProps): JSX.Element {
     );
 }
 
+type NotesProps = {data: ThumbnailInfo[]}
+
 /**
  * Returns all thumbnails of all the notes in the current folder.
  * 
  * TO-DO: Change to actually use data to return notes from the current folder page.
  */
-export default function NoteThumbnails(): JSX.Element {
+export default function NoteThumbnails({data}: NotesProps): JSX.Element {
+
+    const navigate = useNavigate();
+    const linkToNote = (route: string, body: string): void => {
+        navigate("/note", {state:{route: route, body: body}});
+        console.log("Route:", route, "Body:", body);
+    };
+
+    const notes: JSX.Element[] = [];
+    for (const thumbnail of data) {
+        if (thumbnail.kind === "doc") {
+            notes.push(
+                <NoteThumbnail title={thumbnail.name} route={thumbnail.iD} 
+                  text="blah blah placeholder text worry about this later"
+                  onNoteClick={doNoteClick} navigate={linkToNote}/>
+            )
+        }
+    }
+
     return (
-        <>
-            <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " id="123" />
-            <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " id="cactus" />
-            <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " id="smth" />
-            <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" id="ahhh" />
-        </>
+        // <>
+        //     <NoteThumbnail title="Testing" text="blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah " route="123" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 2" text="cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus cactus " route="cactus" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 3" text="kobayashi yuusuke kobayashi yuusuke kobayashi yuusuke " route="smth" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        //     <NoteThumbnail title="Testing 4" text="kevin zatloukal kevin zatloukal is the best teacher :)" route="ahhh" onNoteClick={doNoteClick} navigate={linkToNote}/>
+        // </>
+        <>{notes}</>
     );
 }
