@@ -119,6 +119,7 @@ export function Notes(): JSX.Element {
         setIsLoading(false);
     }
 
+    // Method that is called when back button is clicked
     const backResponse = (): void => {
         if (currRouteId.kind !== "nil" && currRouteName.kind !== "nil") {
             setCurrRouteId(currRouteId.tl);
