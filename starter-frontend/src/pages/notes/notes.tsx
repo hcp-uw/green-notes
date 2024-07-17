@@ -159,7 +159,7 @@ export function Notes(): JSX.Element {
                 <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test} resp={folderResponse}/>
+                    <Folders data={test} setLoad={setIsLoading} resp={folderResponse}/>
                     <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)}/>
@@ -173,7 +173,7 @@ export function Notes(): JSX.Element {
                 <PreviousFolder name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={test} resp={folderResponse}/>
+                    <Folders data={test} setLoad={setIsLoading} resp={folderResponse}/>
                     <NoteThumbnails data={test}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} />
@@ -198,9 +198,10 @@ type FolderCallback = (contents: ThumbnailInfo[], iD: string, name: string,
     resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void) => void;
 
 // Exported method for folders to have in order to have clicking functionality
-export const doFolderClick = (iD: string, name: string,
+export const doFolderClick = (iD: string, name: string, setLoad: React.Dispatch<React.SetStateAction<boolean>>,
     resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
     console.log(iD);
+    setLoad(true);
     getFolderContents("temp", iD, name, doFolderResponse, resp);
 };
 
