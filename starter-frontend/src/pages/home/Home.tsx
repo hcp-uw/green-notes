@@ -1,28 +1,14 @@
-import smile from '../../assets/smileLogo.png';
 import { Link } from 'react-router-dom';
 
 
 export default function HomeScreen(): JSX.Element {
-    return (<Background />)
-}
-
-// Returns all of the functions for Home.js
-function Background(): JSX.Element {
     return (
-        <div  className = "home">
-            <SmileLogo/>
+        <div className="page green-background smile-bg">
             <CenterText/>
-               
         </div>
-    )
+    );
 }
 
-// Returns the background smile logo
-function SmileLogo(): JSX.Element {
-    return (
-        <img className="smile" src={smile} />        
-    )
-}
 
 // Returns the center text and start notes button
 function CenterText(): JSX.Element {
