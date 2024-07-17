@@ -60,8 +60,8 @@ function AboutUsTeam() {
 
 export default function AboutUs() {
     return (
-        <div className="page gray-background">
-            <img id="tree" src={tree} />
+        <div className="page gray-background" id="tree-bg">
+            {/* <img id="tree" src={tree} /> */}
             <>
                 <AboutUsMission title="Our Mission" text="Our mission is to create a user-friendly website that allows users to write and save their coding notes. This website specifically targets programmers and coders by including a built-in IDE. "/>
                 <AboutUsTeam />

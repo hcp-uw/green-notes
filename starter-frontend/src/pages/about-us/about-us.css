@@ -1,9 +1,8 @@
 /* Binary tree in the background */
-#tree {
-    position: fixed;
-    right: 220px;
-    top: 80px;
-    height: 720px; 
+#tree-bg {
+    background-image: url("../../assets/binary-tree-about-us.svg");
+    background-repeat: no-repeat;
+    background-position: 45vw 20px;
 }
 
 /* Dimensions for github and linkedin logos */
