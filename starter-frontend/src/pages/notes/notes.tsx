@@ -306,7 +306,7 @@ export const doNoteClick = async (route: string, cb: NoteCallback): Promise<stri
 };
 
 // Async method which calls server for a specific note given the route to the note
-const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {
+export const getNoteContents = async (route: string, cb: NoteCallback): Promise<string> => {
 
     try {
         const user = auth.currentUser;
