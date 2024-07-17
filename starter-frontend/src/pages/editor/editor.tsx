@@ -5,7 +5,7 @@ import { User } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 
-export default function Note({id}: {id: string}): JSX.Element {
+export default function Note(): JSX.Element {
 
     // Loading state
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -53,11 +53,11 @@ export default function Note({id}: {id: string}): JSX.Element {
 
             fetchNotes(user);
         }
-    }, [auth.currentUser])
+    }, [route])
 
 
     if (isLoading) {
-        return (<>Loading...</>)
+        return (<>Loading....</>)
     } else {
         return (
             <div className="page gray-background">

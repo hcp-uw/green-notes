@@ -71,7 +71,7 @@ export default function NoteThumbnails({data}: NotesProps): JSX.Element {
             notes.push(
                 <NoteThumbnail title={thumbnail.name} route={thumbnail.iD} 
                   text="blah blah placeholder text worry about this later"
-                  navigate={linkToNote}/>
+                  navigate={linkToNote} key={thumbnail.iD}/>
             )
         }
     }
