@@ -64,6 +64,21 @@ nav {
     border-radius: 5px;
 }
 
+#log-in-btn {
+    font-family: 'Amiko';
+    color: var(--darker-green);
+    text-decoration: none;
+    background-color: var(--light-green);
+    padding: 7px 17px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 0px 0px var(--darker-green);
+}
+
+#log-in-btn:hover {
+    background-color: var(--green);
+    color: var(--offbase-white);
+}
+
 #empty {
     width: max(20%, 50px)
 }
