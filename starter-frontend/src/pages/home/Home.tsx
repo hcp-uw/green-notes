@@ -14,10 +14,8 @@ export default function HomeScreen(): JSX.Element {
 function CenterText(): JSX.Element {
     return (
         <div className = "centText">
-            <div>
-                <pre className = "cText">{'Clean. Simple.\n'}<b>Code.</b></pre>
-                <Link to={`notes`} className = "start">//start notes</Link>
-            </div>
+            <pre className = "cText">{'Clean. Simple.\n'}<b>Code.</b></pre>
+            <Link to={`notes`} className = "start">//start notes</Link>
         </div>
     )
 }
