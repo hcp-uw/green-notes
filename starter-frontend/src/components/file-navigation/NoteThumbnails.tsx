@@ -52,13 +52,13 @@ function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.
     );
 }
 
-type NotesProps = {data: ThumbnailInfo[]}
+type NotesProps = {data: ThumbnailInfo[], location: string}
 
 /**
  * currently thumbnail.iD IS NOT THE SAME AS THE ROUTE!!!!!
  * be sure to fix!!!
  */
-export default function NoteThumbnails({data}: NotesProps): JSX.Element {
+export default function NoteThumbnails({data, location}: NotesProps): JSX.Element {
 
     const navigate = useNavigate();
     const linkToNote = (route: string): void => {
@@ -69,10 +69,11 @@ export default function NoteThumbnails({data}: NotesProps): JSX.Element {
     for (const thumbnail of data) {
         if (thumbnail.kind === "doc") {
             notes.push(
-                <NoteThumbnail title={thumbnail.name} route={thumbnail.iD} 
+                <NoteThumbnail title={thumbnail.name} route={location+"/"+thumbnail.iD} 
                   text="blah blah placeholder text worry about this later"
                   navigate={linkToNote} key={thumbnail.iD}/>
             )
+            console.log(location+"/"+thumbnail.iD)
         }
     }
 

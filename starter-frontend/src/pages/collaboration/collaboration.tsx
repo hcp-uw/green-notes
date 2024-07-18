@@ -20,7 +20,7 @@ export default function Collaboration(): JSX.Element {
             <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={true}/>
             <h1>Notes</h1>
             <div className="nav-area flex">
-                <NoteThumbnails data={placeholder}/>
+                <NoteThumbnails data={placeholder} location={"placeholder"}/>
             </div>
         </div>
     );  
