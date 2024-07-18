@@ -6,6 +6,7 @@ import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import NewFolder from '../../components/personal/NewFolder';
+import FolderModal from '../../components/personal/FolderModal';
 import { auth } from "../../config/firebase";
 import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
@@ -15,8 +16,11 @@ export function Notes(): JSX.Element {
     // isTemp represents the state of the templates button
     const [isTemp, setIsTemp] = useState<boolean>(false);
 
-    // isMaking represents state of whether user is making note.
+    // isMaking represents state of whether user is making note/temp.
     const [isMaking, setIsMaking] = useState<boolean>(false);
+
+    // isMakingFolder represents state of whether user is making folder
+    const [isMakingFolder, setMakingFolder] = useState<boolean>(false);
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
@@ -182,7 +186,7 @@ export function Notes(): JSX.Element {
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                 <div className='flex'>
                     <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
-                    <NewFolder/>
+                    <NewFolder onClick={setMakingFolder}/>
                 </div>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
@@ -190,6 +194,7 @@ export function Notes(): JSX.Element {
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)}/>
+                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder}/>
                 </div>
             </div>
         );  
@@ -199,13 +204,14 @@ export function Notes(): JSX.Element {
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                     <div className='flex'>
                         <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
-                        <NewFolder/>
+                        <NewFolder onClick={setMakingFolder}/>
                     </div>                <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} />
+                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder}/>
                 </div>
             </div>
         );  
