@@ -40,6 +40,7 @@ body {
     margin-top: 55px;
     min-height: calc(100vh - 55px);
     width: 100%;
+    overflow: auto;
 }
 
 .green-background {
