@@ -73,7 +73,7 @@ export default function NoteThumbnails({data, location}: NotesProps): JSX.Elemen
                   text="blah blah placeholder text worry about this later"
                   navigate={linkToNote} key={thumbnail.iD}/>
             )
-            console.log(location+"/"+thumbnail.iD)
+            // console.log(location+"/"+thumbnail.iD)
         }
     }
 

@@ -36,6 +36,9 @@ export function Notes(): JSX.Element {
     // Keeps track of current content to display
     const [currContent, setCurrContent] = useState<ThumbnailInfo[]>([]);
 
+    // stored data
+    const [storedContent, setStoredContent] = useState<Map<string, ThumbnailInfo[]>>(new Map())
+
 
     const test: ThumbnailInfo[] = [];
     test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
@@ -65,7 +68,7 @@ export function Notes(): JSX.Element {
             // getFolderContents("Users/" + user.email, "Notes", "NotesHome", doFolderResponse, setIsLoading)
             //     .then(() => console.log("loaded?"))
             //     .catch(() => console.log("error"))
-            doFolderClick("", "NotesHome", "Users/" + user.email +"/Notes", setIsLoading, folderResponse)
+            doFolderClick("", "NotesHome", "Users/" + user.email +"/Notes", setIsLoading, folderResponse, storedContent)
         }
         fetchHome(user);
 
@@ -81,7 +84,7 @@ export function Notes(): JSX.Element {
                 throw new Error("User doesn't have associated email");
             }
 
-            doFolderClick("", "blank", routeParam, setIsLoading, folderResponse)
+            doFolderClick("", "blank", route, setIsLoading, folderResponse, storedContent)
 
 
         }
@@ -102,27 +105,40 @@ export function Notes(): JSX.Element {
     }
 
     // Method that is called when folder is clicked and data is fetched
-    const folderResponse = (iD: string, name: string, folderContent: ThumbnailInfo[]): void => {
+    const folderResponse = (iD: string, route: string, name: string, folderContent: ThumbnailInfo[]): void => {
 
         setCurrRouteId(cons(iD, currRouteId));
         setCurrRouteName(cons(name, currRouteName));
 
+        setStoredContent(map => new Map(map.set(route, folderContent.slice(0))))
+        console.log("Route:",route);
 
+        // console.log("Name:", name);
+        // console.log("Folder ID:", iD);
 
-        console.log("Name:", name);
-        console.log("Folder ID:", iD);
-
-        for (const data of folderContent) {
-            console.log(data.iD, data.kind, data.name);
-        }
 
         setCurrContent(folderContent.slice(0));
         setIsLoading(false);
     }
 
     // Method that is called when back button is clicked
-    const backResponse = (): void => {
+    const backResponse = (email: string): void => {
         if (currRouteId.kind !== "nil" && currRouteName.kind !== "nil") {
+
+
+
+            const route = getExtendedRoute(currRouteId.tl, email);
+
+            const data: ThumbnailInfo[] | undefined = storedContent.get(route);
+
+            if (data === undefined) {
+                console.log("error");
+            } else {
+                setCurrContent(data);
+            }
+
+
+
             setCurrRouteId(currRouteId.tl);
             setCurrRouteName(currRouteName.tl);
         }
@@ -142,11 +158,11 @@ export function Notes(): JSX.Element {
 //     same location
 
     const eRoute: string = getExtendedRoute(currRouteId, user.email);
-    console.log(eRoute);
 
-    if (currRouteName.kind === "nil" || currRouteId.kind === "nil") {
-        return(<>Error</>)
+    for (const data of storedContent.keys()) {
+        console.log("Keys", data);
     }
+    console.log("Location:", eRoute)
 
     if (isLoading) { // If page is loading
         return(
@@ -159,6 +175,10 @@ export function Notes(): JSX.Element {
         )
     }
 
+    if (currRouteName.kind === "nil" || currRouteId.kind === "nil") {
+        return(<>Error</>)
+    }
+
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
             <div className="page green-background nav-page">
@@ -166,7 +186,7 @@ export function Notes(): JSX.Element {
                 <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
+                    <Folders  oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)}/>
@@ -177,10 +197,10 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <PreviousFolder name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
+                <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <Folders data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
+                    <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} />
@@ -190,23 +210,24 @@ export function Notes(): JSX.Element {
     }
 };
 
-type PreviousFolderProps = {name: string, doBackClick: () => void};
+type PreviousFolderProps = {name: string, doBackClick: (email: string) => void, email: string};
 // Back button for when in folder
-const PreviousFolder = ({name, doBackClick}: PreviousFolderProps): JSX.Element => {
+const PreviousFolder = ({name, doBackClick, email}: PreviousFolderProps): JSX.Element => {
     return(
         <div>
-            <button onClick={() => doBackClick()}>&lt; {name}</button>
+            <button onClick={() => doBackClick(email)}>&lt; {name}</button>
         </div>
     )
 };
 
 
-type FolderCallback = (contents: ThumbnailInfo[], iD: string, name: string,
-    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void) => void;
+type FolderCallback = (contents: ThumbnailInfo[], iD: string, route: string, name: string,
+    resp: (folderId: string, route: string, name: string, folderContent: ThumbnailInfo[]) => void) => void;
 
 // Exported method for folders to have in order to have clicking functionality
 export const doFolderClick = (iD: string, name: string, location: string, setLoad: React.Dispatch<React.SetStateAction<boolean>>,
-    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
+    resp: (folderId: string, route: string, name: string, folderContent: ThumbnailInfo[]) => void,
+    oldData: Map<string, ThumbnailInfo[]>): void => {
     setLoad(true);
     let route: string = "";
     if (iD === "") {
@@ -214,12 +235,22 @@ export const doFolderClick = (iD: string, name: string, location: string, setLoa
     } else {
         route = location+"/"+iD+"/content"
     }
-    getFolderContents(route, iD, name, doFolderResponse, resp);
+    if (oldData.has(route)) {
+        const data: ThumbnailInfo[] | undefined = oldData.get(route);
+        if (data === undefined) { // Should be impossible
+            console.log("map contains route but doesn't?")
+            getFolderContents(route, iD, name, doFolderResponse, resp);
+        } else {
+            doFolderResponse(data, iD, route, name, resp);
+        }
+    } else {
+        getFolderContents(route, iD, name, doFolderResponse, resp);
+    }
 };
 
 // Method to be called to grab folder contents from server
 const getFolderContents = async (route: string, iD: string, name: string, cb: FolderCallback, 
-    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[])=> void): Promise<void> => {
+    resp: (folderId: string, route: string, name: string, folderContent: ThumbnailInfo[])=> void): Promise<void> => {
 
     try {
         const user = auth.currentUser;
@@ -241,7 +272,7 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseFolderInfo(val, iD, name, cb, resp))
+                    res.json().then((val) => parseFolderInfo(val, iD, route, name, cb, resp))
                       .catch(() => console.error("Error fetching /getFolderContents: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getFolderContents: bad status code: ${res.status}`)
@@ -256,8 +287,8 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
 };
 
 // Helper method to process given folder data fetched from server
-const parseFolderInfo = (data: unknown, iD: string, name: string, cb: FolderCallback, 
-    resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): ThumbnailInfo[] => {
+const parseFolderInfo = (data: unknown, iD: string, route: string, name: string, cb: FolderCallback, 
+    resp: (folderId: string, route: string, name: string, folderContent: ThumbnailInfo[]) => void): ThumbnailInfo[] => {
 
     const folders: ThumbnailInfo[] = [];
     const docs: ThumbnailInfo[] = [];
@@ -298,17 +329,17 @@ const parseFolderInfo = (data: unknown, iD: string, name: string, cb: FolderCall
 
     // Returns all the folders and docs organized seperately, where folders are first
     console.log("getFolders succeeded");
-    cb(folders.concat(docs), iD, name, resp);
+    cb(folders.concat(docs), iD, route, name, resp);
     return folders.concat(docs);
 }
 
 // Method that gets called if the getFolder fetch works properly
-const doFolderResponse = (contents: ThumbnailInfo[], iD: string, name: string,
-     resp: (folderId: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
+const doFolderResponse = (contents: ThumbnailInfo[], iD: string, route: string, name: string,
+     resp: (folderId: string, route: string, name: string, folderContent: ThumbnailInfo[]) => void): void => {
     // for (const temp of contents) {
     //     console.log(temp);
     // }
-    resp(iD, name, contents);
+    resp(iD, route, name, contents);
 }
 
 // Method exported for NoteThumbnails, allows notes to be clicked on
@@ -395,7 +426,10 @@ const getExtendedRoute = (locationID: route, email: string): string => {
     }
 
     while (copyRoute.tl.kind !== "nil") {
-        eRoute = eRoute + "/" + copyRoute.hd + "/content";
+        if (copyRoute.hd !== "") {
+            eRoute = eRoute + "/" + copyRoute.hd + "/content";
+        }
+        
         copyRoute = copyRoute.tl;
     }
 

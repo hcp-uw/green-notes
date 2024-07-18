@@ -14,9 +14,11 @@ type FolderProps = {
     setLoad: React.Dispatch<React.SetStateAction<boolean>>;
 
     onFolderClick: (id: string, name: string, location: string, setLoad: React.Dispatch<React.SetStateAction<boolean>>,
-         resp: (id: string, name: string, contents: ThumbnailInfo[]) => void) => void;
+         resp: (id: string, route: string, name: string, contents: ThumbnailInfo[]) => void, oldData: Map<string, ThumbnailInfo[]>) => void;
 
-    resp: (id: string, name: string, contents: ThumbnailInfo[]) => void;
+    resp: (id: string, route: string, name: string, contents: ThumbnailInfo[]) => void;
+
+    oldData: Map<string, ThumbnailInfo[]>;
 }
 
 /* 
@@ -26,13 +28,13 @@ type FolderProps = {
  * name: name of folder
  * id: id to be used in the link to show what folder to display
  */
-function Folder({name, id, location, setLoad, onFolderClick, resp}: FolderProps): JSX.Element {
+function Folder({name, id, location, setLoad, onFolderClick, resp, oldData}: FolderProps): JSX.Element {
     return (
         <div>
             {/* <Link to={`/notes/${id}`} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
-            <button onClick={() => onFolderClick(id, name, location, setLoad, resp)} className="folder-link">
+            <button onClick={() => onFolderClick(id, name, location, setLoad, resp, oldData)} className="folder-link">
                 <span className="thumbnail-click"></span>
             </button>
             <div className="thumbnail">
@@ -47,13 +49,13 @@ function Folder({name, id, location, setLoad, onFolderClick, resp}: FolderProps)
 }
 
 
-type FoldersProps = {data: ThumbnailInfo[], location: string, setLoad: React.Dispatch<React.SetStateAction<boolean>>, resp: (id: string, name: string, contents: ThumbnailInfo[]) => void};
+type FoldersProps = {data: ThumbnailInfo[], location: string, setLoad: React.Dispatch<React.SetStateAction<boolean>>, resp: (id: string, route: string, name: string, contents: ThumbnailInfo[]) => void, oldData: Map<string, ThumbnailInfo[]>};
 /* 
  * Returns all the folders in the current page. 
  * 
  * TO-DO: Use actual data from the server to return the folders inside the current page folder.
  */
-export default function Folders({data, location, setLoad, resp}: FoldersProps): JSX.Element {
+export default function Folders({data, location, setLoad, resp, oldData}: FoldersProps): JSX.Element {
 
     const folders: JSX.Element[] = [];
 
@@ -61,7 +63,7 @@ export default function Folders({data, location, setLoad, resp}: FoldersProps): 
         if (thumbnail.kind === "folder") {
             folders.push(
                 <Folder key={thumbnail.iD} name={thumbnail.name} id={thumbnail.iD} onFolderClick={doFolderClick} resp={resp} setLoad={setLoad}
-                    location={location}/>
+                    location={location} oldData={oldData}/>
             )
         }
     }
