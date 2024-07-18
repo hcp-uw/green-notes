@@ -1,0 +1,20 @@
+.new-folder-button {
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    min-width: 90px;
+    height: 34px;
+    margin-top: 7px;
+    margin-left: 15px;
+    cursor: pointer;
+
+    color: var(--dark-gray);
+
+
+    font-family: "Fira Code";
+    font-weight: 700;
+    font-style: normal;
+
+    border-radius: 10px;
+}

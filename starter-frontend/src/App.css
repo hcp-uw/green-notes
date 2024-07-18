@@ -6,6 +6,8 @@
 @import "./components/editor/TextEditor.css";
 @import "./pages/about-us/about-us.css";
 @import "./pages/profile/profile.css";
+@import "./components/personal/NewFolder.css";
+@import "./pages/notes/notes.css";
 
 /*General*/
 

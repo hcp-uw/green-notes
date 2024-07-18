@@ -43,10 +43,8 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
         setIsTemp(isTemp);
         let tempPath: route = concat(nil, givenPath);
         if (isTempLocal) {
-            temp = "TemplateHome/";
             setTitle("Template");
         } else {
-            temp = "NotesHome/";
             setTitle("Note");
         }
         while (tempPath.kind !== "nil") {

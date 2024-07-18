@@ -5,6 +5,7 @@ import Folders from "../../components/file-navigation/Folders";
 import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
+import NewFolder from '../../components/personal/NewFolder';
 import { auth } from "../../config/firebase";
 import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
@@ -19,7 +20,7 @@ export function Notes(): JSX.Element {
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
-    const routeParam: string | null = params.get("route");
+    // const routeParam: string | null = params.get("route");
 
     // TO-DO: Make updateable
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
@@ -40,20 +41,21 @@ export function Notes(): JSX.Element {
     const [storedContent, setStoredContent] = useState<Map<string, ThumbnailInfo[]>>(new Map())
 
 
-    const test: ThumbnailInfo[] = [];
-    test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
-    test.push({name: "example 2", iD: "fghfghfghfgh", kind: "folder"});
-    test.push({name: "hmmm", iD: "rprprprpr", kind: "doc"});
-    test.push({name: "this a folder", iD: "opopopopo", kind: "folder"});
-    test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
-    test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
+    // const test: ThumbnailInfo[] = [];
+    // test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
+    // test.push({name: "example 2", iD: "fghfghfghfgh", kind: "folder"});
+    // test.push({name: "hmmm", iD: "rprprprpr", kind: "doc"});
+    // test.push({name: "this a folder", iD: "opopopopo", kind: "folder"});
+    // test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
+    // test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
 
     // Initial load of "Home" Folder, Comment out if you don't want
     // to call the server every time you reload the "Notes" page
 
-    useEffect(() => {
+    useEffect(() => { // The commented out else statement is unfinished code for when we pass in a route parameter to the search bar.
+                      // Probably will just not do anything with it, it seems like a lot of unecessary effort to implement with routes and sorting out states.
 
-        if (routeParam === null) {
+        // if (routeParam === null) {
             const user = auth.currentUser;
 
         const fetchHome = async (user: User | null): Promise<void> => {
@@ -72,25 +74,25 @@ export function Notes(): JSX.Element {
         }
         fetchHome(user);
 
-        } else {
-            const user = auth.currentUser;
+        // } else {
+        //     const user = auth.currentUser;
 
-            const fetchFolder = async (user: User | null, route: string): Promise<void> => {
-            setIsLoading(true);
-            if (user === null) {
-                throw new Error("User isn't logged in");
-            }
-            if (user.email === null) {
-                throw new Error("User doesn't have associated email");
-            }
+        //     const fetchFolder = async (user: User | null, route: string): Promise<void> => {
+        //     setIsLoading(true);
+        //     if (user === null) {
+        //         throw new Error("User isn't logged in");
+        //     }
+        //     if (user.email === null) {
+        //         throw new Error("User doesn't have associated email");
+        //     }
 
-            doFolderClick("", "blank", route, setIsLoading, folderResponse, storedContent)
+        //     doFolderClick("", "CHANGE LATER", route, setIsLoading, folderResponse, storedContent)
 
 
-        }
+        // }
 
-        fetchFolder(user, routeParam);
-        }
+        // fetchFolder(user, routeParam);
+        // }
         
     }, [auth.currentUser])
 
@@ -111,11 +113,6 @@ export function Notes(): JSX.Element {
         setCurrRouteName(cons(name, currRouteName));
 
         setStoredContent(map => new Map(map.set(route, folderContent.slice(0))))
-        console.log("Route:",route);
-
-        // console.log("Name:", name);
-        // console.log("Folder ID:", iD);
-
 
         setCurrContent(folderContent.slice(0));
         setIsLoading(false);
@@ -183,7 +180,10 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
+                <div className='flex'>
+                    <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
+                    <NewFolder/>
+                </div>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders  oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
@@ -197,8 +197,10 @@ export function Notes(): JSX.Element {
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
-                <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
-                <div className="nav-area flex">
+                    <div className='flex'>
+                        <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
+                        <NewFolder/>
+                    </div>                <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
@@ -215,7 +217,7 @@ type PreviousFolderProps = {name: string, doBackClick: (email: string) => void, 
 const PreviousFolder = ({name, doBackClick, email}: PreviousFolderProps): JSX.Element => {
     return(
         <div>
-            <button onClick={() => doBackClick(email)}>&lt; {name}</button>
+            <button className="back-button" onClick={() => doBackClick(email)}>&lt; {name}</button>
         </div>
     )
 };
