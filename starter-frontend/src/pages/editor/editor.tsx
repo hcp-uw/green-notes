@@ -46,7 +46,7 @@ export default function Note(): JSX.Element {
                     throw new Error("User doesn't have associated email");
                 }
 
-                getNoteContents("Users/"+user.email+route, fetchResponse)
+                getNoteContents(route, fetchResponse)
                     .then(() => console.log("fetch worked"))
                     .catch(() => console.log("error fetching note"))
             }

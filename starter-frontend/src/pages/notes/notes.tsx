@@ -44,6 +44,7 @@ export function Notes(): JSX.Element {
     // stored data
     const [storedContent, setStoredContent] = useState<Map<string, ThumbnailInfo[]>>(new Map())
 
+    const [eRoute, setERoute] = useState<string>("");
 
     // const test: ThumbnailInfo[] = [];
     // test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
@@ -113,6 +114,13 @@ export function Notes(): JSX.Element {
     // Method that is called when folder is clicked and data is fetched
     const folderResponse = (iD: string, route: string, name: string, folderContent: ThumbnailInfo[]): void => {
 
+        const user = auth.currentUser;
+        if (user) {
+            if (user.email !== null) {
+                setERoute(getExtendedRoute(cons(iD, currRouteId), user.email));
+            }
+        }
+
         setCurrRouteId(cons(iD, currRouteId));
         setCurrRouteName(cons(name, currRouteName));
 
@@ -120,6 +128,7 @@ export function Notes(): JSX.Element {
 
         setCurrContent(folderContent.slice(0));
         setIsLoading(false);
+
     }
 
     // Method that is called when back button is clicked
@@ -158,12 +167,10 @@ export function Notes(): JSX.Element {
 //     in different places. There cant be 2 folders of the same name in the
 //     same location
 
-    const eRoute: string = getExtendedRoute(currRouteId, user.email);
 
-    for (const data of storedContent.keys()) {
-        console.log("Keys", data);
-    }
-    console.log("Location:", eRoute)
+    // for (const data of storedContent.keys()) {
+    //     console.log("Keys", data);
+    // }
 
     if (isLoading) { // If page is loading
         return(
@@ -179,6 +186,9 @@ export function Notes(): JSX.Element {
     if (currRouteName.kind === "nil" || currRouteId.kind === "nil") {
         return(<>Error</>)
     }
+
+
+    console.log("Location:", eRoute)
 
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
@@ -336,7 +346,7 @@ const parseFolderInfo = (data: unknown, iD: string, route: string, name: string,
 
 
     // Returns all the folders and docs organized seperately, where folders are first
-    console.log("getFolders succeeded");
+    // console.log("getFolders succeeded");
     cb(folders.concat(docs), iD, route, name, resp);
     return folders.concat(docs);
 }
@@ -379,11 +389,11 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
   
         // Fetches the /getNote. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
-        fetch("http://localhost:3001/getNote?route="+encodeURIComponent(temp), payloadHeader)
+        fetch("http://localhost:3001/getNote?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseNoteInfo just returns the body in a string, but doesn't do anything with it yet, no update happens on the page
-                    res.json().then((val) => parseNoteInfo(val, cb))
+                    res.json().then((val) => parseNoteInfo(val, route, cb))
                       .catch(() => console.error("Error fetching /getNote: 200 response is not JSON"))
                 } else { // If the status isn't good
                     console.error(`Error fetching /getNote: bad status code: ${res.status}`)
@@ -400,7 +410,7 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
 
 // takes JSON from server and gets body of note
 // Then calls given callback method. In context of NoteThumbnails, it is the navigate method
-const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
+const parseNoteInfo = (data: unknown, route: string, cb: NoteCallback): void => {
 
     if (!isRecord(data)) {
         console.error("Invalid JSON from /getFolderContents", data);
@@ -417,7 +427,7 @@ const parseNoteInfo = (data: unknown, cb: NoteCallback): void => {
         return;
     }
 
-    cb("example route", data.data.body);
+    cb(data.data.body, route);
     return;
 }
 
@@ -433,7 +443,7 @@ const getExtendedRoute = (locationID: route, email: string): string => {
         return eRoute;
     }
 
-    while (copyRoute.tl.kind !== "nil") {
+    while (copyRoute.kind !== "nil") {
         if (copyRoute.hd !== "") {
             eRoute = eRoute + "/" + copyRoute.hd + "/content";
         }

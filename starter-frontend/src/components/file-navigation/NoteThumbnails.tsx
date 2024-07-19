@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { ThumbnailInfo } from './routes';
 
 
@@ -29,6 +29,7 @@ type NoteThumbnailProps = {
  *    off but the text is still on the page if you copy-paste or use a screen reader.)
  */
 function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.Element {
+
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
@@ -54,15 +55,14 @@ function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.
 
 type NotesProps = {data: ThumbnailInfo[], location: string}
 
-/**
- * currently thumbnail.iD IS NOT THE SAME AS THE ROUTE!!!!!
- * be sure to fix!!!
- */
+
 export default function NoteThumbnails({data, location}: NotesProps): JSX.Element {
 
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const linkToNote = (route: string): void => {
-        navigate("/note?route=" + encodeURIComponent(route))
+
+        // navigate("/note?route=" + encodeURIComponent(route))
+        window.open("/note?route="+encodeURIComponent(route), "_blank"/*, "noreferrer"*/)
     };
 
     const notes: JSX.Element[] = [];
@@ -73,7 +73,6 @@ export default function NoteThumbnails({data, location}: NotesProps): JSX.Elemen
                   text="blah blah placeholder text worry about this later"
                   navigate={linkToNote} key={thumbnail.iD}/>
             )
-            // console.log(location+"/"+thumbnail.iD)
         }
     }
 
