@@ -148,6 +148,12 @@ export function Notes(): JSX.Element {
             }
 
 
+            const user = auth.currentUser;
+            if (user) {
+                if (user.email !== null) {
+                    setERoute(getExtendedRoute(currRouteId.tl, user.email));
+                }
+            }
 
             setCurrRouteId(currRouteId.tl);
             setCurrRouteName(currRouteName.tl);
