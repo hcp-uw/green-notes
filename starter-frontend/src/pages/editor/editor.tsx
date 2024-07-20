@@ -55,6 +55,10 @@ export default function Note(): JSX.Element {
         }
     }, [route])
 
+    if (route === null) {
+        return <>error</>
+    }
+
 
     if (isLoading) {
         return (<>Loading....</>)
@@ -63,6 +67,7 @@ export default function Note(): JSX.Element {
             <div className="page gray-background">
                 <TextEditor 
                 initContent={currBody}
+                eRoute={route}
                 />
             </div>
         );

@@ -215,3 +215,27 @@ export async function createFolder(req: SafeRequest, res: SafeResponse) {
 
     
 }
+
+export async function saveDoc(req: SafeRequest, res: SafeResponse) {
+
+    const route = req.body.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const content = req.body.content;
+    if (typeof content !== "string") {
+        res.status(400).send('missing or invalid "content" parameter');
+        return;
+    }
+
+    const docRef = db.doc(route);
+
+    docRef.update({body: content})
+        .then(() => res.status(200).send("updated"))
+        .catch(() => res.status(400).send("failed"))
+
+
+
+}
