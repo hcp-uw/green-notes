@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
 import { route, nil, concat } from '../file-navigation/routes';
+import { auth } from '../../config/firebase';
 
 
 /* In general just needs to be cleaned up */
@@ -19,6 +20,8 @@ type CreateProps = {
 
     givenPath: route;
 
+    eRoute: string;
+
 }
 
 // There are a lot of comments, most of the commented code exists for the sake of trying
@@ -30,11 +33,16 @@ type CreateProps = {
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Element => {
+const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): JSX.Element => {
 
     const [isTempLocal, setIsTemp] = useState<boolean>(isTemp);
     const [currPath, setCurrPath] = useState<string>("");
     const [title, setTitle] = useState<string>("Note");
+    const [name, setName] = useState<string>("");
+
+    const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
+        setName(evt.target.value);
+    }
 
     // Updates pop-up whenever it is shown again
     useEffect(() => {
@@ -55,6 +63,41 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
         setCurrPath(temp);
 
     }, [isMaking, isTemp, givenPath] )
+
+    const doMakeClick = async (givenName: string, route: string): Promise<void> => {
+        const trimmed: string = givenName.trim();
+        if (trimmed !== "") {
+            try {
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+
+                const body = {
+                    route: route,
+                    name: givenName
+                }
+          
+                const payloadHeader = {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  method: "POST",
+                  body: JSON.stringify(body)
+                };
+        
+          
+                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+                // and the payload header is necessary stuff for server authentication
+                fetch("http://localhost:3001/createNote", payloadHeader)
+                    .then(() => window.location.reload())
+                    .catch(() => console.error("Error fetching /createNote: Failed to connect to server"));
+                
+        
+              } catch (e) {
+                console.log(e);
+              }
+        }
+    }
 
     if (!isMaking) {
         return <></>;
@@ -77,8 +120,12 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
                         <p className="make-text">Location: {currPath}</p>
                     </div>
                     <div className="maketxt-wrap">
+                        <p className="make-text">Name:</p>
+                        <input type="text" value={name} onChange={changeName}></input>
+                    </div>
+                    <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
-                        <button onClick={() => console.log("clicked")}>
+                        <button onClick={() => doMakeClick(name, eRoute)}>
                             WE PRAY
                         </button>
                     </div>
