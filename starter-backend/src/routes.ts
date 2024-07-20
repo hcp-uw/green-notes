@@ -176,7 +176,8 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
     }
 
     db.collection(route).add(data)
-        .then(() => res.status(200).send("all good?"))
+        .then((a) => {
+            res.status(200).send({id: a.id})})
         .catch(() => res.status(400).send("not all good"))
 
 }

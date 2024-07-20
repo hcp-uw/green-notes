@@ -2,8 +2,9 @@ import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
-import { route, nil, concat } from '../file-navigation/routes';
+import { route, nil, concat, isRecord } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 /* In general just needs to be cleaned up */
@@ -39,6 +40,8 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): 
     const [currPath, setCurrPath] = useState<string>("");
     const [title, setTitle] = useState<string>("Note");
     const [name, setName] = useState<string>("");
+
+    const navigate = useNavigate();
 
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setName(evt.target.value);
@@ -89,7 +92,10 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): 
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
                 fetch("http://localhost:3001/createNote", payloadHeader)
-                    .then(() => window.location.reload())
+                    .then((res) => {
+                        res.json().then((val) => createResponse(val, route))
+                          .catch(() => console.error("error fetching /createNote: 200 response"))
+                    })
                     .catch(() => console.error("Error fetching /createNote: Failed to connect to server"));
                 
         
@@ -97,6 +103,20 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): 
                 console.log(e);
               }
         }
+    }
+
+    const createResponse = (data: unknown, route: string): void => {
+        if (!isRecord(data)) {
+            console.error('Invalid JSON from /createNote', data);
+            return;
+        }
+        console.log(data.JSON);
+        if (typeof data.id !== "string") {
+            console.error('Invalid id given from /createNote', data.id);
+            return;
+        }
+
+        navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
     }
 
     if (!isMaking) {
