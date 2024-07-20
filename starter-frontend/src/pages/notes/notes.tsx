@@ -210,7 +210,7 @@ export function Notes(): JSX.Element {
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)}/>
-                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder}/>
+                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
                 </div>
             </div>
         );  
@@ -227,7 +227,7 @@ export function Notes(): JSX.Element {
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} />
-                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder}/>
+                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
                 </div>
             </div>
         );  
