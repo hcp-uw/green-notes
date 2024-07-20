@@ -116,8 +116,16 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
         dataAndThings: "random example stuff" 
     };
 
-    await db.collection("Users").doc(email).set(data)
-        .then(() => res.status(200).send("account succesfully added"))
+    db.collection("Users").doc(email).set(data)
+        .then(() => {
+            db.collection("Users").doc(email).collection("Notes").add({type: "placeholder"})
+                .then(() => {
+                    db.collection("Users").doc(email).collection("Templates").add({type: "placeholder"})
+                        .then(() => res.status(200).send("fetch succesful"))
+                        .catch(() => res.status(400).send("error in making template folder"))
+                })
+                .catch(() => res.status(400).send("error in making notes folder"))
+        })
         .catch(() => res.status(400).send("error in adding account to db"))
 }
 
