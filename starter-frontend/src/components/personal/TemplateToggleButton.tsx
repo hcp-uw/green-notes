@@ -9,7 +9,7 @@ type ToggleProps = {
     /** Function to update isToggled. */
     // onToggle: (event: ChangeEvent<HTMLInputElement>) => void;
 
-    doTempClick: (email: string) => Promise<void>;
+    doTempClick: (email: string) => void;
 
     email: string;
 

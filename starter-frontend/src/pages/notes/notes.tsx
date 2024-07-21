@@ -50,19 +50,24 @@ export function Notes(): JSX.Element {
     useEffect(() => { 
 
         const user = auth.currentUser;
-
-        const fetchHome = async (user: User | null): Promise<void> => {
-            setIsLoading(true);
-            if (user === null) {
-                throw new Error("User isn't logged in");
-            }
-            if (user.email === null) {
-                throw new Error("User doesn't have associated email");
-            }
-
-            doFolderClick("", "NotesHome", "Users/" + user.email +"/Notes", setIsLoading, folderResponse, storedContent)
+        if (user === null) {
+            throw new Error("User isn't logged in");
         }
-        fetchHome(user);
+        if (user.email === null) {
+            throw new Error("User doesn't have associated email");
+        }
+        const email: string = user.email;
+
+        const fetchHome = async (email: string): Promise<void> => {
+            setIsLoading(true);
+
+            doFolderClick("", "NotesHome", "Users/" + email +"/Notes", setIsLoading, folderResponse, storedContent)
+            
+        }
+
+        fetchHome(email).then(() => getTemps(email))
+
+        
 
         
     }, [auth.currentUser])
@@ -93,7 +98,13 @@ export function Notes(): JSX.Element {
         setStoredContent(map => new Map(map.set(route, folderContent.slice(0))))
 
         setCurrContent(folderContent.slice(0));
-        setIsLoading(false);
+        if (user) {
+            if (user.email !== null) {
+                if (storedContent.has("Users/"+user.email+"/Templates")) {
+                    setIsLoading(false);
+                }
+            }
+        }
 
     }
 
@@ -122,23 +133,8 @@ export function Notes(): JSX.Element {
         }
     }
 
-    // Method that is called when the template toggle button is clicked
-    const doTempClick = async (email: string): Promise<void> => {
-        setIsTemp(!isTemp);
-        if (isTemp) {
-            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Notes");
-            if (temp === undefined) {
-                console.error("stored content can't be found");
-                return;
-            }
-            setCurrContent(temp);
-
-        } else {
-            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Templates");
-            if (temp !== undefined) {
-                setCurrContent(temp);
-            } else {
-                setIsLoading(true);
+    const getTemps = async (email: string): Promise<void> => {
+        setIsLoading(true);
                 try {
                     const user = auth.currentUser;
                     const token = user && (await user.getIdToken());
@@ -162,6 +158,49 @@ export function Notes(): JSX.Element {
                   } catch (e) {
                     console.log(e);
                   }
+    }
+
+    // Method that is called when the template toggle button is clicked
+    const doTempClick = (email: string): void => {
+        setIsTemp(!isTemp);
+        if (isTemp) {
+            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Notes");
+            if (temp === undefined) {
+                console.error("stored content can't be found");
+                return;
+            }
+            setCurrContent(temp);
+
+        } else {
+            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Templates");
+            if (temp !== undefined) {
+                setCurrContent(temp);
+            } else {
+                // setIsLoading(true);
+                // try {
+                //     const user = auth.currentUser;
+                //     const token = user && (await user.getIdToken());
+              
+                //     const payloadHeader = {
+                //       headers: {
+                //         "Content-Type": "application/json",
+                //         Authorization: `Bearer ${token}`,
+                //       },
+                //     };
+    
+                //     const route: string = "Users/"+email+"/Templates";
+              
+                //     // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+                //     // and the payload header is necessary stuff for server authentication
+                //     fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+                //         .then((res) => {
+                //             res.json().then((val) => doTempResponse(val, route))}) 
+                //         .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
+                    
+                //   } catch (e) {
+                //     console.log(e);
+                //   }
+                console.log("bad bad");
             }
         }
     }
@@ -202,7 +241,7 @@ export function Notes(): JSX.Element {
         }
 
         setIsLoading(false);
-        setCurrContent(docs);
+        // setCurrContent(docs);
         setStoredContent(map => new Map(map.set(route, docs.slice(0))));
     }
 

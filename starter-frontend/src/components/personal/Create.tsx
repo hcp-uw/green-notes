@@ -2,7 +2,7 @@ import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
-import { route, nil, concat, isRecord } from '../file-navigation/routes';
+import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -123,6 +123,14 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
         navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
     }
 
+    const templates = (thumbnails: ThumbnailInfo[]): JSX.Element[] => {
+        const options: JSX.Element[] = [];
+        for (const temp of thumbnails) {
+            options.push(<option value={temp.iD}>{temp.name}</option>)
+        }
+        return options;
+    }
+
     if (!isMaking) {
         return <></>;
     } else {
@@ -140,6 +148,12 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
                         <input type="text" value={name} onChange={changeName}></input>
+                    </div>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Template:</p>
+                        <select name="template" id="template">
+                            <option value="empty">No Template</option>
+                        </select>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
