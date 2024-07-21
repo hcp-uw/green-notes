@@ -160,6 +160,88 @@ export function Notes(): JSX.Element {
         }
     }
 
+    const doTempClick = async (email: string): Promise<void> => {
+        setIsTemp(!isTemp);
+        if (isTemp) {
+            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Notes");
+            if (temp === undefined) {
+                console.error("stored content can't be found");
+                return;
+            }
+            setCurrContent(temp);
+
+        } else {
+            const temp: ThumbnailInfo[] | undefined = storedContent.get("Users/"+email+"/Templates");
+            if (temp !== undefined) {
+                setCurrContent(temp);
+            } else {
+                setIsLoading(true);
+                try {
+                    const user = auth.currentUser;
+                    const token = user && (await user.getIdToken());
+              
+                    const payloadHeader = {
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                      },
+                    };
+    
+                    const route: string = "Users/"+email+"/Templates";
+              
+                    // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+                    // and the payload header is necessary stuff for server authentication
+                    fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+                        .then((res) => {
+                            res.json().then((val) => doTempResponse(val, route))}) 
+                        .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
+                    
+                  } catch (e) {
+                    console.log(e);
+                  }
+            }
+        }
+    }
+
+    const doTempResponse = (val: unknown, route: string): void => {
+        if (!isRecord(val) || !Array.isArray(val.data)) { // if given data from server is invalid JSON
+            console.error('Invalid JSON from /getFolderContents', val);
+            return;
+        }
+
+        const docs: ThumbnailInfo[] = [];
+
+        for (const info of val.data) {
+
+            if (typeof info.name !== "string") { // Checks that the element has a vaild name field
+                console.error('Invalid JSON from /getFolderContents', info.name);
+                return;
+            }
+    
+            if (typeof info.iD !== "string") { // Checks that the element has a valid iD field
+                console.error('Invalid JSON from /getFolderContents', info.iD);
+                return;
+            }
+    
+            if (info.kind !== "folder" && info.kind !== "doc") { // Checks that the elment has a vaild kind field
+                console.error('Invalid JSON from /getFolderContents', info.iD);
+                return;
+            }
+    
+            // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
+            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+            // Organizes them by doc or folder kind
+            if (temp.kind === "doc") {
+                docs.push(temp);
+            } 
+
+        }
+
+        setIsLoading(false);
+        setCurrContent(docs);
+        setStoredContent(map => new Map(map.set(route, docs.slice(0))));
+    }
+
 
 //  TODO:
 //     Make a way to store server side data for contents in folders
@@ -198,7 +280,7 @@ export function Notes(): JSX.Element {
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                 <div className='flex'>
-                    <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>                </div>
+                    <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email} /></h1>                </div>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
@@ -218,7 +300,7 @@ export function Notes(): JSX.Element {
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
                 <div className='flex'>
-                    <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>
+                    <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email}/></h1>
                     <NewFolder onClick={setMakingFolder}/>
                 </div>
                 <div className="nav-area flex">

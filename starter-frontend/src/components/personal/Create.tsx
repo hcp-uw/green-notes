@@ -57,15 +57,17 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
         let tempPath: route = concat(nil, givenPath);
         if (isTempLocal) {
             setTitle("Template");
+            setCurrPath("TemplateHome/")
         } else {
             setTitle("Note");
+            while (tempPath.kind !== "nil") {
+                temp = temp + tempPath.hd + "/";
+                tempPath = tempPath.tl;
+            }
+    
+            setCurrPath(temp);
         }
-        while (tempPath.kind !== "nil") {
-            temp = temp + tempPath.hd + "/";
-            tempPath = tempPath.tl;
-        }
-
-        setCurrPath(temp);
+        
 
     }, [isMaking, isTemp, givenPath] )
 
@@ -132,12 +134,6 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
                 <div className="make">
                     <p className="make-header">Make New {title}</p>
                     <button className="make-exit" onClick={onMake}>X</button>
-                    {/* <div className="maketxt-wrap">
-                        <p className="make-text">New: </p>
-                            <button className="make-ddown-btn" onClick={() => setIsTemp(!isTempLocal)}>
-                                <DdownBut isTempLocal={isTempLocal}/>
-                            </button>
-                    </div> */}
                     <div className="maketxt-wrap">
                         <p className="make-text">Location: {currPath}</p>
                     </div>
