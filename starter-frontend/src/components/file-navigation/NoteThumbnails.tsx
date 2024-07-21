@@ -53,10 +53,10 @@ function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.
     );
 }
 
-type NotesProps = {data: ThumbnailInfo[], location: string}
+type NotesProps = {data: ThumbnailInfo[], location: string, areTemps: boolean, email: string}
 
 
-export default function NoteThumbnails({data, location}: NotesProps): JSX.Element {
+export default function NoteThumbnails({data, location, areTemps, email}: NotesProps): JSX.Element {
 
     // const navigate = useNavigate();
     const linkToNote = (route: string): void => {
@@ -68,11 +68,17 @@ export default function NoteThumbnails({data, location}: NotesProps): JSX.Elemen
     const notes: JSX.Element[] = [];
     for (const thumbnail of data) {
         if (thumbnail.kind === "doc") {
-            notes.push(
-                <NoteThumbnail title={thumbnail.name} route={location+"/"+thumbnail.iD} 
-                  text="blah blah placeholder text worry about this later"
-                  navigate={linkToNote} key={thumbnail.iD}/>
-            )
+            if (areTemps) {
+                notes.push(<NoteThumbnail title={thumbnail.name} route={"Users/"+email+"/Templates/"+thumbnail.iD} 
+                      text="what a cool template"
+                      navigate={linkToNote} key={thumbnail.iD}/>)
+            } else {
+                notes.push(
+                    <NoteThumbnail title={thumbnail.name} route={location+"/"+thumbnail.iD} 
+                      text="blah blah placeholder text worry about this later"
+                      navigate={linkToNote} key={thumbnail.iD}/>
+                )
+            }
         }
     }
 

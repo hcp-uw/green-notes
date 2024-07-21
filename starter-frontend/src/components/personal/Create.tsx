@@ -5,6 +5,7 @@ import './Create.css';
 import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
+import { getNoteContents } from '../../pages/notes/notes';
 
 
 /* In general just needs to be cleaned up */
@@ -45,6 +46,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
     const [title, setTitle] = useState<string>("Note");
     const [name, setName] = useState<string>("");
     const [tempId, setTempId] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -74,7 +76,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
     }, [isMaking, isTemp, givenPath] )
 
-    const doMakeClick = async (givenName: string, route: string): Promise<void> => {
+    const doMakeClick = async (givenName: string, route: string, givenBody: string): Promise<void> => {
         const trimmed: string = givenName.trim();
         if (trimmed !== "") {
             try {
@@ -83,7 +85,8 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
                 const body = {
                     route: route,
-                    name: givenName
+                    name: givenName,
+                    body: givenBody
                 }
           
                 const payloadHeader = {
@@ -110,6 +113,10 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                 console.log(e);
               }
         }
+    }
+
+    const tempResponse = (body: string, route: string): void => {
+        doMakeClick(name, eRoute, body);
     }
 
     const createResponse = (data: unknown, route: string): void => {
@@ -140,6 +147,8 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
     if (!isMaking) {
         return <></>;
+    } else  if (isLoading) {
+        return <h1>Loading...</h1>
     } else {
         return  (
             <div>
@@ -167,9 +176,12 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                         <p className="make-text">Create: </p>
                         <button onClick={() => {
                             if (isTemp) {
-                                doMakeClick(name, "Users/"+email+"/Templates");
+                                doMakeClick(name, "Users/"+email+"/Templates", "");
+                            } else if (tempId === ""){
+                                doMakeClick(name, eRoute, "")
                             } else {
-                                doMakeClick(name, eRoute)
+                                setIsLoading(true);
+                                getNoteContents("Users/"+email+"/Templates/"+tempId, tempResponse)
                             }
                             
                             }}>

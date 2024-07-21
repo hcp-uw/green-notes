@@ -270,7 +270,7 @@ export function Notes(): JSX.Element {
                     <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email} /></h1>                </div>
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
-                    <NoteThumbnails data={currContent} location={eRoute}/>
+                    <NoteThumbnails data={currContent} location={eRoute} areTemps={isTemp} email={user.email}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
@@ -290,7 +290,7 @@ export function Notes(): JSX.Element {
                 <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders  oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
-                    <NoteThumbnails data={currContent} location={eRoute}/>
+                    <NoteThumbnails data={currContent} location={eRoute}  areTemps={isTemp} email={user.email}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
@@ -307,7 +307,7 @@ export function Notes(): JSX.Element {
                     </div>                <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
-                    <NoteThumbnails data={currContent} location={eRoute}/>
+                    <NoteThumbnails data={currContent} location={eRoute}  areTemps={isTemp} email={user.email}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
