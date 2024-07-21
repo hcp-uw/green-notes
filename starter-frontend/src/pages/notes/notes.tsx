@@ -46,22 +46,10 @@ export function Notes(): JSX.Element {
 
     const [eRoute, setERoute] = useState<string>("");
 
-    // const test: ThumbnailInfo[] = [];
-    // test.push({name: "test folder", iD: "asdfasdfasdf", kind: "folder"});
-    // test.push({name: "example 2", iD: "fghfghfghfgh", kind: "folder"});
-    // test.push({name: "hmmm", iD: "rprprprpr", kind: "doc"});
-    // test.push({name: "this a folder", iD: "opopopopo", kind: "folder"});
-    // test.push({name: "NOTE", iD: "nmnmnmnmnm", kind: "doc"});
-    // test.push({name: "I <3 sleep", iD: "zzzzzzzzzzzzz", kind: "doc"});
 
-    // Initial load of "Home" Folder, Comment out if you don't want
-    // to call the server every time you reload the "Notes" page
+    useEffect(() => { 
 
-    useEffect(() => { // The commented out else statement is unfinished code for when we pass in a route parameter to the search bar.
-                      // Probably will just not do anything with it, it seems like a lot of unecessary effort to implement with routes and sorting out states.
-
-        // if (routeParam === null) {
-            const user = auth.currentUser;
+        const user = auth.currentUser;
 
         const fetchHome = async (user: User | null): Promise<void> => {
             setIsLoading(true);
@@ -71,33 +59,11 @@ export function Notes(): JSX.Element {
             if (user.email === null) {
                 throw new Error("User doesn't have associated email");
             }
-            // console.log(user.email)
-            // getFolderContents("Users/" + user.email, "Notes", "NotesHome", doFolderResponse, setIsLoading)
-            //     .then(() => console.log("loaded?"))
-            //     .catch(() => console.log("error"))
+
             doFolderClick("", "NotesHome", "Users/" + user.email +"/Notes", setIsLoading, folderResponse, storedContent)
         }
         fetchHome(user);
 
-        // } else {
-        //     const user = auth.currentUser;
-
-        //     const fetchFolder = async (user: User | null, route: string): Promise<void> => {
-        //     setIsLoading(true);
-        //     if (user === null) {
-        //         throw new Error("User isn't logged in");
-        //     }
-        //     if (user.email === null) {
-        //         throw new Error("User doesn't have associated email");
-        //     }
-
-        //     doFolderClick("", "CHANGE LATER", route, setIsLoading, folderResponse, storedContent)
-
-
-        // }
-
-        // fetchFolder(user, routeParam);
-        // }
         
     }, [auth.currentUser])
 
@@ -134,9 +100,6 @@ export function Notes(): JSX.Element {
     // Method that is called when back button is clicked
     const backResponse = (email: string): void => {
         if (currRouteId.kind !== "nil" && currRouteName.kind !== "nil") {
-
-
-
             const route = getExtendedRoute(currRouteId.tl, email);
 
             const data: ThumbnailInfo[] | undefined = storedContent.get(route);
@@ -146,7 +109,6 @@ export function Notes(): JSX.Element {
             } else {
                 setCurrContent(data);
             }
-
 
             const user = auth.currentUser;
             if (user) {
@@ -160,6 +122,7 @@ export function Notes(): JSX.Element {
         }
     }
 
+    // Method that is called when the template toggle button is clicked
     const doTempClick = async (email: string): Promise<void> => {
         setIsTemp(!isTemp);
         if (isTemp) {
@@ -203,6 +166,7 @@ export function Notes(): JSX.Element {
         }
     }
 
+    // Method that is called after the fetch for templates is successful
     const doTempResponse = (val: unknown, route: string): void => {
         if (!isRecord(val) || !Array.isArray(val.data)) { // if given data from server is invalid JSON
             console.error('Invalid JSON from /getFolderContents', val);
@@ -242,24 +206,6 @@ export function Notes(): JSX.Element {
         setStoredContent(map => new Map(map.set(route, docs.slice(0))));
     }
 
-
-//  TODO:
-//     Make a way to store server side data for contents in folders
-//     so we don't need to make a new call every single time someone
-//     clicks on a folder, only when they click on the folder for 
-//     the first time in the window.
-//     Perhaps use a map with strings as the keys and jsx.element arrays
-//     as the locations and use "current location" as a way find it.
-//     "current location" would be in "home/folder/folder" format to ensure
-//     that it still works even if there are several folders with the same name
-//     in different places. There cant be 2 folders of the same name in the
-//     same location
-
-
-    // for (const data of storedContent.keys()) {
-    //     console.log("Keys", data);
-    // }
-
     if (isLoading) { // If page is loading
         return(
             <div className="page green-background nav-page">
@@ -271,7 +217,7 @@ export function Notes(): JSX.Element {
         )
     }
 
-    if (currRouteName.kind === "nil" || currRouteId.kind === "nil") {
+    if (currRouteName.kind === "nil" || currRouteId.kind === "nil") { // Should be impossible
         return(<>Error</>)
     }
 
@@ -291,9 +237,6 @@ export function Notes(): JSX.Element {
             </div>
         )
     }
-
-
-    // console.log("Location:", eRoute)
 
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
