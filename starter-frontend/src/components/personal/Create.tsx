@@ -25,6 +25,8 @@ type CreateProps = {
 
     email: string;
 
+    temps: ThumbnailInfo[] | undefined;
+
 }
 
 // There are a lot of comments, most of the commented code exists for the sake of trying
@@ -36,12 +38,13 @@ type CreateProps = {
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateProps): JSX.Element => {
+const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : CreateProps): JSX.Element => {
 
     const [isTempLocal, setIsTemp] = useState<boolean>(isTemp);
     const [currPath, setCurrPath] = useState<string>("");
     const [title, setTitle] = useState<string>("Note");
     const [name, setName] = useState<string>("");
+    const [tempId, setTempId] = useState<string>("");
 
     const navigate = useNavigate();
 
@@ -123,10 +126,14 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
         navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
     }
 
-    const templates = (thumbnails: ThumbnailInfo[]): JSX.Element[] => {
+    const templates = (thumbnails: ThumbnailInfo[] | undefined): JSX.Element[] => {
+        if (thumbnails === undefined) {
+            console.log("temps can't be found");
+            return [];
+        }
         const options: JSX.Element[] = [];
         for (const temp of thumbnails) {
-            options.push(<option value={temp.iD}>{temp.name}</option>)
+            options.push(<option value={temp.iD} key={temp.iD}>{temp.name}</option>)
         }
         return options;
     }
@@ -151,8 +158,9 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateP
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Template:</p>
-                        <select name="template" id="template">
-                            <option value="empty">No Template</option>
+                        <select name="template" id="template" onChange={(e) => setTempId(e.target.value)}>
+                            <option value="">No Template</option>
+                            {templates(temps)}
                         </select>
                     </div>
                     <div className="maketxt-wrap">
