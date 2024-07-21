@@ -23,6 +23,8 @@ type CreateProps = {
 
     eRoute: string;
 
+    email: string;
+
 }
 
 // There are a lot of comments, most of the commented code exists for the sake of trying
@@ -34,7 +36,7 @@ type CreateProps = {
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): JSX.Element => {
+const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email } : CreateProps): JSX.Element => {
 
     const [isTempLocal, setIsTemp] = useState<boolean>(isTemp);
     const [currPath, setCurrPath] = useState<string>("");
@@ -145,7 +147,14 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute } : CreateProps): 
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
-                        <button onClick={() => doMakeClick(name, eRoute)}>
+                        <button onClick={() => {
+                            if (isTemp) {
+                                doMakeClick(name, "Users/"+email+"/Templates");
+                            } else {
+                                doMakeClick(name, eRoute)
+                            }
+                            
+                            }}>
                             WE PRAY
                         </button>
                     </div>

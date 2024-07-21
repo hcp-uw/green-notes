@@ -193,8 +193,25 @@ export function Notes(): JSX.Element {
         return(<>Error</>)
     }
 
+    if (isTemp) { // is in Templates
+        return(
+            <div className="page green-background nav-page">
+                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                <div className='flex'>
+                    <h1>Your <TemplateToggleButton isToggled={isTemp} onToggle={() => setIsTemp(!isTemp)} /></h1>                </div>
+                <div className="nav-area flex">
+                    <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
+                    <NoteThumbnails data={currContent} location={eRoute}/>
+                    <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
+                        givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email}/>
+                    <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
+                </div>
+            </div>
+        )
+    }
 
-    console.log("Location:", eRoute)
+
+    // console.log("Location:", eRoute)
 
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
@@ -209,7 +226,7 @@ export function Notes(): JSX.Element {
                     <Folders  oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp} 
-                        givenPath={rev(currRouteName)} eRoute={eRoute}/>
+                        givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
                 </div>
             </div>
@@ -226,7 +243,7 @@ export function Notes(): JSX.Element {
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
                     <NoteThumbnails data={currContent} location={eRoute}/>
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
-                        givenPath={rev(currRouteName)} eRoute={eRoute}/>
+                        givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
                 </div>
             </div>
