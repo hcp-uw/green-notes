@@ -1,9 +1,9 @@
 /* Binary tree in the background */
-#tree {
-    position: fixed;
-    right: 220px;
-    top: 80px;
-    height: 720px; 
+#tree-bg {
+    background-image: url("../../assets/binary-tree-about-us.svg");
+    background-repeat: no-repeat;
+    background-position: 45vw 20px;
+    background-size: contain;
 }
 
 /* Dimensions for github and linkedin logos */
@@ -20,71 +20,53 @@
     margin-left: 4px;
 }
 
-/* "Our Mission" Information Box */
-.mission-background {
-    position: fixed;
+/* Text Boxes */
+.text-box {
     background-color: var(--lightest-gray);
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    width: 450px;
-    height: 200px;
-    left: 240px;
-    top: 150px;
+    border-radius: 40px;
+    /* padding: 10px 25px; */
 }
 
-.mission-title-background {
-    background-color: var(--green);
-    border-top-left-radius: 40px;
-    border-top-right-radius: 40px;
-    position: fixed;
-    width: 450px;
-    height: 50px;
-    left: 240px;
-    top: 100px;
-}
-
-.mission-bodytext {
-    position: absolute;
-    right: 0px;
-    padding: 10px;
-}
-
-.mission-title {
+.text-box-title {
     color: var(--offbase-white);
     font-size: 20px;
     text-align: center;
-}
-
-/* "Our Team" Information*/
-.team-background {
-    position: fixed;
-    background-color: var(--lightest-gray);
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
-    width: 520px;
-    height: 300px;
-    left: 410px;
-    top: 450px;
-}
-
-.team-title-background {
     background-color: var(--green);
+    padding: 20px;
     border-top-left-radius: 40px;
     border-top-right-radius: 40px;
-    position: fixed;
-    width: 520px;
-    height: 50px;
-    left: 410px;
-    top: 400px;
 }
 
-.team-title {
-    color: var(--offbase-white);
-    font-size: 20px;
-    text-align: center;
+.text-box-body {
+    margin: 10px 25px;
+    padding-bottom: 15px;
 }
 
-.team-bodytext {
-    margin: auto;
-    padding: 10px;
+/* Text boxes - specific size + positioning */
+#mission {
+    width: 450px;
+    height: 260px;
+    margin-top: 70px;
+    margin-left: calc(45vw + 50px - 450px);
+}
+
+#team {
+    width: min(520px, 90vw);
+    margin-left: calc(45vw + 295px - 520px);
+    margin-top: 60px;
+    margin-bottom: 55px;
+}
+
+/* Screen size adjustments */
+@media only screen and (max-width: 900px) {
+    #mission {
+        width: 50vw;
+        margin-left: 5vw;
+        height: auto;
+    }
+
+    #team {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }

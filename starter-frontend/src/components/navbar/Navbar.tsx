@@ -4,6 +4,8 @@ import * as React from 'react';
 import '../navbar/ProfileDropdown.css';
 import { Link } from 'react-router-dom';
 import Logout from '../auth/Logout';
+import { auth } from '../../config/firebase';
+import { useAuth } from '../../contexts/AuthContext';
 
 
 /* Home logo with binary tree and Green Notes title. (Upper right corner of navigation bar) */
@@ -73,28 +75,44 @@ function Profile(): JSX.Element {
 
 /**
  * Log-in button.
- * 
- * TO-DO
  */
 function LogInButton(): JSX.Element {
-    return (
-        <></>
-    )
+    return <Link to={`login`} id="log-in-btn">Log In</Link>;
 }
+
+
+/**
+ * Upper right corner. Returns LogInButton if not logged in, returns Profile if logged in.
+ */
+function Corner(): JSX.Element {
+    const used = useAuth();
+    if (used === null) {
+        throw new Error("bad");
+    }
+
+    const currentUser = used.currentUser;
+
+    if (currentUser) {
+        return <Profile />;
+    } else {
+        return <LogInButton />;
+    }
+}
+
+
 
 /* Returns the whole navigation bar. 
  *
  * TO-DO: Change between Profile or LogInButton depending on whether the user is logged in or not.
  */
 export default function NavigationBar(): JSX.Element {    
-
     return (
       <nav>
             <div id="left-side">
                 <HomeLogo />
                 <NavigationLinks />
             </div>
-            <Profile />
+            <Corner />
       </nav>
     )
 }

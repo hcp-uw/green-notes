@@ -26,7 +26,7 @@
 
 .search-bar {
     position: relative;
-    z-index: 10;
+    z-index: 1;
     background-color: var(--lightest-gray);
     border-radius: 32px;
     padding: 0.3rem;

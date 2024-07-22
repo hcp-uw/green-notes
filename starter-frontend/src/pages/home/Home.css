@@ -1,3 +1,4 @@
+
 /* sets up background for home page */
 .home {
     background-color: var(--light-green);
@@ -5,18 +6,12 @@
     text-align: center;
 }
 
-/* defines the size for the smile image */
-.smile {
-    height: 115vh;
-    max-width: none;
-    max-height: none;
-    /* width: auto;
-    top: 50%;
-    left: 50%;
-    object-position: none;
-    display: block;
-    margin: 0 auto;
-    margin-left: 20vh; */
+/* defines the background smile image */
+.smile-bg {
+    background-image: url('../../assets/smileLogo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 /* Centers the text and start notes button */
@@ -30,13 +25,13 @@
 
 /* Styles for the start notes button */
 .start {
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: var(--offbase-white);
-    padding: 10px 10px; 
+    padding: 15px 25px; 
     text-decoration: none;
     background-color: var(--darker-green);
-    border-radius: 30px;
-    box-shadow: 5px 5px 5px var(--green);
+    border-radius: 25px;
+    box-shadow: 5px 5px 0px var(--green);
 }
 
 /* Styles for the start notes button when hovered */
@@ -50,4 +45,11 @@
 .cText {
     font-size: 6rem;
     color: var(--dark-green);
+}
+
+/* Change size when screen is smaller */
+@media only screen and (max-width: 800px) {
+    .cText {
+        font-size: 12vw;
+    }
 }
