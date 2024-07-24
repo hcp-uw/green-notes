@@ -38,6 +38,7 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
         return;
     }
 
+
     // Also add in a way to check that the given user is properly logged in
     // Maybe do this through firestore db permissions, but it might not have
     // that power
@@ -53,7 +54,7 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
     }
 };
 
-type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc"}
+type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc" | "placeholder"}
 
 // Gets all folders and docs inside given route to a collection
 // See route parameterse in get doc function above
@@ -84,15 +85,17 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
         const name: string = data.name;
         const typeUnchecked: string = data.type;
 
-        if (typeUnchecked !== "folder" && typeUnchecked !== "doc") {
+        if (typeUnchecked !== "folder" && typeUnchecked !== "doc" && typeUnchecked !== "placeholder") {
             res.status(500).send("db error");
              return;
         }
 
-        const type: "folder" | "doc" = typeUnchecked;
+        const type: "folder" | "doc" | "placeholder" = typeUnchecked;
 
-        const obj: ThumbnailInfo = {name: name, iD: iD, kind: type}
-        info.push(obj);
+        if (type !== "placeholder") {
+            const obj: ThumbnailInfo = {name: name, iD: iD, kind: type}
+            info.push(obj);
+        }
 
     })
     res.send({data: info})
@@ -113,8 +116,16 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
         dataAndThings: "random example stuff" 
     };
 
-    await db.collection("Users").doc(email).set(data)
-        .then(() => res.status(200).send("account succesfully added"))
+    db.collection("Users").doc(email).set(data)
+        .then(() => {
+            db.collection("Users").doc(email).collection("Notes").add({type: "placeholder"})
+                .then(() => {
+                    db.collection("Users").doc(email).collection("Templates").add({type: "placeholder"})
+                        .then(() => res.status(200).send("fetch succesful"))
+                        .catch(() => res.status(400).send("error in making template folder"))
+                })
+                .catch(() => res.status(400).send("error in making notes folder"))
+        })
         .catch(() => res.status(400).send("error in adding account to db"))
 }
 
@@ -143,4 +154,88 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
     await db.collection("Users").doc(email).set(data)
         .then(() => res.status(200).send("account succesfully added"))
         .catch(() => res.status(400).send("error in adding account to db"))
+}
+
+export async function createNote(req: SafeRequest, res: SafeResponse) {
+    const route = req.body.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const name = req.body.name;
+    if (typeof name !== "string") {
+        res.status(400).send('missing or invalid "name" parameter');
+        return;
+    }
+
+    const data = {
+        name: name,
+        body: "",
+        type: "doc"
+    }
+
+    db.collection(route).add(data)
+        .then((a) => {
+            res.status(200).send({id: a.id})})
+        .catch(() => res.status(400).send("not all good"))
+
+}
+
+
+export async function createFolder(req: SafeRequest, res: SafeResponse) {
+
+    const route = req.body.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const name = req.body.name;
+    if (typeof name !== "string") {
+        res.status(400).send('missing or invalid "name" parameter');
+        return;
+    }
+
+    const data = {
+        name: name,
+        type: "folder"
+    }
+
+    db.collection(route).add(data)
+        .then((response) => {
+            const temp = {
+                type: "placeholder"
+            }
+            db.collection(route+"/"+response.id+"/content").add(temp)
+                .then(() => res.status(200).send("doc made properly?"))
+                .catch(() => res.status(400).send("error in making placeholder"))
+        })
+        .catch(() => res.status(400).send("error in making folder"))
+
+    
+}
+
+export async function saveDoc(req: SafeRequest, res: SafeResponse) {
+
+    const route = req.body.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const content = req.body.content;
+    if (typeof content !== "string") {
+        res.status(400).send('missing or invalid "content" parameter');
+        return;
+    }
+
+    const docRef = db.doc(route);
+
+    docRef.update({body: content})
+        .then(() => res.status(200).send("updated"))
+        .catch(() => res.status(400).send("failed"))
+
+
+
 }

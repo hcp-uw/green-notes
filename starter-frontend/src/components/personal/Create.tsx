@@ -2,7 +2,10 @@ import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
-import { route, nil, concat } from '../file-navigation/routes';
+import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
+import { auth } from '../../config/firebase';
+import { useNavigate } from 'react-router-dom';
+import { getNoteContents } from '../../pages/notes/notes';
 
 
 /* In general just needs to be cleaned up */
@@ -19,6 +22,12 @@ type CreateProps = {
 
     givenPath: route;
 
+    eRoute: string;
+
+    email: string;
+
+    temps: ThumbnailInfo[] | undefined;
+
 }
 
 // There are a lot of comments, most of the commented code exists for the sake of trying
@@ -30,11 +39,20 @@ type CreateProps = {
 
 // Continue to work on pop-up interaction/functionality
 // Look into making the ddown actually interactable
-const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Element => {
+const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : CreateProps): JSX.Element => {
 
     const [isTempLocal, setIsTemp] = useState<boolean>(isTemp);
     const [currPath, setCurrPath] = useState<string>("");
     const [title, setTitle] = useState<string>("Note");
+    const [name, setName] = useState<string>("");
+    const [tempId, setTempId] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const navigate = useNavigate();
+
+    const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
+        setName(evt.target.value);
+    }
 
     // Updates pop-up whenever it is shown again
     useEffect(() => {
@@ -43,23 +61,94 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
         setIsTemp(isTemp);
         let tempPath: route = concat(nil, givenPath);
         if (isTempLocal) {
-            temp = "TemplateHome/";
             setTitle("Template");
+            setCurrPath("TemplateHome/")
         } else {
-            temp = "NotesHome/";
             setTitle("Note");
+            while (tempPath.kind !== "nil") {
+                temp = temp + tempPath.hd + "/";
+                tempPath = tempPath.tl;
+            }
+    
+            setCurrPath(temp);
         }
-        while (tempPath.kind !== "nil") {
-            temp = temp + tempPath.hd + "/";
-            tempPath = tempPath.tl;
-        }
-
-        setCurrPath(temp);
+        
 
     }, [isMaking, isTemp, givenPath] )
 
+    const doMakeClick = async (givenName: string, route: string, givenBody: string): Promise<void> => {
+        const trimmed: string = givenName.trim();
+        if (trimmed !== "") {
+            try {
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+
+                const body = {
+                    route: route,
+                    name: givenName,
+                    body: givenBody
+                }
+          
+                const payloadHeader = {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  method: "POST",
+                  body: JSON.stringify(body)
+                };
+        
+          
+                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+                // and the payload header is necessary stuff for server authentication
+                fetch("http://localhost:3001/createNote", payloadHeader)
+                    .then((res) => {
+                        res.json().then((val) => createResponse(val, route))
+                          .catch(() => console.error("error fetching /createNote: 200 response"))
+                    })
+                    .catch(() => console.error("Error fetching /createNote: Failed to connect to server"));
+                
+        
+              } catch (e) {
+                console.log(e);
+              }
+        }
+    }
+
+    const tempResponse = (body: string, route: string): void => {
+        doMakeClick(name, eRoute, body);
+    }
+
+    const createResponse = (data: unknown, route: string): void => {
+        if (!isRecord(data)) {
+            console.error('Invalid JSON from /createNote', data);
+            return;
+        }
+        console.log(data.JSON);
+        if (typeof data.id !== "string") {
+            console.error('Invalid id given from /createNote', data.id);
+            return;
+        }
+
+        navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
+    }
+
+    const templates = (thumbnails: ThumbnailInfo[] | undefined): JSX.Element[] => {
+        if (thumbnails === undefined) {
+            console.log("temps can't be found");
+            return [];
+        }
+        const options: JSX.Element[] = [];
+        for (const temp of thumbnails) {
+            options.push(<option value={temp.iD} key={temp.iD}>{temp.name}</option>)
+        }
+        return options;
+    }
+
     if (!isMaking) {
         return <></>;
+    } else  if (isLoading) {
+        return <h1>Loading...</h1>
     } else {
         return  (
             <div>
@@ -69,18 +158,33 @@ const Create = ({ isMaking, onMake, isTemp, givenPath } : CreateProps): JSX.Elem
                 <div className="make">
                     <p className="make-header">Make New {title}</p>
                     <button className="make-exit" onClick={onMake}>X</button>
-                    {/* <div className="maketxt-wrap">
-                        <p className="make-text">New: </p>
-                            <button className="make-ddown-btn" onClick={() => setIsTemp(!isTempLocal)}>
-                                <DdownBut isTempLocal={isTempLocal}/>
-                            </button>
-                    </div> */}
                     <div className="maketxt-wrap">
                         <p className="make-text">Location: {currPath}</p>
                     </div>
                     <div className="maketxt-wrap">
+                        <p className="make-text">Name:</p>
+                        <input type="text" value={name} onChange={changeName}></input>
+                    </div>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Template:</p>
+                        <select name="template" id="template" onChange={(e) => setTempId(e.target.value)}>
+                            <option value="">No Template</option>
+                            {templates(temps)}
+                        </select>
+                    </div>
+                    <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
-                        <button onClick={() => console.log("clicked")}>
+                        <button onClick={() => {
+                            if (isTemp) {
+                                doMakeClick(name, "Users/"+email+"/Templates", "");
+                            } else if (tempId === ""){
+                                doMakeClick(name, eRoute, "")
+                            } else {
+                                setIsLoading(true);
+                                getNoteContents("Users/"+email+"/Templates/"+tempId, tempResponse)
+                            }
+                            
+                            }}>
                             WE PRAY
                         </button>
                     </div>

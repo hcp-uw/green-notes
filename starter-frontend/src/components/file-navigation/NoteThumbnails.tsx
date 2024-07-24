@@ -1,6 +1,4 @@
-import { Link } from 'react-router-dom';
-import { doNoteClick, NoteCallback } from '../../pages/notes/notes';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { ThumbnailInfo } from './routes';
 
 
@@ -14,9 +12,7 @@ type NoteThumbnailProps = {
     /** ID of note (used in link). */
     route: string;
 
-    onNoteClick: (route: string, cb: NoteCallback) => Promise<string>;
-
-    navigate: (route: string, body: string) => void;
+    navigate: (route: string) => void;
 }
 
 /**
@@ -32,7 +28,8 @@ type NoteThumbnailProps = {
  *  - Cut off text so that it fits in the thumbnail. (Currently the text is visually cut 
  *    off but the text is still on the page if you copy-paste or use a screen reader.)
  */
-function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnailProps): JSX.Element {
+function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.Element {
+
     return (
         // Later make into
         // <Link to={`../note/${id}`} className="link">
@@ -40,7 +37,7 @@ function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnai
             {/* <Link to={`../note`} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
-            <button onClick={() => onNoteClick(route, navigate)}className="folder-link">
+            <button onClick={() => navigate(route)}className="folder-link">
                 <span className="thumbnail-click"></span>
             </button>
             <div className="thumbnail">
@@ -56,29 +53,32 @@ function NoteThumbnail({title, text, route, onNoteClick, navigate}: NoteThumbnai
     );
 }
 
-type NotesProps = {data: ThumbnailInfo[]}
+type NotesProps = {data: ThumbnailInfo[], location: string, areTemps: boolean, email: string}
 
-/**
- * Returns all thumbnails of all the notes in the current folder.
- * 
- * TO-DO: Change to actually use data to return notes from the current folder page.
- */
-export default function NoteThumbnails({data}: NotesProps): JSX.Element {
 
-    const navigate = useNavigate();
-    const linkToNote = (route: string, body: string): void => {
-        navigate("/note", {state:{route: route, body: body}});
-        console.log("Route:", route, "Body:", body);
+export default function NoteThumbnails({data, location, areTemps, email}: NotesProps): JSX.Element {
+
+    // const navigate = useNavigate();
+    const linkToNote = (route: string): void => {
+
+        // navigate("/note?route=" + encodeURIComponent(route))
+        window.open("/note?route="+encodeURIComponent(route), "_blank"/*, "noreferrer"*/)
     };
 
     const notes: JSX.Element[] = [];
     for (const thumbnail of data) {
         if (thumbnail.kind === "doc") {
-            notes.push(
-                <NoteThumbnail title={thumbnail.name} route={thumbnail.iD} 
-                  text="blah blah placeholder text worry about this later"
-                  onNoteClick={doNoteClick} navigate={linkToNote}/>
-            )
+            if (areTemps) {
+                notes.push(<NoteThumbnail title={thumbnail.name} route={"Users/"+email+"/Templates/"+thumbnail.iD} 
+                      text="what a cool template"
+                      navigate={linkToNote} key={thumbnail.iD}/>)
+            } else {
+                notes.push(
+                    <NoteThumbnail title={thumbnail.name} route={location+"/"+thumbnail.iD} 
+                      text="blah blah placeholder text worry about this later"
+                      navigate={linkToNote} key={thumbnail.iD}/>
+                )
+            }
         }
     }
 

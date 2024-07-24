@@ -16,12 +16,12 @@ export default function Collaboration(): JSX.Element {
     placeholder.push({name: "It's yet another example", iD: "zxcvzxcvzxcv", kind: "doc"});
     
     return (
-        <body className="page green-background nav-page">
+        <div className="page green-background nav-page">
             <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={true}/>
             <h1>Notes</h1>
             <div className="nav-area flex">
-                <NoteThumbnails data={placeholder}/>
+                <NoteThumbnails data={placeholder} location={"placeholder"}  areTemps={false}  email="temp"/>
             </div>
-        </body>
+        </div>
     );  
 }
