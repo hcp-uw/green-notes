@@ -1,9 +1,10 @@
 import TextEditor from "../../components/editor/TextEditor";
 import { useState, useEffect } from "react";
-import { getNoteContents } from "../notes/notes";
+import { getNoteContents, NoteData } from "../notes/notes";
 import { User } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
+import EditModalButton from "../../components/editor/EditModalButton";
 
 export default function Note(): JSX.Element {
 
@@ -20,10 +21,10 @@ export default function Note(): JSX.Element {
     const route: string | null = params.get("route");
 
     // Response for when the call is succesful
-    const fetchResponse = (body: string, route: string) => {
-        console.log("Body:", body);
+    const fetchResponse = (noteData: NoteData, route: string) => {
+        console.log("Body:", noteData.body);
         console.log("route:", route);
-        setCurrBody(body);
+        setCurrBody(noteData.body);
         setIsLoading(false);
     }
 
@@ -65,6 +66,7 @@ export default function Note(): JSX.Element {
     } else {
         return (
             <div className="page gray-background">
+                <EditModalButton/>
                 <TextEditor 
                 initContent={currBody}
                 eRoute={route}

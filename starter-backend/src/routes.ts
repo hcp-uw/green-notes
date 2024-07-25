@@ -169,10 +169,21 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
         return;
     }
 
+    const body = req.body.body;
+    if (typeof body !== "string") {
+        res.status(400).send('missing or invalid "body" parameter');
+        return;
+    }
+
     const data = {
         name: name,
-        body: "",
-        type: "doc"
+        body: body,
+        type: "doc",
+        tags: [],
+        class: "",
+        teacher: "",
+        quarter: "",
+        year: 0
     }
 
     db.collection(route).add(data)

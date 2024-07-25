@@ -11,7 +11,7 @@ type SafeResponse = Response;
 export const VerifyToken = async (req: SafeRequest, res: SafeResponse, next: any) => {
   // let token = await req.headers.authorization.split(' ')[1];
   let token;
-  const author: unknown = await req.headers.authorization
+  const author: unknown = req.headers.authorization
   if (typeof author === "string") {
     token = author.split(' ')[1];
   } else {
