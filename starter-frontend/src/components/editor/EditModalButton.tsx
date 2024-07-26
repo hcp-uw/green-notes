@@ -1,15 +1,9 @@
 type EditProps = {
-    isEditing: boolean;
-
-    
+    setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditModalButton = (): JSX.Element => {
-    return <button>Set Details</button>
+const EditModalButton = ({setIsEditing}: EditProps): JSX.Element => {
+    return <button onClick={() => setIsEditing(true)}>Set Details</button>
 }
-
-// Tags, Class, Teacher, Quarter, Year
-// Edit Name
-// Delete
 
 export default EditModalButton

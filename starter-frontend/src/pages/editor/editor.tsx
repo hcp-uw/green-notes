@@ -5,6 +5,7 @@ import { User } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import EditModalButton from "../../components/editor/EditModalButton";
+import EditModal from "../../components/editor/EditModal";
 
 export default function Note(): JSX.Element {
 
@@ -13,6 +14,14 @@ export default function Note(): JSX.Element {
 
     // Text state used to get data from server to pass to TextEditor 
     const [currBody, setCurrBody] = useState<string>("");
+
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    const [currName, setCurrName] = useState<string>("");
+    const [currClass, setCurrClass] = useState<string>("");
+    const [currTeacher, setCurrTeacher] = useState<string>("");
+    const [currYear, setCurrYear] = useState<number>(0);
+    const [currTags, setCurrTags] = useState<string[]>([]);
 
     const navigate = useNavigate();
 
@@ -25,6 +34,11 @@ export default function Note(): JSX.Element {
         console.log("Body:", noteData.body);
         console.log("route:", route);
         setCurrBody(noteData.body);
+        setCurrName(noteData.name);
+        setCurrClass(noteData.className);
+        setCurrTeacher(noteData.teacher);
+        setCurrYear(noteData.year);
+        setCurrTags(noteData.tags);
         setIsLoading(false);
     }
 
@@ -66,11 +80,13 @@ export default function Note(): JSX.Element {
     } else {
         return (
             <div className="page gray-background">
-                <EditModalButton/>
+                <EditModalButton setIsEditing={setIsEditing}/>
                 <TextEditor 
                 initContent={currBody}
                 eRoute={route}
                 />
+                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName}
+                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags}/>
             </div>
         );
     }
