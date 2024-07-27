@@ -6,6 +6,8 @@ import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import EditModalButton from "../../components/editor/EditModalButton";
 import EditModal from "../../components/editor/EditModal";
+import ShareButton from "../../components/editor/ShareButton";
+import ShareModal from "../../components/editor/ShareModal";
 
 export default function Note(): JSX.Element {
 
@@ -16,6 +18,8 @@ export default function Note(): JSX.Element {
     const [currBody, setCurrBody] = useState<string>("");
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
+    const [isSharing, setIsSharing] = useState<boolean>(false);
 
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
@@ -81,12 +85,15 @@ export default function Note(): JSX.Element {
         return (
             <div className="page gray-background">
                 <EditModalButton setIsEditing={setIsEditing}/>
+                <ShareButton setIsSharing={setIsSharing}/>
                 <TextEditor 
                 initContent={currBody}
                 eRoute={route}
                 />
                 <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName}
                     givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags}/>
+
+                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName}/>
             </div>
         );
     }
