@@ -111,7 +111,7 @@ export function Note(): JSX.Element {
                 <TextEditor 
                 initContent={currBody}
                 eRoute={route}
-                setIsLoading={setIsLoading}
+                setIsLoading={setIsLoading} setCurrContent={setCurrBody}
                 />
                 <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
                     givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
