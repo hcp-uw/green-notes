@@ -31,7 +31,7 @@ const ShareModal = ({isSharing, setIsSharing, name}: ShareModalProps): JSX.Eleme
                         <input type="text" value={currName} onChange={changeName}></input>
                     </div>
                     <div className="maketxt-wrap">
-                        <p className="make-text">Would you like to share a copy of this note? The shared details can't be changed later</p>
+                        <p className="make-text">Would you like to share a copy of this note? The shared details and content can't be changed later</p>
                     </div>
                 </div>
             </div>
