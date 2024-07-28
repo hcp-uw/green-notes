@@ -1,4 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
+import { auth } from "../../config/firebase";
+import { DetailsData } from "../../pages/editor/editor";
 
 type EditModalProps = {
     isEditing: boolean,
@@ -9,10 +11,13 @@ type EditModalProps = {
     year: number,
     tags: string[],
     quarter: string,
+    route: string,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    fetchRes: (detailsData: DetailsData) => void,
 }
 
 
-const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, tags, quarter}: EditModalProps): JSX.Element => {
+const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, tags, quarter, route, setIsLoading, fetchRes}: EditModalProps): JSX.Element => {
     
     const [currName, setCurrName] = useState<string>(name);
     const [currClass, setCurrClass] = useState<string>(givenClass);
@@ -140,6 +145,64 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         }
     }
 
+    const doSaveClick = async (): Promise<void> => {
+        const trimmed: string = currName.trim();
+        if (trimmed !== "") {
+            try {
+                setIsLoading(true)
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+
+                const body = {
+                    route: route,
+                    name: trimmed,
+                    class: currClass,
+                    teacher: currTeacher,
+                    year: currYear,
+                    quarter: currQuarter,
+                    tags: currTags,
+                }
+          
+                const payloadHeader = {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  method: "PUT",
+                  body: JSON.stringify(body)
+                };
+        
+          
+                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+                // and the payload header is necessary stuff for server authentication
+                fetch("http://localhost:3001/saveDetails", payloadHeader)
+                    .then((res) => {
+                        res.json().then((val) => saveResponse(val))
+                          .catch(() => console.error("error fetching /saveDetails: 200 response"))
+                    })
+                    .catch(() => console.error("Error fetching /saveDetails: Failed to connect to server"));
+                
+        
+              } catch (e) {
+                console.log(e);
+              }
+        }
+    }
+
+    const saveResponse = (val: unknown): void => {
+        setIsEditing(false);
+        const detailsData: DetailsData = {
+            name: currName,
+            class: currClass,
+            teacher: currTeacher,
+            year: currYear,
+            quarter: currQuarter,
+            tags: currTags,
+        }
+        fetchRes(detailsData);
+        console.log(val);
+    }
+
     if (!isEditing) {
         return <></>
     } else {
@@ -177,6 +240,10 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                     </div>
 
                     {renderTags()}
+                    <div className="maketxt-wrap">
+                        <button onClick={() => doSaveClick()}>Save</button>
+                        <button onClick={() => revert()}>Cancel</button>
+                    </div>
                 </div>
             </div>
             )

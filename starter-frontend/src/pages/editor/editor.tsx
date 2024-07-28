@@ -9,7 +9,16 @@ import EditModal from "../../components/editor/EditModal";
 import ShareButton from "../../components/editor/ShareButton";
 import ShareModal from "../../components/editor/ShareModal";
 
-export default function Note(): JSX.Element {
+export type DetailsData = {
+    name: string,
+    class: string,
+    teacher: string,
+    year: number,
+    tags: string[],
+    quarter: string
+}
+
+export function Note(): JSX.Element {
 
     // Loading state
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,6 +54,16 @@ export default function Note(): JSX.Element {
         setCurrYear(noteData.year);
         setCurrTags(noteData.tags);
         setCurrQuarter(noteData.quarter);
+        setIsLoading(false);
+    }
+
+    const detailsResponse = (detailsData: DetailsData): void => {
+        setCurrName(detailsData.name);
+        setCurrClass(detailsData.class);
+        setCurrTeacher(detailsData.teacher);
+        setCurrYear(detailsData.year);
+        setCurrTags(detailsData.tags);
+        setCurrQuarter(detailsData.quarter);
         setIsLoading(false);
     }
 
@@ -93,7 +112,8 @@ export default function Note(): JSX.Element {
                 eRoute={route}
                 />
                 <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
-                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags}/>
+                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
+                    setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
 
                 <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName}/>
             </div>

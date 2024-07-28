@@ -85,7 +85,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
                 const body = {
                     route: route,
-                    name: givenName,
+                    name: trimmed,
                     body: givenBody
                 }
           
