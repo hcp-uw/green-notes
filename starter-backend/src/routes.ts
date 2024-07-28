@@ -54,7 +54,7 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
     }
 };
 
-type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc" | "placeholder"}
+type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc" | "placeholder", content: string}
 
 // Gets all folders and docs inside given route to a collection
 // See route parameterse in get doc function above
@@ -90,10 +90,15 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
              return;
         }
 
-        const type: "folder" | "doc" | "placeholder" = typeUnchecked;
 
-        if (type !== "placeholder") {
-            const obj: ThumbnailInfo = {name: name, iD: iD, kind: type}
+        const type: "folder" | "doc" | "placeholder" = typeUnchecked;
+        if (type === "doc") {
+            const obj: ThumbnailInfo = {name: name, iD: iD, kind: type, content: data.body};
+            info.push(obj);
+        }
+
+        if (type === "folder") {
+            const obj: ThumbnailInfo = {name: name, iD: iD, kind: type, content: ""};
             info.push(obj);
         }
 

@@ -9,6 +9,7 @@ import EditModal from "../../components/editor/EditModal";
 import ShareButton from "../../components/editor/ShareButton";
 import ShareModal from "../../components/editor/ShareModal";
 
+
 export type DetailsData = {
     name: string,
     class: string,
@@ -99,7 +100,7 @@ export function Note(): JSX.Element {
         return <>error</>
     }
 
-
+    
     if (isLoading) {
         return (<>Loading....</>)
     } else {

@@ -230,9 +230,14 @@ export function Notes(): JSX.Element {
                 console.error('Invalid JSON from /getFolderContents', info.iD);
                 return;
             }
+
+            if (typeof info.content !== "string") {
+                console.error('Invalid JSON from /getFolderContents', info.content);
+                return;
+            }
     
             // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
             // Organizes them by doc or folder kind
             if (temp.kind === "doc") {
                 docs.push(temp);
@@ -423,8 +428,13 @@ const parseFolderInfo = (data: unknown, iD: string, route: string, name: string,
             return [];
         }
 
+        if (typeof info.content !== "string") { // Checks that the element has a valid iD field
+            console.error('Invalid JSON from /getFolderContents', info.content);
+            return [];
+        }
+
         // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
         // Organizes them by doc or folder kind
         if (temp.kind === "doc") {
             docs.push(temp);

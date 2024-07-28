@@ -11,9 +11,9 @@ export default function Collaboration(): JSX.Element {
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
 
     const placeholder: ThumbnailInfo[] = [];
-    placeholder.push({name: "example", iD: "asdfasdfasdf", kind: "doc"});
-    placeholder.push({name: "example again", iD: "qwerqwerqwer", kind: "doc"});
-    placeholder.push({name: "It's yet another example", iD: "zxcvzxcvzxcv", kind: "doc"});
+    placeholder.push({name: "example", iD: "asdfasdfasdf", kind: "doc", content: ""});
+    placeholder.push({name: "example again", iD: "qwerqwerqwer", kind: "doc", content: ""});
+    placeholder.push({name: "It's yet another example", iD: "zxcvzxcvzxcv", kind: "doc", content: ""});
     
     return (
         <div className="page green-background nav-page">
