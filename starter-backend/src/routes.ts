@@ -310,6 +310,58 @@ export async function saveDetails(req: SafeRequest, res: SafeResponse) {
     docRef.update(data)
       .then((e) => res.status(200).send(e))
       .catch((e) => res.status(400).send(e))
+}
 
+export async function shareDoc(req: SafeRequest, res: SafeResponse) {
+
+    const body = req.body.body;
+    if (typeof body !== "string") {
+        res.status(400).send('missing or invalid "body" parameter');
+    }
+
+    const name = req.body.name;
+    if (typeof name !== "string") {
+        res.status(400).send('missing or invalid "name" parameter');
+    }
+
+    const tags = req.body.tags;
+    if (!Array.isArray(tags)) {
+        res.status(400).send('missing or invalid "tags" parameter');
+    }
+
+    const className = req.body.class;
+    if (typeof className !== "string") {
+        res.status(400).send('missing or invalid "class" parameter');
+    }
+
+    const teacher = req.body.teacher;
+    if (typeof teacher !== "string") {
+        res.status(400).send('missing or invalid "teacher" parameter');
+    }
+
+    const quarter = req.body.quarter;
+    if (typeof quarter !== "string") {
+        res.status(400).send('missing or invalid "quarter" parameter');
+    }
+
+    const year = req.body.year;
+    if (typeof year !== "number") {
+        res.status(400).send('missing or invalid "year" parameter');
+    }
+
+    const data = {
+        name: name,
+        body: body,
+        class: className,
+        quarter: quarter,
+        tags: tags,
+        teacher: teacher,
+        type: "doc",
+        year: year
+    }
+
+    db.collection("Shared").add(data)
+      .then((a) => res.status(200).send({id: a.id}))
+      .catch(() => res.status(400).send("error in sharing"))
 
 }
