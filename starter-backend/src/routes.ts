@@ -246,7 +246,65 @@ export async function saveDoc(req: SafeRequest, res: SafeResponse) {
     docRef.update({body: content})
         .then(() => res.status(200).send("updated"))
         .catch(() => res.status(400).send("failed"))
+}
 
+export async function saveDetails(req: SafeRequest, res: SafeResponse) {
+    const route = req.body.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const name = req.body.name;
+    if (typeof name !== "string") {
+        res.status(400).send('missing or invalid "name" parameter');
+        return;
+    }
+
+    const className = req.body.class;
+    if (typeof className !== "string") {
+        res.status(400).send('missing or invalid "class" parameter');
+        return;
+    }
+
+    const teacher = req.body.teacher;
+    if (typeof teacher !== "string") {
+        res.status(400).send('missing or invalid "teacher" parameter');
+        return;
+    }
+
+    const year = req.body.year;
+    if (typeof year !== "number") {
+        res.status(400).send('missing or invalid "year" parameter');
+        return;
+    }
+
+    const quarter = req.body.quarter;
+    if (typeof quarter !== "string") {
+        res.status(400).send('missing or invalid "quarter" parameter');
+        return;
+    }
+
+    const tags = req.body.tags;
+    if (!Array.isArray(tags)) {
+        res.status(400).send('missing or invalid "tags" parameter');
+        return;
+    }
+
+    const docRef = db.doc(route)
+
+    const data = {
+        name: name,
+        tags: tags,
+        class: className,
+        teacher: teacher,
+        quarter: quarter,
+        year: year
+    }
+
+    docRef.update(data)
+      .then((e) => res.status(200).send(e))
+      .catch((e) => res.status(400).send(e))
 
 
 }

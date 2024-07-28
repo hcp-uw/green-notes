@@ -26,6 +26,7 @@ export default function Note(): JSX.Element {
     const [currTeacher, setCurrTeacher] = useState<string>("");
     const [currYear, setCurrYear] = useState<number>(0);
     const [currTags, setCurrTags] = useState<string[]>([]);
+    const [currQuarter, setCurrQuarter] = useState<string>("");
 
     const navigate = useNavigate();
 
@@ -35,14 +36,15 @@ export default function Note(): JSX.Element {
 
     // Response for when the call is succesful
     const fetchResponse = (noteData: NoteData, route: string) => {
-        console.log("Body:", noteData.body);
-        console.log("route:", route);
+        // console.log("Body:", noteData.body);
+        // console.log("route:", route);
         setCurrBody(noteData.body);
         setCurrName(noteData.name);
         setCurrClass(noteData.className);
         setCurrTeacher(noteData.teacher);
         setCurrYear(noteData.year);
         setCurrTags(noteData.tags);
+        setCurrQuarter(noteData.quarter);
         setIsLoading(false);
     }
 
@@ -90,7 +92,7 @@ export default function Note(): JSX.Element {
                 initContent={currBody}
                 eRoute={route}
                 />
-                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName}
+                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
                     givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags}/>
 
                 <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName}/>
