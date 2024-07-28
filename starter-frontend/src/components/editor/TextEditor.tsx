@@ -45,19 +45,20 @@ export default function TextEditor({initContent, eRoute, setIsLoading} : {initCo
 /** Saves current text in the editor. 
  * TO-DO: Implement.
  */
-function save(setContent: (newContent: string) => void, editorRef: React.RefObject<TinyMCEEditor>, eRoute: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>): void {
+function save(setContent: React.Dispatch<React.SetStateAction<string>>, editorRef: React.RefObject<TinyMCEEditor>, eRoute: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>): void {
   if (editorRef.current !== null) {
     const content = editorRef.current.getContent();
     setContent(content);
     // console.log(content);
-    doSave(content, eRoute, setIsLoading);
+    doSave(content, eRoute, setIsLoading, setContent);
     
   }
 }
 
-const doSave = async (content: string, route: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> => {
+const doSave = async (content: string, route: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
+                      setContent: React.Dispatch<React.SetStateAction<string>>): Promise<void> => {
   try {
-    setIsLoading(true);
+    // setIsLoading(true);
     const user = auth.currentUser;
     const token = user && (await user.getIdToken());
 
@@ -79,12 +80,15 @@ const doSave = async (content: string, route: string, setIsLoading: React.Dispat
     // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
     // and the payload header is necessary stuff for server authentication
     fetch("http://localhost:3001/saveDoc", payloadHeader)
-        .then(() => setIsLoading(false))
+        .then(() => {
+          // setContent(content);
+          // setIsLoading(false);
+          console.log("updated");})
         .catch(() => console.error("Error fetching /saveDoc: Failed to connect to server"));
     
 
   } catch (e) {
-    setIsLoading(false);
+    // setIsLoading(false);
     console.log(e);
   }
 }
