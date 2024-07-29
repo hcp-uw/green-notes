@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@heroicons/react": "^1.0.6",
+    "@monaco-editor/react": "^4.6.0",
     "@tinymce/tinymce-react": "^5.0.1",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
@@ -14,6 +15,7 @@
     "fs-extra": "^11.2.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
+    "monaco-editor": "^0.50.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.1",
