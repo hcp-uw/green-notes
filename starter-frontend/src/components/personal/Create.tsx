@@ -5,7 +5,7 @@ import './Create.css';
 import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
-import { getNoteContents } from '../../pages/notes/notes';
+import { getNoteContents, NoteData } from '../../pages/notes/notes';
 
 
 /* In general just needs to be cleaned up */
@@ -85,7 +85,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
                 const body = {
                     route: route,
-                    name: givenName,
+                    name: trimmed,
                     body: givenBody
                 }
           
@@ -115,8 +115,9 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
         }
     }
 
-    const tempResponse = (body: string, route: string): void => {
-        doMakeClick(name, eRoute, body);
+    const tempResponse = (noteData: NoteData, route: string): void => {
+
+        doMakeClick(name, eRoute, noteData.body);
     }
 
     const createResponse = (data: unknown, route: string): void => {

@@ -21,10 +21,10 @@ type DeveloperProps = {
 function Developer({name, githubLink, linkedInLink}: DeveloperProps): JSX.Element {
     return <li>
         {name}: {' '}
-        <a href={githubLink}><img id='github' src={github}></img></a>
-        <a href={githubLink}>Github</a> {' '}
-        <a href={linkedInLink}><img id='linkedin' src={linkedin}></img></a>
-        <a href={linkedInLink}>LinkedIn</a>
+        <a href={githubLink} target="_blank" rel="noopener noreferrer"><img id='github' src={github}></img></a>
+        <a href={githubLink} target="_blank" rel="noopener noreferrer">Github</a> {' '}
+        <a href={linkedInLink} target="_blank" rel="noopener noreferrer"><img id='linkedin' src={linkedin}></img></a>
+        <a href={linkedInLink} target="_blank" rel="noopener noreferrer">LinkedIn</a>
     </li>
 }
 

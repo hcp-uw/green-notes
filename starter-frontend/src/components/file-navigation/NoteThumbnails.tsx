@@ -42,7 +42,8 @@ function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.
             </button>
             <div className="thumbnail">
                 <div className="thumbnail-body">
-                    <p className="thumbnail-text">{text}</p>
+                    {/* <div className="thumbnail-text" dangerouslySetInnerHTML={{__html: text}}></div> */}
+                    <div className="" dangerouslySetInnerHTML={{__html: text}}></div>
                 </div>
                 <div className="thumbnail-label">
                     <p className="thumbnail-title">{title}</p>
@@ -62,7 +63,7 @@ export default function NoteThumbnails({data, location, areTemps, email}: NotesP
     const linkToNote = (route: string): void => {
 
         // navigate("/note?route=" + encodeURIComponent(route))
-        window.open("/note?route="+encodeURIComponent(route), "_blank"/*, "noreferrer"*/)
+        window.open("/note?route="+encodeURIComponent(route), "_blank", "noreferrer")
     };
 
     const notes: JSX.Element[] = [];
@@ -70,12 +71,12 @@ export default function NoteThumbnails({data, location, areTemps, email}: NotesP
         if (thumbnail.kind === "doc") {
             if (areTemps) {
                 notes.push(<NoteThumbnail title={thumbnail.name} route={"Users/"+email+"/Templates/"+thumbnail.iD} 
-                      text="what a cool template"
+                      text={thumbnail.content}
                       navigate={linkToNote} key={thumbnail.iD}/>)
             } else {
                 notes.push(
                     <NoteThumbnail title={thumbnail.name} route={location+"/"+thumbnail.iD} 
-                      text="blah blah placeholder text worry about this later"
+                      text={thumbnail.content}
                       navigate={linkToNote} key={thumbnail.iD}/>
                 )
             }

@@ -230,9 +230,14 @@ export function Notes(): JSX.Element {
                 console.error('Invalid JSON from /getFolderContents', info.iD);
                 return;
             }
+
+            if (typeof info.content !== "string") {
+                console.error('Invalid JSON from /getFolderContents', info.content);
+                return;
+            }
     
             // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
             // Organizes them by doc or folder kind
             if (temp.kind === "doc") {
                 docs.push(temp);
@@ -423,8 +428,13 @@ const parseFolderInfo = (data: unknown, iD: string, route: string, name: string,
             return [];
         }
 
+        if (typeof info.content !== "string") { // Checks that the element has a valid iD field
+            console.error('Invalid JSON from /getFolderContents', info.content);
+            return [];
+        }
+
         // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
         // Organizes them by doc or folder kind
         if (temp.kind === "doc") {
             docs.push(temp);
@@ -511,18 +521,70 @@ const parseNoteInfo = (data: unknown, route: string, cb: NoteCallback): void => 
         return;
     }
 
-    if (typeof data.data.body !== "string") {
-        console.error("Invalid JSON from /getFolderContents", data.data.body);
+    const body = data.data.body;
+    if (typeof body !== "string") {
+        console.error("Invalid JSON from /getFolderContents", body);
         return;
     }
 
-    cb(data.data.body, route);
+    const className = data.data.class;
+    if (typeof className !== "string") {
+        console.error("Invalid JSON from /getFolderContents", className);
+        return;
+    }
+
+    const name = data.data.name;
+    if (typeof name !== "string") {
+        console.error("Invalid JSON from /getFolderContents", name);
+        return;
+    }
+
+    const quarter = data.data.quarter;
+    if (typeof quarter !== "string") {
+        console.error("Invalid JSON from /getFolderContents", quarter);
+        return;
+    }
+
+    const tags = data.data.tags;
+    if (!Array.isArray(tags)) {
+        console.error("Invalid JSON from /getFolderContents", tags);
+        return;
+    }
+
+    const teacher = data.data.teacher;
+    if (typeof teacher !== "string") {
+        console.error("Invalid JSON from /getFolderContents", teacher);
+        return;
+    }
+
+    const year = data.data.year;
+    if (typeof year !== "number") {
+        console.error("Invalid JSON from /getFolderContents", year);
+        return;
+    }
+
+    const noteData: NoteData = {
+        body: body,
+        className: className,
+        name: name,
+        quarter: quarter,
+        tags: tags,
+        teacher: teacher,
+        year: year
+    }
+
+
+
+    cb(noteData, route);
     return;
 }
 
 
 // NoteCallback type used to update website state during getNote fetch
-export type NoteCallback = (body: string, route: string) => void;
+export type NoteData = {
+    body: string, className: string, name: string, quarter: string, tags: string[], teacher: string, year: number
+}
+export type NoteCallback = (noteData: NoteData, route: string) => void;
 
 const getExtendedRoute = (locationID: route, email: string): string => {
     let eRoute: string = "Users/" + email +"/Notes";

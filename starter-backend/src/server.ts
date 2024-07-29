@@ -6,7 +6,8 @@ import { VerifyToken } from "./middlewears/VerifyToken.js";
 
 import { unknownEndpoint } from "./middleware.js";
 
-import { test, getNote, getFolderContents, createAccount, createNote, createFolder, saveDoc } from "./routes.js";
+import { test, getNote, getFolderContents, createAccount, 
+    createNote, createFolder, saveDoc, saveDetails, shareDoc } from "./routes.js";
 
 const app = express();
 
@@ -31,8 +32,10 @@ app.get("/", (req, res) => {
     res.send("working fine");
 });
 
+// Basic test, ignore, probably delete
 app.get("/test", test);
 
+// From here and below actual real server calls
 app.get("/getNote", getNote);
 
 app.get("/getFolderContents", getFolderContents);
@@ -44,6 +47,10 @@ app.post("/createNote", createNote);
 app.post("/createFolder", createFolder);
 
 app.put("/saveDoc", saveDoc);
+
+app.put("/saveDetails", saveDetails);
+
+app.post("/shareDoc", shareDoc);
 
 
 // error handling

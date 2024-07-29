@@ -2,7 +2,7 @@
     margin-top: 10px;
     height: 80vh;
     position: fixed;
-    overflow: hidden;
+    overflow: scroll;
     top: 0;
     left: 0;
     right: 0;

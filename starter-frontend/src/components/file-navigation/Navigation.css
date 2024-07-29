@@ -144,6 +144,8 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
+    flex-direction: column;
+    flex: 1;
 }
 
 .backdrop input {
