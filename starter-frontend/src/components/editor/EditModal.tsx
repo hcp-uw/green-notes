@@ -14,10 +14,11 @@ type EditModalProps = {
     route: string,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     fetchRes: (detailsData: DetailsData) => void,
+    // unsaved: boolean,
 }
 
 
-const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, tags, quarter, route, setIsLoading, fetchRes}: EditModalProps): JSX.Element => {
+const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, tags, quarter, route, setIsLoading, fetchRes, /*unsaved*/}: EditModalProps): JSX.Element => {
     
     const [currName, setCurrName] = useState<string>(name);
     const [currClass, setCurrClass] = useState<string>(givenClass);
@@ -200,8 +201,20 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
             tags: currTags,
         }
         fetchRes(detailsData);
-        console.log(val);
+        // console.log(val);
     }
+
+    // const unsavedNotif = (): JSX.Element => {
+    //     if (unsaved) {
+    //         return(
+    //             <div className="maketxt-wrap">
+    //                 <p className="make-text">You have unsaved work. Saved details now will lose all unsaved writing</p>
+    //             </div>
+    //         )
+    //     } else {
+    //         return <></>
+    //     }
+    // }
 
     if (!isEditing) {
         return <></>
@@ -240,6 +253,8 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                     </div>
 
                     {renderTags()}
+                    {/* {unsavedNotif()} */}
+                    <p>Warning: saving details will lose any unsaved progress! Please save your writing first!</p>
                     <div className="maketxt-wrap">
                         <button onClick={() => doSaveClick()}>Save</button>
                         <button onClick={() => revert()}>Cancel</button>

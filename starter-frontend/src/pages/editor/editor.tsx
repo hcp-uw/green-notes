@@ -37,6 +37,8 @@ export function Note(): JSX.Element {
     const [currYear, setCurrYear] = useState<number>(0);
     const [currTags, setCurrTags] = useState<string[]>([]);
     const [currQuarter, setCurrQuarter] = useState<string>("");
+    const [sharedRecently, setSharedRecently] = useState<boolean>(false);
+    const [isUnsaved, setIsUnsaved] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -66,6 +68,47 @@ export function Note(): JSX.Element {
         setCurrTags(detailsData.tags);
         setCurrQuarter(detailsData.quarter);
         setIsLoading(false);
+    }
+
+    const doShareClick = async (name: string): Promise<void> => {
+        const trimmed: string = name.trim();
+        if (trimmed !== "") {
+            try {
+                setIsLoading(true);
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+
+                const body = {
+                    name: trimmed,
+                    class: currClass,
+                    teacher: currTeacher,
+                    year: currYear,
+                    quarter: currQuarter,
+                    tags: currTags,
+                    body: currBody
+                }
+
+                const payloadHeader = {
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: `Bearer ${token}`,
+                    },
+                    method: "POST",
+                    body: JSON.stringify(body)
+                  };
+
+                  fetch("http://localhost:3001/shareDoc", payloadHeader)
+                    .then((a) => {
+                        setIsLoading(false);
+                        setIsSharing(false);
+                        setSharedRecently(true)})
+                    .catch((a) => console.log(a))
+
+            } catch (e) {
+                setIsLoading(false);
+                console.log(e)
+            }
+        }
     }
 
     // On initial load and when auth.currentUser changes.
@@ -117,7 +160,8 @@ export function Note(): JSX.Element {
                     givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
                     setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
 
-                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName}/>
+                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
+                            sharedRecently={sharedRecently} doShareClick={doShareClick}/>
             </div>
         );
     }

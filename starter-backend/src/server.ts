@@ -32,8 +32,10 @@ app.get("/", (req, res) => {
     res.send("working fine");
 });
 
+// Basic test, ignore, probably delete
 app.get("/test", test);
 
+// From here and below actual real server calls
 app.get("/getNote", getNote);
 
 app.get("/getFolderContents", getFolderContents);

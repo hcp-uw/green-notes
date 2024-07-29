@@ -6,6 +6,7 @@ import { db } from "./config/firebase-config.js"
 type SafeRequest = Request<ParamsDictionary, {}, Record<string, unknown>>;
 type SafeResponse = Response;
 
+// Basic test, probably delete at some point
 export async function test(req: SafeRequest, res: SafeResponse)  {
 
     // // goes into/makes the collection "test"
@@ -161,6 +162,7 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
         .catch(() => res.status(400).send("error in adding account to db"))
 }
 
+// Creates a new note or template at the given route with the given name and body content (if a template is used)
 export async function createNote(req: SafeRequest, res: SafeResponse) {
     const route = req.body.route;
     if (typeof route !== "string") {
@@ -198,7 +200,7 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
 
 }
 
-
+// Creates a new folder at the given route with the given name
 export async function createFolder(req: SafeRequest, res: SafeResponse) {
 
     const route = req.body.route;
@@ -232,6 +234,7 @@ export async function createFolder(req: SafeRequest, res: SafeResponse) {
     
 }
 
+// Saves the body content of the doc at the given route with the given body content
 export async function saveDoc(req: SafeRequest, res: SafeResponse) {
 
     const route = req.body.route;
@@ -253,6 +256,7 @@ export async function saveDoc(req: SafeRequest, res: SafeResponse) {
         .catch(() => res.status(400).send("failed"))
 }
 
+// Saves the details content of the doc at the given route with all the new given details
 export async function saveDetails(req: SafeRequest, res: SafeResponse) {
     const route = req.body.route;
     if (typeof route !== "string") {
@@ -312,6 +316,7 @@ export async function saveDetails(req: SafeRequest, res: SafeResponse) {
       .catch((e) => res.status(400).send(e))
 }
 
+// Makes a new doc with the given body and details in the shared folder
 export async function shareDoc(req: SafeRequest, res: SafeResponse) {
 
     const body = req.body.body;
