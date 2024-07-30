@@ -370,3 +370,7 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
       .catch(() => res.status(400).send("error in sharing"))
 
 }
+
+export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
+    
+}
