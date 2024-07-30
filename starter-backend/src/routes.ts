@@ -372,5 +372,14 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
 }
 
 export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
-    
+
+    const route = req.query.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    db.doc(route).delete()
+        .then((a) => res.send(a))
+        .catch((a) => res.status(400).send(a))
 }

@@ -135,29 +135,30 @@ export function Notes(): JSX.Element {
 
     const getTemps = async (email: string): Promise<void> => {
         setIsLoading(true);
-                try {
-                    const user = auth.currentUser;
-                    const token = user && (await user.getIdToken());
-              
-                    const payloadHeader = {
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                    };
-    
-                    const route: string = "Users/"+email+"/Templates";
-              
-                    // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
-                    // and the payload header is necessary stuff for server authentication
-                    fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
-                        .then((res) => {
-                            res.json().then((val) => doTempResponse(val, route))}) 
-                        .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
-                    
-                  } catch (e) {
-                    console.log(e);
-                  }
+        try {
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
+        
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "GET"
+            };
+
+            const route: string = "Users/"+email+"/Templates";
+        
+            // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+            // and the payload header is necessary stuff for server authentication
+            fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+                .then((res) => {
+                    res.json().then((val) => doTempResponse(val, route))}) 
+                .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
+            
+          } catch (e) {
+            console.log(e);
+          }
     }
 
     // Method that is called when the template toggle button is clicked
@@ -373,6 +374,7 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          method: "GET"
         };
 
         // Temp string for the route.
@@ -478,6 +480,7 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          method: "GET"
         };
 
         // Temp string for the route. Will update to be the given route parameter

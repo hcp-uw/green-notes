@@ -3,10 +3,11 @@
 type DeleteModalProps = {
     isDeleting: boolean,
     setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>,
+    doDeleteClick: () => Promise<void>,
 
 }
 
-const DeleteModal = ({isDeleting, setIsDeleting}: DeleteModalProps): JSX.Element => {
+const DeleteModal = ({isDeleting, setIsDeleting, doDeleteClick}: DeleteModalProps): JSX.Element => {
 
     if (!isDeleting) {
         return <></>
@@ -26,7 +27,7 @@ const DeleteModal = ({isDeleting, setIsDeleting}: DeleteModalProps): JSX.Element
 
                     
                     <div className="maketxt-wrap">
-                        <button onClick={() => console.log("asdf")}>Yes, I'm Sure</button>
+                        <button onClick={() => doDeleteClick()}>Yes, I'm Sure</button>
                         <button onClick={() => setIsDeleting(false)}>Don't Delete</button>
                     </div>
                 </div>

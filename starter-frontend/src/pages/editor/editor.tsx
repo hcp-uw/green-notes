@@ -115,6 +115,35 @@ export function Note(): JSX.Element {
         }
     }
 
+    const doDeleteClick = async (): Promise<void> => {
+        setIsLoading(true);
+        if (route !== null) {
+            try {
+
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+            
+                const payloadHeader = {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  method: "DELETE"
+                };
+    
+                fetch("http://localhost:3001/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
+                    .then((res) => {
+                        console.log(res.status);
+                        navigate("/Notes");
+                    })
+                    .catch((a) => console.log(a))
+                
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
     // On initial load and when auth.currentUser changes.
     // The second case should never be a possibility without changing pages anyways
     useEffect(() => {
@@ -167,7 +196,7 @@ export function Note(): JSX.Element {
 
                 <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
                             sharedRecently={sharedRecently} doShareClick={doShareClick}/>
-                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting}/>
+                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
             </div>
         );
     }
