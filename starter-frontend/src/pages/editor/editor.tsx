@@ -8,6 +8,8 @@ import EditModalButton from "../../components/editor/EditModalButton";
 import EditModal from "../../components/editor/EditModal";
 import ShareButton from "../../components/editor/ShareButton";
 import ShareModal from "../../components/editor/ShareModal";
+import DeleteButton from "../../components/editor/DeleteButton";
+import DeleteModal from "../../components/editor/DeleteModal"
 
 
 export type DetailsData = {
@@ -31,6 +33,8 @@ export function Note(): JSX.Element {
 
     const [isSharing, setIsSharing] = useState<boolean>(false);
 
+    const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
     const [currTeacher, setCurrTeacher] = useState<string>("");
@@ -38,7 +42,7 @@ export function Note(): JSX.Element {
     const [currTags, setCurrTags] = useState<string[]>([]);
     const [currQuarter, setCurrQuarter] = useState<string>("");
     const [sharedRecently, setSharedRecently] = useState<boolean>(false);
-    const [isUnsaved, setIsUnsaved] = useState<boolean>(false);
+    // const [isUnsaved, setIsUnsaved] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -111,6 +115,35 @@ export function Note(): JSX.Element {
         }
     }
 
+    const doDeleteClick = async (): Promise<void> => {
+        setIsLoading(true);
+        if (route !== null) {
+            try {
+
+                const user = auth.currentUser;
+                const token = user && (await user.getIdToken());
+            
+                const payloadHeader = {
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  method: "DELETE"
+                };
+    
+                fetch("http://localhost:3001/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
+                    .then((res) => {
+                        console.log(res.status);
+                        navigate("/Notes");
+                    })
+                    .catch((a) => console.log(a))
+                
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
     // On initial load and when auth.currentUser changes.
     // The second case should never be a possibility without changing pages anyways
     useEffect(() => {
@@ -151,6 +184,7 @@ export function Note(): JSX.Element {
             <div className="page gray-background">
                 <EditModalButton setIsEditing={setIsEditing}/>
                 <ShareButton setIsSharing={setIsSharing}/>
+                <DeleteButton setIsDeleting={setIsDeleting}/>
                 <TextEditor 
                 initContent={currBody}
                 eRoute={route}
@@ -162,6 +196,7 @@ export function Note(): JSX.Element {
 
                 <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
                             sharedRecently={sharedRecently} doShareClick={doShareClick}/>
+                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
             </div>
         );
     }

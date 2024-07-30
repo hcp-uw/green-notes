@@ -7,7 +7,8 @@ import { VerifyToken } from "./middlewears/VerifyToken.js";
 import { unknownEndpoint } from "./middleware.js";
 
 import { test, getNote, getFolderContents, createAccount, 
-    createNote, createFolder, saveDoc, saveDetails, shareDoc } from "./routes.js";
+    createNote, createFolder, saveDoc, saveDetails, shareDoc,
+    deleteDoc, } from "./routes.js";
 
 const app = express();
 
@@ -51,6 +52,8 @@ app.put("/saveDoc", saveDoc);
 app.put("/saveDetails", saveDetails);
 
 app.post("/shareDoc", shareDoc);
+
+app.delete("/deleteDoc", deleteDoc);
 
 
 // error handling
