@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState } from "react";
 import Editor from "@monaco-editor/react";
 
 type CodeEditorProps = {
-    // Is id right?
     onChange: (action: string, data: string
         // : ChangeEvent<HTMLInputElement>
     ) => void, 

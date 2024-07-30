@@ -1,6 +1,6 @@
 // Testing page. Delete later
 
-import CodeEditor from "../components/editor/CodeEditor";
+import CodeEditor from "../components/ide/CodeEditor";
 
 
 export default function Testing(): JSX.Element {
@@ -10,4 +10,3 @@ export default function Testing(): JSX.Element {
         </div>
     );
 }
-
