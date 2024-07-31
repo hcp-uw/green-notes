@@ -1,6 +1,6 @@
 // Source: https://github.com/manuarora700/react-code-editor/blob/main/src/constants/languageOptions.js
 
-type languageOption = {
+export type languageOption = {
     id: number, 
     name: string,
     label: string, 
