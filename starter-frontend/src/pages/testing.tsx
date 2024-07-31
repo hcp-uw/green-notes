@@ -1,12 +1,12 @@
 // Testing page. Delete later
 
-import CodeEditor from "../components/ide/CodeEditor";
+import IDE from "../components/ide/IDE";
 
 
 export default function Testing(): JSX.Element {
     return (
         <div className="page green-background">
-            <CodeEditor/>
+            <IDE/>
         </div>
     );
 }

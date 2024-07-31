@@ -17,6 +17,7 @@ import Login from './pages/auth-pages/login';
 import Register from './pages/auth-pages/register';
 import NewProfile from'./pages/edit-profile/EditProfile';
 import PrivateRoute from './components/auth/PrivateRoute';
+import Testing from './pages/Testing';
 
 // Private route element redirects people to login first
 // No real authentication yet, any fake email and password will do
@@ -65,6 +66,11 @@ const router = createBrowserRouter([
         path: "new-profile",
         element: <PrivateRoute><NewProfile /></PrivateRoute>
       },
+      // Delete later - testing
+      {
+        path: "testing", 
+        element: <Testing />
+      }
       
       
     ]
