@@ -133,7 +133,7 @@
 .backdrop {
     min-height: calc(100vh - 55px);
     width: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -146,6 +146,7 @@
     flex-grow: 1;
     flex-direction: column;
     flex: 1;
+    z-index: 10;
 }
 
 .backdrop input {

@@ -3,7 +3,7 @@ type EditProps = {
 }
 
 const EditModalButton = ({setIsEditing}: EditProps): JSX.Element => {
-    return <button onClick={() => setIsEditing(true)}>Set Details</button>
+    return <button className="new-folder-button" onClick={() => setIsEditing(true)}>Set Details</button>
 }
 
 export default EditModalButton

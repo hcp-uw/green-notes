@@ -4,7 +4,7 @@ type ShareButtonProps = {
 
 const ShareButton = ({setIsSharing}: ShareButtonProps): JSX.Element => {
     return(
-        <button onClick={() => setIsSharing(true)}>Share</button>
+        <button className="new-folder-button" onClick={() => setIsSharing(true)}>Share</button>
     )
 }
 
