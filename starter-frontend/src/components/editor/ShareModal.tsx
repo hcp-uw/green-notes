@@ -37,22 +37,22 @@ const ShareModal = ({isSharing, setIsSharing, name, sharedRecently, doShareClick
                 <label className="backdrop">
                     <input type="checkbox" checked={isSharing} onChange={() => setIsSharing(false)}/>
                 </label>
-                <div className="make">
-                    <p className="make-header">Share Note</p>
-                    <button className="make-exit" onClick={() => setIsSharing(false)}>X</button>
+                <div className="modal-body">
+                    <p className="modal-header">Share Note</p>
+                    <button className="modal-exit" onClick={() => setIsSharing(false)}>X</button>
 
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Name: </p>
-                        <input type="text" value={currName} onChange={changeName}></input>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Name: </p>
+                        <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
                     </div>
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Would you like to share a copy of this note? The shared details and content can't be changed later.</p>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Would you like to share a copy of this note? The shared details and content can't be changed later.</p>
                     </div>
                     {/* {unsavedNotif()} */}
-                    <p>Warning: sharing will lose any unsaved progress! Please save your writing first!</p>
-                    <div className="maketxt-wrap">
-                        <button onClick={() => doShareClick(currName)}>Share</button>
-                        <button onClick={() => setIsSharing(false)}>Cancel</button>
+                    <p className="warning-text">Warning: sharing will lose any unsaved progress! Please save your writing first!</p>
+                    <div className="modaltxt-wrap modal-centered">
+                        <button className="input-button" onClick={() => doShareClick(currName)}>Share</button>
+                        <button className="input-button" onClick={() => setIsSharing(false)}>Cancel</button>
                     </div>
                 </div>
             </div>
@@ -63,19 +63,19 @@ const ShareModal = ({isSharing, setIsSharing, name, sharedRecently, doShareClick
                 <label className="backdrop">
                     <input type="checkbox" checked={isSharing} onChange={() => setIsSharing(false)}/>
                 </label>
-                <div className="make">
-                    <p className="make-header">Share Note</p>
-                    <button className="make-exit" onClick={() => setIsSharing(false)}>X</button>
+                <div className="modal">
+                    <p className="modal-header">Share Note</p>
+                    <button className="modal-exit" onClick={() => setIsSharing(false)}>X</button>
 
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Name: </p>
-                        <input type="text" value={currName} onChange={changeName}></input>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Name: </p>
+                        <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
                     </div>
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Would you like to share a copy of this note? The shared details and content can't be changed later</p>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Would you like to share a copy of this note? The shared details and content can't be changed later</p>
                     </div>
-                    <div className="maketxt-wrap">
-                        <p className="make-text">*You've already shared this doc recently</p>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">*You've already shared this doc recently</p>
                     </div>
                 </div>
             </div>

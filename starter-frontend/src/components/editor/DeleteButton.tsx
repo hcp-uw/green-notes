@@ -3,7 +3,7 @@ type DeleteProps = {
 }
 
 const DeleteButton = ({setIsDeleting}: DeleteProps): JSX.Element => {
-    return <button onClick={() => setIsDeleting(true)}>Delete</button>
+    return <button className="new-folder-button" onClick={() => setIsDeleting(true)}>Delete</button>
 }
 
 export default DeleteButton

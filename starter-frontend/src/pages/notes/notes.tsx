@@ -3,7 +3,7 @@ import TemplateToggleButton from '../../components/personal/TemplateToggleButton
 import AddNote from "../../components/personal/AddNote";
 import Folders from "../../components/file-navigation/Folders";
 import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
-import SearchBar from "../../components/file-navigation/SearchBar";
+// import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import NewFolder from '../../components/personal/NewFolder';
 import FolderModal from '../../components/personal/FolderModal';
@@ -254,7 +254,7 @@ export function Notes(): JSX.Element {
     if (isLoading) { // If page is loading
         return(
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className="nav-area flex">
                     <h1>Loading...</h1>
                 </div>
@@ -271,7 +271,7 @@ export function Notes(): JSX.Element {
     if (isTemp) { // is in Templates
         return(
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className='flex'>
                     <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email} /></h1>                </div>
                 <div className="nav-area flex">
@@ -288,7 +288,7 @@ export function Notes(): JSX.Element {
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className='flex'>
                     <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email}/></h1>
                     <NewFolder onClick={setMakingFolder}/>
@@ -306,7 +306,7 @@ export function Notes(): JSX.Element {
     } else { // If user is in a folder
         return (
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                     <div className='flex'>
                         <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                         <NewFolder onClick={setMakingFolder}/>

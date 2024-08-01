@@ -7,7 +7,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--offbase-white);
+    background-color: var(--light-green);
     width: 60vw;
     left: 50%;
     top: 50%;
@@ -24,7 +24,7 @@
     margin: 10px;
     cursor: pointer;
     border: 2px solid red;
-    background-color: white;
+    background-color: var(--light-green);
     color: red;
     font-size: 20px;
 }
@@ -95,4 +95,35 @@
 
 .d-arrow {
     font-size: 1rem;
+}
+
+.name-input {
+    background-color: var(--lightest-gray);
+    border-radius: 10px;
+    font-size: 2rem;
+    font-family: "Fira Code";
+}
+
+.template-input {
+    font-size: 1.5rem;
+    font-family: "Fira Code";
+    background-color: var(--lightest-gray);
+    border-radius: 10px;
+}
+
+.template-input:hover {
+    cursor: pointer;
+    background-color: var(--lighter-gray);
+}
+
+.create-button {
+    font-family: "Fira Code";
+    font-size: 1.5rem;
+    background-color: var(--lightest-gray);
+    border-radius: 10px;
+}
+
+.create-button:hover {
+    cursor: pointer;
+    background-color: var(--lighter-gray)
 }
