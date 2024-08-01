@@ -158,8 +158,8 @@ export default function Collaboration(): JSX.Element {
     } else {
         return (
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={true}/>
-                <h1>Notes</h1>
+                <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
+                <h2>Public Notes</h2>
                 <div className="nav-area flex">
                     <NoteThumbnails data={currNotes} location={"placeholder"}  areTemps={false}  email="temp"/>
                 </div>

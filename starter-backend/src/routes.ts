@@ -415,11 +415,12 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
     }
     const teacher: string = teacherUpper.toLowerCase().trim();
 
-    const quarter = req.query.quarter;
-    if (typeof quarter !== "string") {
+    const quarterUpper = req.query.quarter;
+    if (typeof quarterUpper !== "string") {
         res.status(400).send('misisng or invalid "quarter" parameter');
         return;
     }
+    const quarter: string = quarterUpper.toLowerCase().trim();
 
     const yearString = req.query.year;
     if (typeof yearString !== "string") {
@@ -464,7 +465,7 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
             checksOut = false;
         }
 
-        if (quarter !== "" && quarter !== dataQuarter) {
+        if (quarter !== "" && quarter !== dataQuarter.toLowerCase().trim()) {
             checksOut = false;
         }
 
