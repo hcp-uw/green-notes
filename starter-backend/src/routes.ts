@@ -475,20 +475,22 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
 
         const tagsArray: string[] = tags.split(",");
         // for (const asdf of tagsArray) {
-        //     console.log("logged: "+ asdf);
+        //     console.log('logged: "'+ asdf +'"');
         // }
         for (let i = 0; i < tagsArray.length; i++) {
-            let tagValid = true; // Checks if the tag passes, starts as no until it finds a matching tag
+            if (tagsArray[i].toLowerCase().trim() !== "") {
+                let tagValid = false; // Checks if the tag passes, starts as no until it finds a matching tag
                 for (let j = 0; j < data.tags.length; j++) {
                     const tempTag2 = data.tags[j];
                     if (typeof tempTag2 === "string") {
-                        if (tagsArray[i].toLowerCase().trim() !== tempTag2.toLowerCase().trim()) {
-                            tagValid = false
+                        if (tagsArray[i].toLowerCase().trim() === tempTag2.toLowerCase().trim()) {
+                            tagValid = true
                         }
                     }
                 }
             if (!tagValid) {
                 checksOut = false;
+            }
             }
         }
 

@@ -154,7 +154,25 @@ export default function Collaboration(): JSX.Element {
     
 
     if (isLoading) {
-        return <>Loading...</>
+        return (
+            <div className="page green-background nav-page">
+            <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
+            <h2>Public Notes</h2>
+            <div className="nav-area flex">
+                <h1>Loading...</h1>
+            </div>
+        </div>
+        )
+    } else if (currNotes.length === 0) {
+        return (
+            <div className="page green-background nav-page">
+                <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
+                <h2>Public Notes</h2>
+                <div className="nav-area flex">
+                    <p>Nothing matched your search. Maybe try with less or different search parameters. Capitalization doesn't matter but spelling does!</p>
+                </div>
+            </div>
+        );  
     } else {
         return (
             <div className="page green-background nav-page">
