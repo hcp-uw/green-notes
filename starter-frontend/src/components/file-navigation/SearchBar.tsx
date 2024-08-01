@@ -46,12 +46,12 @@ function MainSearch({setIsAdvanced, isAdvanced}: MainSearchProps) {
 
     const doFocusUpdate = () => {
         setReadyToLeave(false);
-        setIsAdvanced(true);
     }
 
     const doClick = () => {
         if (!isAdvanced) {
             setIsAdvanced(true);
+            setReadyToLeave(true);
         } else {
             if(readyToLeave) {
                 setIsAdvanced(false);
