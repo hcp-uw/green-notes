@@ -1,5 +1,3 @@
-
-
 type DeleteModalProps = {
     isDeleting: boolean,
     setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>,
@@ -17,18 +15,18 @@ const DeleteModal = ({isDeleting, setIsDeleting, doDeleteClick}: DeleteModalProp
                 <label className="backdrop">
                     <input type="checkbox" checked={isDeleting} onChange={() => setIsDeleting(false)}/>
                 </label>
-                <div className="make">
-                    <p className="make-header">Delete Note</p>
-                    <button className="make-exit" onClick={() => setIsDeleting(false)}>X</button>
+                <div className="modal-body">
+                    <p className="modal-header">Delete Note</p>
+                    <button className="modal-exit" onClick={() => setIsDeleting(false)}>X</button>
 
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Are you sure you want to delete this note? This action cannot be undone!</p>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Are you sure you want to delete this note? This action cannot be undone!</p>
                     </div>
 
                     
-                    <div className="maketxt-wrap">
-                        <button onClick={() => doDeleteClick()}>Yes, I'm Sure</button>
-                        <button onClick={() => setIsDeleting(false)}>Don't Delete</button>
+                    <div className="maketxt-wrap modal-centered">
+                        <button className="input-button" onClick={() => doDeleteClick()}>Yes, I'm Sure</button>
+                        <button className="input-button" onClick={() => setIsDeleting(false)}>Don't Delete</button>
                     </div>
                 </div>
             </div>

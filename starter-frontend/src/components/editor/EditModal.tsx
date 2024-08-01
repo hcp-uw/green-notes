@@ -75,15 +75,15 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         const tagElements: JSX.Element[] = [];
         for (const tempTag of currTags) {
             tagElements.push(
-            <button key={tempTag} onClick={() => removeTag(tempTag)}>{tempTag} X </button>)
+            <button className="tag" key={tempTag} onClick={() => removeTag(tempTag)}>{tempTag} X </button>)
         }
 
         if (tagElements.length === 0) {
             return (
-                <div className="maketxt-wrap">
-                    <p className="make-text">Tags: </p>
-                    <input type="text" value={currTempTag} onChange={changeTempTag}></input>
-                    <button onClick={() => addTag()}>+</button>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Tags: </p>
+                    <input className="text-input-minor" type="text" value={currTempTag} onChange={changeTempTag}></input>
+                    <button className="small-plus" onClick={() => addTag()}>+</button>
                     <div>
                         No tags Currently (max 10)
                     </div>
@@ -93,9 +93,9 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         if (tagElements.length >= 10) {
             return (
                 <div>
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Tags: </p>
-                        <input type="text" value={currTempTag} onChange={changeTempTag}></input>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Tags: </p>
+                        <input className="text-input-minor" type="text" value={currTempTag} onChange={changeTempTag}></input>
                         <div>
                             {tagElements}
                         </div>
@@ -107,10 +107,10 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
             )
         }
         return (
-            <div className="maketxt-wrap">
-                <p className="make-text">Tags: </p>
-                <input type="text" value={currTempTag} onChange={changeTempTag}></input>
-                <button onClick={() => addTag()}>+</button>
+            <div className="modaltxt-wrap">
+                <p className="modal-text">Tags: </p>
+                <input className="text-input-minor" type="text" value={currTempTag} onChange={changeTempTag}></input>
+                <button className="small-plus" onClick={() => addTag()}>+</button>
                 <div>
                     {tagElements}
                 </div>
@@ -224,26 +224,26 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                 <label className="backdrop">
                     <input type="checkbox" checked={isEditing} onChange={() => revert()}/>
                 </label>
-                <div className="make">
-                    <p className="make-header">Edit Details</p>
-                    <button className="make-exit" onClick={() => revert()}>X</button>
+                <div className="modal-body">
+                    <p className="modal-header">Edit Details</p>
+                    <button className="modal-exit" onClick={() => revert()}>X</button>
 
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Name: </p>
-                        <input type="text" value={currName} onChange={changeName}></input>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Name: </p>
+                        <input className="text-input-minor" type="text" value={currName} onChange={changeName}></input>
 
-                        <p className="make-text">Class: </p>
-                        <input type="text" value={currClass} onChange={changeClass}></input>
+                        <p className="modal-text">Class: </p>
+                        <input className="text-input-minor" type="text" value={currClass} onChange={changeClass}></input>
                     </div>
-                    <div className="maketxt-wrap">
-                        <p className="make-text">Teacher: </p>
-                        <input type="text" value={currTeacher} onChange={changeTeacher}></input>
+                    <div className="modaltxt-wrap">
+                        <p className="modal-text">Teacher: </p>
+                        <input className="text-input-minor" type="text" value={currTeacher} onChange={changeTeacher}></input>
 
-                        <p className="make-text">Year: </p>
-                        <input type="number" value={currYear} onChange={changeYear} min={0} max={2024}></input>
+                        <p className="modal-text">Year: </p>
+                        <input className="text-input-minor" type="number" value={currYear} onChange={changeYear} min={0} max={2024}></input>
 
-                        <p className="make-text">Quarter: </p>
-                        <select name="quarter" id="quarter" value={currQuarter} onChange={(e) => setCurrQuarter(e.target.value)}>
+                        <p className="modal-text">Quarter: </p>
+                        <select className="text-input-minor" name="quarter" id="quarter" value={currQuarter} onChange={(e) => setCurrQuarter(e.target.value)}>
                             <option value=""></option>
                             <option value="Autumn">Autumn</option>
                             <option value="Winter">Winter</option>
@@ -254,10 +254,10 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
 
                     {renderTags()}
                     {/* {unsavedNotif()} */}
-                    <p>Warning: saving details will lose any unsaved progress! Please save your writing first!</p>
-                    <div className="maketxt-wrap">
-                        <button onClick={() => doSaveClick()}>Save</button>
-                        <button onClick={() => revert()}>Cancel</button>
+                    <p className="warning-text">Warning: saving details will lose any unsaved progress! Please save your writing first!</p>
+                    <div className="modaltxt-wrap modal-centered">
+                        <button className="input-button" onClick={() => doSaveClick()}>Save</button>
+                        <button className="input-button" onClick={() => revert()}>Cancel</button>
                     </div>
                 </div>
             </div>

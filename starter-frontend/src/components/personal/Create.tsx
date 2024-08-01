@@ -164,18 +164,18 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName}></input>
+                        <input type="text" value={name} onChange={changeName} className="name-input"></input>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Template:</p>
-                        <select name="template" id="template" onChange={(e) => setTempId(e.target.value)}>
+                        <select name="template" id="template" className='template-input' onChange={(e) => setTempId(e.target.value)}>
                             <option value="">No Template</option>
                             {templates(temps)}
                         </select>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
-                        <button onClick={() => {
+                        <button className='create-button' onClick={() => {
                             if (isTemp) {
                                 doMakeClick(name, "Users/"+email+"/Templates", "");
                             } else if (tempId === ""){
@@ -186,7 +186,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                             }
                             
                             }}>
-                            WE PRAY
+                            Make New Note
                         </button>
                     </div>
                 </div>

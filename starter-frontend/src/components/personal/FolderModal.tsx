@@ -89,11 +89,11 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName}></input>
+                        <input className="name-input" type="text" value={name} onChange={changeName}></input>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Create: </p>
-                        <button onClick={() => doMakeClick(name, eRoute)}>Make</button>
+                        <button className="create-button" onClick={() => doMakeClick(name, eRoute)}>Make New Folder</button>
                     </div>
 
                 </div>
