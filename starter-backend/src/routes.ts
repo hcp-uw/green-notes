@@ -110,11 +110,13 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
 
 // Creates a new account in the db with a given email.
 export async function createAccount(req: SafeRequest, res: SafeResponse) {
-    const email = req.body.email;
-    if (typeof email !== "string") {
+    const emailUpper = req.body.email;
+    if (typeof emailUpper !== "string") {
         res.status(400).send('missing or invalid "email" parameter');
         return;
     }
+
+    const email = emailUpper.toLowerCase();
 
     // Currently we have no user data to be stored. If we do and we need basic default
     // values, we can set them here.
@@ -382,4 +384,124 @@ export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
     db.doc(route).delete()
         .then((a) => res.send(a))
         .catch((a) => res.status(400).send(a))
+}
+
+export async function getShared(req: SafeRequest, res: SafeResponse) {
+
+    const searchUpper = req.query.name;
+    if (typeof searchUpper !== "string") {
+        res.status(400).send('missing or invalid "name" parameter');
+        return;
+    }
+    const search: string = searchUpper.toLowerCase().trim();
+
+    const tags = req.query.tags;
+    if (typeof tags !== "string") {
+        res.status(400).send('misisng or invalid "tags" parameter');
+        return;
+    }
+
+    const classNameUpper = req.query.class;
+    if (typeof classNameUpper !== "string") {
+        res.status(400).send('misisng or invalid "class" parameter');
+        return;
+    }
+    const className: string = classNameUpper.toLowerCase().trim();
+
+    const teacherUpper = req.query.teacher;
+    if (typeof teacherUpper !== "string") {
+        res.status(400).send('misisng or invalid "teacher" parameter');
+        return;
+    }
+    const teacher: string = teacherUpper.toLowerCase().trim();
+
+    const quarter = req.query.quarter;
+    if (typeof quarter !== "string") {
+        res.status(400).send('misisng or invalid "quarter" parameter');
+        return;
+    }
+
+    const yearString = req.query.year;
+    if (typeof yearString !== "string") {
+        res.status(400).send('misisng or invalid "year" parameter');
+        return;
+    }
+
+    const year: number = parseInt(yearString);
+    if (isNaN(year)) {
+        res.status(400).send('invalid "year" parameter');
+        return
+    }
+
+
+
+    const collectionRef = db.collection("Shared");
+    const snapshot = await collectionRef.get();
+
+    const info: ThumbnailInfo[] = [];
+
+
+    snapshot.forEach(item => {
+        let checksOut = true;
+        const iD: string = item.id;
+        const data = item.data();
+        const name: string = data.name;
+        const content: string = data.body;
+        const dataClass: string = data.class;
+        const dataTeacher: string = data.teacher;
+        const dataQuarter: string = data.quarter;
+        const dataYear: number = data.year;
+
+        if (search !== "" && search !== name.toLowerCase().trim()) {
+            checksOut = false;
+        }
+
+        if (className !== "" && className !== dataClass.toLowerCase().trim()) {
+            checksOut = false;
+        }
+
+        if (teacher !== "" && teacher !== dataTeacher.toLowerCase().trim()) {
+            checksOut = false;
+        }
+
+        if (quarter !== "" && quarter !== dataQuarter) {
+            checksOut = false;
+        }
+
+        if (year !== 0 && year !== dataYear) {
+            checksOut = false;
+        }
+
+        const tagsArray: string[] = tags.split(",");
+        // for (const asdf of tagsArray) {
+        //     console.log("logged: "+ asdf);
+        // }
+        for (let i = 0; i < tagsArray.length; i++) {
+            let tagValid = true; // Checks if the tag passes, starts as no until it finds a matching tag
+                for (let j = 0; j < data.tags.length; j++) {
+                    const tempTag2 = data.tags[j];
+                    if (typeof tempTag2 === "string") {
+                        if (tagsArray[i].toLowerCase().trim() !== tempTag2.toLowerCase().trim()) {
+                            tagValid = false
+                        }
+                    }
+                }
+            if (!tagValid) {
+                checksOut = false;
+            }
+        }
+
+
+        if (checksOut) {
+            const temp: ThumbnailInfo = {
+                name: name,
+                iD: iD,
+                kind: "doc",
+                content: content
+            }
+            info.push(temp);
+        }
+    })
+    res.send({data: info})
+    return;
 }

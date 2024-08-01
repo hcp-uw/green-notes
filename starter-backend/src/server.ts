@@ -8,7 +8,8 @@ import { unknownEndpoint } from "./middleware.js";
 
 import { test, getNote, getFolderContents, createAccount, 
     createNote, createFolder, saveDoc, saveDetails, shareDoc,
-    deleteDoc, } from "./routes.js";
+    deleteDoc,
+    getShared, } from "./routes.js";
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.post("/shareDoc", shareDoc);
 
 app.delete("/deleteDoc", deleteDoc);
 
+app.get("/getShared", getShared);
 
 // error handling
 app.use(unknownEndpoint);
