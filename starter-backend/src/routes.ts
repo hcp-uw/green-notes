@@ -147,11 +147,12 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
     // }
 
     // We will need an email to find the user in the db
-    const email = req.body.email;
-    if (typeof email !== "string") {
+    const emailUpper = req.body.email;
+    if (typeof emailUpper !== "string") {
         res.status(400).send('missing or invalid "email" parameter');
         return;
     };
+    const email: string = emailUpper.toLowerCase();
 
     // Example data that we can populate with body params
     const data = {
@@ -177,6 +178,7 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
         res.status(400).send('missing or invalid "name" parameter');
         return;
     }
+    const nameTrimmed: string = name.trim();
 
     const body = req.body.body;
     if (typeof body !== "string") {
@@ -185,7 +187,7 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
     }
 
     const data = {
-        name: name,
+        name: nameTrimmed,
         body: body,
         type: "doc",
         tags: [],
@@ -216,9 +218,10 @@ export async function createFolder(req: SafeRequest, res: SafeResponse) {
         res.status(400).send('missing or invalid "name" parameter');
         return;
     }
+    const nameTrimmed: string = name.trim();
 
     const data = {
-        name: name,
+        name: nameTrimmed,
         type: "folder"
     }
 
@@ -271,18 +274,21 @@ export async function saveDetails(req: SafeRequest, res: SafeResponse) {
         res.status(400).send('missing or invalid "name" parameter');
         return;
     }
+    const nameTrimmed: string = name.trim();
 
     const className = req.body.class;
     if (typeof className !== "string") {
         res.status(400).send('missing or invalid "class" parameter');
         return;
     }
+    const classTrimmed: string = className.trim();
 
     const teacher = req.body.teacher;
     if (typeof teacher !== "string") {
         res.status(400).send('missing or invalid "teacher" parameter');
         return;
     }
+    const teacherTrimmed: string = teacher.trim();
 
     const year = req.body.year;
     if (typeof year !== "number") {
@@ -301,14 +307,22 @@ export async function saveDetails(req: SafeRequest, res: SafeResponse) {
         res.status(400).send('missing or invalid "tags" parameter');
         return;
     }
+    const tagsTrimmed: string[] = [];
+    for (const tag of tags) {
+        if (typeof tag !== "string") {
+            res.status(400).send('tag wasnt a string');
+            return;
+        }
+        tagsTrimmed.push(tag.trim());
+    }
 
     const docRef = db.doc(route)
 
     const data = {
-        name: name,
-        tags: tags,
-        class: className,
-        teacher: teacher,
+        name: nameTrimmed,
+        tags: tagsTrimmed,
+        class: classTrimmed,
+        teacher: teacherTrimmed,
         quarter: quarter,
         year: year
     }
@@ -324,45 +338,63 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
     const body = req.body.body;
     if (typeof body !== "string") {
         res.status(400).send('missing or invalid "body" parameter');
+        return;
     }
 
     const name = req.body.name;
     if (typeof name !== "string") {
         res.status(400).send('missing or invalid "name" parameter');
+        return;
     }
+    const nameTrimmed: string = name.trim();
 
     const tags = req.body.tags;
     if (!Array.isArray(tags)) {
         res.status(400).send('missing or invalid "tags" parameter');
+        return;
+    }
+    const tagsTrimmed: string[] = [];
+    for (const tag of tags) {
+        if (typeof tag !== "string") {
+            res.status(400).send('tag wasnt a string');
+            return;
+        }
+        tagsTrimmed.push(tag.trim());
     }
 
     const className = req.body.class;
     if (typeof className !== "string") {
         res.status(400).send('missing or invalid "class" parameter');
+        return;
     }
+    const classTrimmed: string = className.trim();
 
     const teacher = req.body.teacher;
     if (typeof teacher !== "string") {
         res.status(400).send('missing or invalid "teacher" parameter');
+        return;
     }
+    const teacherTrimmed: string = teacher.trim();
 
     const quarter = req.body.quarter;
     if (typeof quarter !== "string") {
         res.status(400).send('missing or invalid "quarter" parameter');
+        return;
     }
 
     const year = req.body.year;
     if (typeof year !== "number") {
         res.status(400).send('missing or invalid "year" parameter');
+        return;
     }
 
     const data = {
-        name: name,
+        name: nameTrimmed,
         body: body,
-        class: className,
+        class: classTrimmed,
         quarter: quarter,
-        tags: tags,
-        teacher: teacher,
+        tags: tagsTrimmed,
+        teacher: teacherTrimmed,
         type: "doc",
         year: year
     }

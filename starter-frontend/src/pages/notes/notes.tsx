@@ -10,6 +10,8 @@ import FolderModal from '../../components/personal/FolderModal';
 import { auth } from "../../config/firebase";
 import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
+import DeleteFolderButton from '../../components/personal/DeleteFolderButton';
+import DeleteFolderModal from '../../components/personal/DeleteFolderModal';
 
 export function Notes(): JSX.Element {
 
@@ -21,6 +23,8 @@ export function Notes(): JSX.Element {
 
     // isMakingFolder represents state of whether user is making folder
     const [isMakingFolder, setMakingFolder] = useState<boolean>(false);
+
+    const [isDeletingFolder, setDeletingFolder] = useState<boolean>(false);
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
@@ -310,6 +314,7 @@ export function Notes(): JSX.Element {
                     <div className='flex'>
                         <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                         <NewFolder onClick={setMakingFolder}/>
+                        <DeleteFolderButton onClick={setDeletingFolder}/>
                     </div>                <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
@@ -317,6 +322,7 @@ export function Notes(): JSX.Element {
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
+                    <DeleteFolderModal isDeleting={isDeletingFolder} setIsDeleting={setDeletingFolder} location="Not done yet"/>
                 </div>
             </div>
         );  
