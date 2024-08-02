@@ -1,19 +1,16 @@
 .make {
-    margin-top: 10px;
-    height: 80vh;
     position: fixed;
-    overflow: scroll;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--light-green);
-    width: 60vw;
+    transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
+    margin-top: 10px;
+    width: 60vw;
     z-index: 10;
+
+    border-radius: 10px;
+    background-color: var(--light-green);
+
+    padding: 30px;
 }
 
 /* close button for Create Note pop-up */
@@ -22,7 +19,9 @@
     right: 0;
     position: absolute;
     margin: 10px;
+
     cursor: pointer;
+
     border: 2px solid red;
     background-color: var(--light-green);
     color: red;
@@ -36,24 +35,21 @@
 
 /* header/title for Make New Note/Temp */
 .make-header {
-    font-size: 3rem;
-    top: 0;
-    left: 0;
-
-    margin-top: 10px;
-    margin-left: 10px;
+    font-size: 2rem; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;   
 }
 
 /* wrapper for element where user can decide whether to make a note or a temp */
 .maketxt-wrap {
     display: flex;
-    margin-left: 10px;
     align-items: center;
 }
 
 /* txt specifcially for the "New: " */
 .make-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
     top: 0;
     left: 0;
 
@@ -67,7 +63,7 @@
     cursor: pointer;
 
     max-height: 2rem;
-    margin-left: 10px;
+    
     position: flex;
     margin-bottom: 0px;
     min-width: 7rem;
@@ -86,7 +82,7 @@
     cursor: pointer;
 
     max-height: 2rem;
-    margin-left: 10px;
+    
     position: flex;
     margin-bottom: 0px;
 
@@ -100,8 +96,10 @@
 .name-input {
     background-color: var(--lightest-gray);
     border-radius: 10px;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: "Fira Code";
+    width: 85%;
+    margin-left: 1.5rem;
 }
 
 .template-input {
@@ -109,6 +107,7 @@
     font-family: "Fira Code";
     background-color: var(--lightest-gray);
     border-radius: 10px;
+    margin-left: 1.5rem;
 }
 
 .template-input:hover {
