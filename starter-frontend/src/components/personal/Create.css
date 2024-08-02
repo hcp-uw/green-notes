@@ -4,13 +4,13 @@
     left: 50%;
     top: 50%;
     margin-top: 10px;
-    width: 60vw;
+    width: min(70vw, 600px);
     z-index: 10;
 
     border-radius: 10px;
     background-color: var(--light-green);
 
-    padding: 30px;
+    padding: 35px;
 }
 
 /* close button for Create Note pop-up */
@@ -55,6 +55,7 @@
 
     word-wrap: inherit;
     display: block;
+    margin-bottom: 10px;
 }
 
 /* button indicating whether new note or temp */
@@ -95,19 +96,23 @@
 
 .name-input {
     background-color: var(--lightest-gray);
-    border-radius: 10px;
+    border-radius: 7px;
     font-size: 1.5rem;
     font-family: "Fira Code";
-    width: 85%;
+    width: 100%;
     margin-left: 1.5rem;
+    margin-top: 10px;
 }
 
 .template-input {
     font-size: 1.5rem;
     font-family: "Fira Code";
     background-color: var(--lightest-gray);
-    border-radius: 10px;
+    border-radius: 7px;
     margin-left: 1.5rem;
+    width: 100%;
+    margin-top: 10px;
+    padding-left: 10px;
 }
 
 .template-input:hover {
@@ -116,13 +121,19 @@
 }
 
 .create-button {
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
     font-family: "Fira Code";
     font-size: 1.5rem;
-    background-color: var(--lightest-gray);
-    border-radius: 10px;
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    color: var(--offbase-white);
+    padding: 2px 45px;
+    border-radius: 7px;
 }
 
 .create-button:hover {
     cursor: pointer;
-    background-color: var(--lighter-gray)
+    background-color: var(--darker-green);
 }

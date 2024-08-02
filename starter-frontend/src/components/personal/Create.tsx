@@ -174,7 +174,6 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                         </select>
                     </div>
                     <div className="maketxt-wrap">
-                        <p className="make-text">Create: </p>
                         <button className='create-button' onClick={() => {
                             if (isTemp) {
                                 doMakeClick(name, "Users/"+email+"/Templates", "");
@@ -186,7 +185,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                             }
                             
                             }}>
-                            Make New Note
+                            Create
                         </button>
                     </div>
                 </div>
