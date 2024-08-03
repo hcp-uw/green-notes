@@ -1,6 +1,7 @@
 {
   "name": "starter-project",
   "version": "0.1.0",
+  "homepage": "https://hcp-uw.github.io/green-notes/",
   "private": true,
   "dependencies": {
     "@heroicons/react": "^1.0.6",
@@ -22,6 +23,8 @@
     "tinymce": "^7.2.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
@@ -46,6 +49,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "gh-pages": "^6.1.1"
   }
 }
