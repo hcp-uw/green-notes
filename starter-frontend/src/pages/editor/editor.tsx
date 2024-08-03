@@ -10,6 +10,7 @@ import ShareButton from "../../components/editor/ShareButton";
 import ShareModal from "../../components/editor/ShareModal";
 import DeleteButton from "../../components/editor/DeleteButton";
 import DeleteModal from "../../components/editor/DeleteModal"
+import { FetchRoute } from "../../components/file-navigation/routes";
 
 
 export type DetailsData = {
@@ -101,7 +102,7 @@ export function Note(): JSX.Element {
                     body: JSON.stringify(body)
                   };
 
-                  fetch("http://localhost:3001/shareDoc", payloadHeader)
+                  fetch(FetchRoute+"/shareDoc", payloadHeader)
                     .then((a) => {
                         setIsLoading(false);
                         setIsSharing(false);
@@ -131,7 +132,7 @@ export function Note(): JSX.Element {
                   method: "DELETE"
                 };
     
-                fetch("http://localhost:3001/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
+                fetch(FetchRoute+"/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
                     .then((res) => {
                         console.log(res.status);
                         navigate("/Notes");

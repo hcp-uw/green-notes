@@ -8,7 +8,7 @@ import Create from "../../components/personal/Create";
 import NewFolder from '../../components/personal/NewFolder';
 import FolderModal from '../../components/personal/FolderModal';
 import { auth } from "../../config/firebase";
-import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat } from '../../components/file-navigation/routes';
+import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat, FetchRoute } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
 import DeleteFolderButton from '../../components/personal/DeleteFolderButton';
 import DeleteFolderModal from '../../components/personal/DeleteFolderModal';
@@ -155,7 +155,7 @@ export function Notes(): JSX.Element {
         
             // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
             // and the payload header is necessary stuff for server authentication
-            fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+            fetch(FetchRoute+"/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
                 .then((res) => {
                     res.json().then((val) => doTempResponse(val, route))}) 
                 .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
@@ -388,7 +388,7 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
   
         // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
-        fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+        fetch(FetchRoute+"/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
@@ -497,7 +497,7 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
   
         // Fetches the /getNote. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
-        fetch("http://localhost:3001/getNote?route="+encodeURIComponent(route), payloadHeader)
+        fetch(FetchRoute+"/getNote?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseNoteInfo just returns the body in a string, but doesn't do anything with it yet, no update happens on the page

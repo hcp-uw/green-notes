@@ -1,4 +1,4 @@
-import { route, concat, nil } from "../file-navigation/routes"
+import { route, concat, nil, FetchRoute } from "../file-navigation/routes"
 import { useState, useEffect, ChangeEvent } from "react"
 import { auth } from "../../config/firebase"
 
@@ -61,7 +61,7 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
           
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
-                fetch("http://localhost:3001/createFolder", payloadHeader)
+                fetch(FetchRoute+"/createFolder", payloadHeader)
                     .then(() => window.location.reload())
                     .catch(() => console.error("Error fetching /createFolder: Failed to connect to server"));
                 
