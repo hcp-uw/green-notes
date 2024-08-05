@@ -21,16 +21,18 @@ export default function IDE(): JSX.Element {
     const enterPress = useKeyPress("Enter");
     const ctrlPress = useKeyPress("Control");
 
-    function onSelectChange(sl: languageOption): void {
+    function onSelectChange(sl: languageOption | null): void {
         console.log("Selected option ", sl);
-        setLanguage(sl);
+        if (sl !== null) {
+            setLanguage(sl);
+        }
     }
 
     useEffect(() => {
         if (enterPress && ctrlPress) {
             console.log("enterPress", enterPress);
             console.log("ctrlPress", ctrlPress);
-            handleCompile(); 
+            // handleCompile(); 
         }
     }, [ctrlPress, enterPress]);
 
@@ -50,9 +52,9 @@ export default function IDE(): JSX.Element {
 
     }
 
-    async function checkStatus(token): Promise<> {
+    // async function checkStatus(token): Promise<> {
 
-    }
+    // }
 
     function minimize(_evt: MouseEvent<HTMLButtonElement>): void {
         setOutput(false);
@@ -95,7 +97,7 @@ export default function IDE(): JSX.Element {
 
 function Output(): JSX.Element {
     return (
-        
+        <></>
     );
     
 }

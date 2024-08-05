@@ -3,7 +3,7 @@ import Select, { SingleValue } from "react-select";
 import { languageOptions, languageOption } from "./languageOptions";
 
 type LanguagesDropdownProps = {
-    onSelectChange: (sl: SingleValue<languageOption> | null) => void
+    onSelectChange: (sl: languageOption | null) => void
 }
 
 export default function LanguagesDropdown( { onSelectChange }: LanguagesDropdownProps ): JSX.Element {
