@@ -14,7 +14,7 @@ export default function IDE(): JSX.Element {
     const [code, setCode] = useState<string>("");
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(false);
-    const [outputDetails, setOutputDetails] = useState<string | null>(null);
+    const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
     const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
     
@@ -32,7 +32,7 @@ export default function IDE(): JSX.Element {
         if (enterPress && ctrlPress) {
             console.log("enterPress", enterPress);
             console.log("ctrlPress", ctrlPress);
-            // handleCompile(); 
+            handleCompile(); 
         }
     }, [ctrlPress, enterPress]);
 
@@ -48,23 +48,24 @@ export default function IDE(): JSX.Element {
         }
     }
 
-    function handleCompile(_evt: MouseEvent<HTMLButtonElement>) {
+    function handleCompile(): void {
         setProcessing(true);
+        setOutput(true);
         const formData = {
-            language_id: language.id, 
-            source_code: btoa(code), 
-            stdin: btoa(customInput)
+            language_id: language.id,
+            source_code: btoa(code),
+            stdin: btoa(customInput),
         };
         const options = {
-            method: "POST", 
-            url: process.env.REACT_APP_RAPID_API_URL, 
-            params: { base64_encoded: "true", fields: "*" }, 
+            method: "POST",
+            url: process.env.REACT_APP_RAPID_API_URL,
+            params: { base64_encoded: true, fields: "*" },
             headers: {
-                "content-type": "application/json", 
+                "content-type": "application/json",
                 "Content-Type": "application/json",
-                "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST, 
-            }, 
-            data: formData
+                "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+            },
+            data: formData,
         };
 
         axios 
@@ -84,35 +85,36 @@ export default function IDE(): JSX.Element {
     // TO-DO: change types
     async function checkStatus(token: string): Promise<any> {
         const options = {
-            method: "GET", 
-            url: process.env.REACT_APP_RAPID_API_URL + "/" + token, 
-            params: { base64_encoded: "true", fields: "*" }, 
+            method: "GET",
+            url: process.env.REACT_APP_RAPID_API_URL + "/" + token,
+            params: { base64_encoded: "true", fields: "*" },
             headers: {
-                "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST
-            }, 
+              "X-RapidAPI-Host": process.env.REACT_APP_RAPID_API_HOST,
+            },
         };
-        try {
+          try {
             let response = await axios.request(options);
             let statusId = response.data.status?.id;
-
+      
+            // Processed - we have a result
             if (statusId === 1 || statusId === 2) {
-                setTimeout(() => {
-                    checkStatus(token);
-                }, 2000);
-                return;
+              // still processing
+              setTimeout(() => {
+                checkStatus(token);
+              }, 2000);
+              return;
             } else {
-                setProcessing(false);
-                setOutputDetails(response.data);
-                // TO-DO: Show success
-                console.log('response.data', response.data);
-                return;
+              setProcessing(false);
+              setOutputDetails(response.data);
+            //   showSuccessToast(`Compiled Successfully!`);
+              console.log("response.data", response.data);
+              return;
             }
-        } catch (err) {
+          } catch (err) {
             console.log("err", err);
             setProcessing(false);
-            // TO-DO: Show error
-        }
-
+            // showErrorToast();
+          }
     }
 
     function minimize(_evt: MouseEvent<HTMLButtonElement>): void {
@@ -120,43 +122,36 @@ export default function IDE(): JSX.Element {
     }
     
     return (
-        <>
+        <div className="ide">
             <LanguagesDropdown onSelectChange={onSelectChange} />
-            <CodeEditor 
-                code={code}
-                onChange={onChange}
-                language={language?.value}
-                theme="oceanic-next"
-            />
-            <button 
-                onClick={handleCompile}
-                disabled={!code}
-                className="compile-btn"
-            >
-                {processing ? "Processing..." : "Run"}
-            </button>
-            { output && 
-                <>
-                    <button 
-                        className="minimize-btn"
-                        onClick={minimize}
-                    ></button>
-                    <OutputWindow outputDetails={outputDetails} />
-                    <CustomInput 
-                        customInput={customInput}
-                        setCustomInput={setCustomInput}
-                    />
-                    {outputDetails && <OutputDetails outputDetails={outputDetails} />}
-                </>
-            }
-            
-
-        </>);
-}
-
-function Output(): JSX.Element {
-    return (
-        <></>
-    );
-    
+            <div className="ide-main">
+                <CodeEditor 
+                    code={code}
+                    onChange={onChange}
+                    language={language?.value}
+                    theme="oceanic-next"
+                />
+                <button 
+                    onClick={handleCompile}
+                    disabled={!code}
+                    className="compile-btn"
+                >
+                    {processing ? "Processing..." : "Run"}
+                </button>
+                { output && outputDetails !== null &&
+                    <>
+                        <button 
+                            className="minimize-btn"
+                            onClick={minimize}
+                        ></button>
+                        <OutputWindow outputDetails={outputDetails} />
+                        {/* <CustomInput 
+                            customInput={customInput}
+                            setCustomInput={setCustomInput}
+                        /> */}
+                        {/* {outputDetails && <OutputDetails outputDetails={outputDetails} />} */}
+                    </>
+                }
+            </div>
+        </div>);
 }
