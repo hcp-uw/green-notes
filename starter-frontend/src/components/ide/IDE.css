@@ -1,0 +1,22 @@
+/* Code Editor */
+.code-editor {
+    height: 70vh;
+}
+
+/* Output Window */
+.ide-output-window {
+    height: 70vh;
+    background-color: white;
+}
+
+.ide-output-h1 {
+
+}
+
+.ide-err {
+
+}
+
+.ide-output {
+
+}
