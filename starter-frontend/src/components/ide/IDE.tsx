@@ -6,7 +6,6 @@ import { languageOption, languageOptions } from "./languageOptions";
 import useKeyPress from "./useKeyPress";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
-import OutputDetails from "./OutputDetails";
 import LanguagesDropdown from "./LanguagesDropdown";
 
 
@@ -149,7 +148,6 @@ export default function IDE(): JSX.Element {
                             customInput={customInput}
                             setCustomInput={setCustomInput}
                         /> */}
-                        {/* {outputDetails && <OutputDetails outputDetails={outputDetails} />} */}
                     </>
                 }
             </div>
