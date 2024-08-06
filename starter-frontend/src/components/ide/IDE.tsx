@@ -3,7 +3,6 @@ import CodeEditor from "./CodeEditor";
 import axios from "axios";
 import { languageOption, languageOptions } from "./languageOptions";
 
-import useKeyPress from "./useKeyPress";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import LanguagesDropdown from "./LanguagesDropdown";
@@ -17,23 +16,12 @@ export default function IDE(): JSX.Element {
     const [processing, setProcessing] = useState<boolean | null>(null);
     const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
     
-    const enterPress = useKeyPress("Enter");
-    const ctrlPress = useKeyPress("Control");
-
     function onSelectChange(sl: languageOption | null): void {
         console.log("Selected option ", sl);
         if (sl !== null) {
             setLanguage(sl);
         }
     }
-
-    useEffect(() => {
-        if (enterPress && ctrlPress) {
-            console.log("enterPress", enterPress);
-            console.log("ctrlPress", ctrlPress);
-            handleCompile(); 
-        }
-    }, [ctrlPress, enterPress]);
 
     function onChange(action: string, data: string): void {
         switch (action) {
