@@ -46,3 +46,7 @@ export type NoteInfo = {name: string, route: string, body: string, kind: "folder
 export const isRecord = (val: unknown): val is Record<string, unknown> => {
     return val !== null && typeof val === "object";
   };
+
+
+export const FetchRoute: string = "http://localhost:3001";
+// export const FetchRoute: string = "https://green-notes.onrender.com";

@@ -2,7 +2,7 @@ import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
-import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
+import { route, nil, concat, isRecord, ThumbnailInfo, FetchRoute } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { getNoteContents, NoteData } from '../../pages/notes/notes';
@@ -101,7 +101,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
           
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
-                fetch("http://localhost:3001/createNote", payloadHeader)
+                fetch(FetchRoute+"/createNote", payloadHeader)
                     .then((res) => {
                         res.json().then((val) => createResponse(val, route))
                           .catch(() => console.error("error fetching /createNote: 200 response"))

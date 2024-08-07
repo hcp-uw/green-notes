@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, useEffect } from "react";
 import { auth } from "../../config/firebase";
 import { DetailsData } from "../../pages/editor/editor";
+import { FetchRoute } from "../file-navigation/routes";
 
 type EditModalProps = {
     isEditing: boolean,
@@ -176,7 +177,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
           
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
-                fetch("http://localhost:3001/saveDetails", payloadHeader)
+                fetch(FetchRoute+"/saveDetails", payloadHeader)
                     .then((res) => {
                         res.json().then((val) => saveResponse(val))
                           .catch(() => console.error("error fetching /saveDetails: 200 response"))
