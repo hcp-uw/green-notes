@@ -1,5 +1,6 @@
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ThumbnailInfo } from './routes';
+import { Link } from 'react-router-dom';
 
 
 type NoteThumbnailProps = {
@@ -34,7 +35,7 @@ function NoteThumbnail({title, text, route, navigate}: NoteThumbnailProps): JSX.
         // Later make into
         // <Link to={`../note/${id}`} className="link">
         <div>
-            {/* <Link to={`../note`} className="link">
+            {/* <Link to={`/note`} state={{ route: route}} className="link">
                 <span className="thumbnail-click"></span>
             </Link> */}
             <button onClick={() => navigate(route)}className="folder-link">
@@ -59,11 +60,12 @@ type NotesProps = {data: ThumbnailInfo[], location: string, areTemps: boolean, e
 
 export default function NoteThumbnails({data, location, areTemps, email}: NotesProps): JSX.Element {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const linkToNote = (route: string): void => {
 
         // navigate("/note?route=" + encodeURIComponent(route))
-        window.open("/note?route="+encodeURIComponent(route), "_blank", "noreferrer")
+        navigate("/note", {state: {route: route}})
+        // window.open("/#/note?route="+encodeURIComponent(route), "_blank", "noreferrer")
     };
 
     const notes: JSX.Element[] = [];
