@@ -1,3 +1,5 @@
+import React, { ChangeEvent } from "react";
+
 type CustomInputProps = {
     // TO-DO: change
     customInput: any, 
@@ -5,5 +7,13 @@ type CustomInputProps = {
 }
 
 export default function CustomInput({customInput, setCustomInput}: CustomInputProps): JSX.Element {
-    return <></>;
+    return (
+        <textarea
+            value={customInput}
+            onChange={(evt: ChangeEvent<HTMLTextAreaElement>) => setCustomInput(evt.target.value)} 
+            placeholder="Custom input"
+            className="ide-input"   
+        >
+        </textarea>
+    );
 }

@@ -132,10 +132,10 @@ export default function IDE(): JSX.Element {
                             onClick={minimize}
                         ></button>
                         <OutputWindow outputDetails={outputDetails} />
-                        {/* <CustomInput 
+                        <CustomInput 
                             customInput={customInput}
                             setCustomInput={setCustomInput}
-                        /> */}
+                        />
                     </>
                 }
             </div>
