@@ -9,7 +9,9 @@ import EditModal from "../../components/editor/EditModal";
 import ShareButton from "../../components/editor/ShareButton";
 import ShareModal from "../../components/editor/ShareModal";
 import DeleteButton from "../../components/editor/DeleteButton";
-import DeleteModal from "../../components/editor/DeleteModal"
+import DeleteModal from "../../components/editor/DeleteModal";
+import { useLocation } from "react-router-dom";
+import { FetchRoute } from "../../components/file-navigation/routes";
 
 
 export type DetailsData = {
@@ -47,8 +49,10 @@ export function Note(): JSX.Element {
     const navigate = useNavigate();
 
     // Window params, for now just for the "route" param
-    const params: URLSearchParams = new URLSearchParams(window.location.search);
-    const route: string | null = params.get("route");
+    // const params: URLSearchParams = new URLSearchParams(window.location.search);
+    // const route: string | null = params.get("route");
+    const location = useLocation();
+    const route = location.state.route;
 
     // Response for when the call is succesful
     const fetchResponse = (noteData: NoteData, route: string) => {
@@ -101,7 +105,7 @@ export function Note(): JSX.Element {
                     body: JSON.stringify(body)
                   };
 
-                  fetch("http://localhost:3001/shareDoc", payloadHeader)
+                  fetch(FetchRoute+"/shareDoc", payloadHeader)
                     .then((a) => {
                         setIsLoading(false);
                         setIsSharing(false);
@@ -117,7 +121,7 @@ export function Note(): JSX.Element {
 
     const doDeleteClick = async (): Promise<void> => {
         setIsLoading(true);
-        if (route !== null) {
+        if (typeof route === "string") {
             try {
 
                 const user = auth.currentUser;
@@ -131,7 +135,7 @@ export function Note(): JSX.Element {
                   method: "DELETE"
                 };
     
-                fetch("http://localhost:3001/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
+                fetch(FetchRoute+"/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
                     .then((res) => {
                         console.log(res.status);
                         navigate("/Notes");
@@ -147,9 +151,9 @@ export function Note(): JSX.Element {
     // On initial load and when auth.currentUser changes.
     // The second case should never be a possibility without changing pages anyways
     useEffect(() => {
-        if (route === null) {
+        if (typeof route !== "string") {
             console.log("no route given");
-            navigate("/Notes")
+            // navigate("/notes")
         } else {
 
             const user = auth.currentUser;
@@ -172,7 +176,7 @@ export function Note(): JSX.Element {
         }
     }, [route])
 
-    if (route === null) {
+    if (typeof route !== "string") {
         return <>error</>
     }
 

@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { auth } from '../../config/firebase';
+import { FetchRoute } from '../file-navigation/routes';
 
 // Returns the regester form for making new accounts
 export default function RegisterForm() {
@@ -67,7 +68,7 @@ export default function RegisterForm() {
               body: JSON.stringify(body)
             };
 
-            fetch("http://localhost:3001/createAccount", payloadHeader)
+            fetch(FetchRoute+"/createAccount", payloadHeader)
 
           } catch (e) {
             console.log(e);

@@ -3,7 +3,7 @@ import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
 import { ThumbnailInfo } from '../../components/file-navigation/routes';
 import { auth } from '../../config/firebase';
-import { isRecord } from '../../components/file-navigation/routes';
+import { isRecord, FetchRoute } from '../../components/file-navigation/routes';
 
 export default function Collaboration(): JSX.Element {
     const params: URLSearchParams = new URLSearchParams(window.location.search);
@@ -87,7 +87,7 @@ export default function Collaboration(): JSX.Element {
                 searchChecked = search.trim();
             }
 
-            let route: string = "http://localhost:3001/getShared?";
+            let route: string = FetchRoute+"/getShared?";
             route += "&tags="+encodeURIComponent(tagsChecked);
             route += "&class="+encodeURIComponent(classChecked);
             route += "&teacher="+encodeURIComponent(teacherChecked);

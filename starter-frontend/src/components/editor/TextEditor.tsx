@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { auth } from '../../config/firebase';
+import { FetchRoute } from '../file-navigation/routes';
 
 type TextEditorProps = {
   initContent: string,
@@ -88,7 +89,7 @@ const doSave = async (content: string, route: string, setIsLoading: React.Dispat
 
     // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
     // and the payload header is necessary stuff for server authentication
-    fetch("http://localhost:3001/saveDoc", payloadHeader)
+    fetch(FetchRoute+"/saveDoc", payloadHeader)
         .then(() => {
           setContent(content);
           setCurrContent(content);
