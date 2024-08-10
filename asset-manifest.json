@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.84ee1f8b.css",
-    "main.js": "/static/js/main.3a9fb799.js",
-    "static/media/linkedin.png": "/static/media/linkedin.2cb68259234fd70a3815.png",
-    "static/media/binary-tree-logo.png": "/static/media/binary-tree-logo.db6fefd30bfc3a9cdf2c.png",
-    "static/media/github.png": "/static/media/github.4027c62d5c05488f18e5.png",
-    "static/media/binary-tree-about-us.svg": "/static/media/binary-tree-about-us.daa38bf17bbd5c6241e2.svg",
-    "index.html": "/index.html",
-    "static/media/search-icon.svg": "/static/media/search-icon.1cc99f4c9a5d68c19c918effb366a3d5.svg",
-    "static/media/plus.svg": "/static/media/plus.24801a0d72af045f7b0f20039bb42679.svg",
-    "main.84ee1f8b.css.map": "/static/css/main.84ee1f8b.css.map",
-    "main.3a9fb799.js.map": "/static/js/main.3a9fb799.js.map"
+    "main.css": "/green-notes/static/css/main.ee4d9d73.css",
+    "main.js": "/green-notes/static/js/main.770b49af.js",
+    "static/media/linkedin.png": "/green-notes/static/media/linkedin.2cb68259234fd70a3815.png",
+    "static/media/binary-tree-logo.png": "/green-notes/static/media/binary-tree-logo.db6fefd30bfc3a9cdf2c.png",
+    "static/media/github.png": "/green-notes/static/media/github.4027c62d5c05488f18e5.png",
+    "static/media/binary-tree-about-us.svg": "/green-notes/static/media/binary-tree-about-us.daa38bf17bbd5c6241e2.svg",
+    "index.html": "/green-notes/index.html",
+    "static/media/search-icon.svg": "/green-notes/static/media/search-icon.1cc99f4c9a5d68c19c918effb366a3d5.svg",
+    "static/media/plus.svg": "/green-notes/static/media/plus.24801a0d72af045f7b0f20039bb42679.svg",
+    "main.ee4d9d73.css.map": "/green-notes/static/css/main.ee4d9d73.css.map",
+    "main.770b49af.js.map": "/green-notes/static/js/main.770b49af.js.map"
   },
   "entrypoints": [
-    "static/css/main.84ee1f8b.css",
-    "static/js/main.3a9fb799.js"
+    "static/css/main.ee4d9d73.css",
+    "static/js/main.770b49af.js"
   ]
 }
