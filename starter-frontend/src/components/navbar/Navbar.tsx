@@ -51,24 +51,24 @@ function Profile(): JSX.Element {
     return (
         <div>
             <Logout isModal={isModal} setIsModal={setIsModal}/>
-        <a onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
-        {open ? (
-        <ul className="menu">
-          <li className="menu-item">
-            {/* TODO: figure out how to give ddown-option more height and convert other things to links */}
-            <Link to={'profile'} className='ddown-option' onClick={handleOpen}>Your Profile</Link>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleOpen}>Shared Files</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={handleOpen}>Settings</button>
-          </li>
-          <li className="menu-item">
-            <button onClick={onOpen}>Sign out</button>
-          </li>
-        </ul>
-        ) : null}
+            <a onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
+            {open ? (
+                <ul className="menu">
+                <li className="menu-item">
+                    {/* TODO: figure out how to give ddown-option more height and convert other things to links */}
+                    <Link to={`profile`} className='ddown-option' onClick={handleOpen}>Your Profile</Link>
+                </li>
+                <li className="menu-item">
+                    <button onClick={handleOpen}>Shared Files</button>
+                </li>
+                <li className="menu-item">
+                    <Link to={`settings`} className='ddown-option' onClick={handleOpen}>Settings</Link>
+                </li>
+                <li className="menu-item">
+                    <button onClick={onOpen}>Sign out</button>
+                </li>
+                </ul>
+            ) : null}
         </div>
     );
 }

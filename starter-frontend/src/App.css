@@ -10,7 +10,7 @@
 @import "./pages/notes/notes.css";
 @import url('https://fonts.googleapis.com/css2?family=Amiko:wght@400;600;700&display=swap');
 @import "./components/editor/Modal.css";
-
+@import "./pages/settings/settings.css";
 
 /*General*/
 
