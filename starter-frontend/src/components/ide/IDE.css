@@ -1,17 +1,66 @@
+.ide {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    grid-template-areas: 
+    "editor output";
+    width: 80%;
+    border: 1.5px solid var(--dark-gray);
+    border-radius: 8.5px;
+    margin: auto;
+}
+
+.ide-left {
+    grid-area: editor;
+}
+
+.ide-right {
+    grid-area: output;
+}
+
 /* Code Editor */
 .code-editor {
-    height: 70vh;
+    height: 47vh;
+    border-top-left-radius: 7px;
+}
+
+.editor-wrapper, .monaco-editor, .overflow-guard { 
+    border-top-left-radius: 7px;
+}
+
+/* Footer */
+.ide-footer {
+    display: flex;
+}
+
+.ide-dropdown {
+    width: 88%;
+}
+
+.compile-btn {
+    width: 12%;
+    border-bottom-left-radius: 7px;
+    border: 0;
 }
 
 /* Output Window */
-.ide-output-window {
-    height: 70vh;
-    background-color: white;
-}
-
 .ide-output-h1 {
-
+    font-size: 16px;
+    height: 5%;
+    background-color: white;
+    padding-top: 5px;
+    padding-left: 10px;
+    margin: 0;
+    border-top-right-radius: 7px;
 }
+
+.ide-output-window {
+    height: 60%;
+    background-color: white;
+    margin: 0;
+    padding: 10px;
+}
+
+
 
 .ide-err {
 
@@ -19,4 +68,16 @@
 
 .ide-output {
 
+}
+
+/* Custom Input */
+.ide-input {
+    height: 35%;
+    width: 100%;
+    resize: none;
+    border-bottom-right-radius: 7px;
+    border-right: 0;
+    border-left: 0;
+    border-bottom: 0;
+    padding: 10px;
 }

@@ -11,7 +11,7 @@ import LanguagesDropdown from "./LanguagesDropdown";
 export default function IDE(): JSX.Element {
     const [code, setCode] = useState<string>("");
     const [customInput, setCustomInput] = useState<string>("");
-    const [output, setOutput] = useState<boolean>(false);
+    const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
     const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
@@ -110,34 +110,30 @@ export default function IDE(): JSX.Element {
     
     return (
         <div className="ide">
-            <LanguagesDropdown onSelectChange={onSelectChange} />
-            <div className="ide-main">
+            <div className="ide-left">
                 <CodeEditor 
                     code={code}
                     onChange={onChange}
                     language={language?.value}
-                    theme="oceanic-next"
+                    theme="vs-dark"
                 />
-                <button 
-                    onClick={handleCompile}
-                    disabled={!code}
-                    className="compile-btn"
-                >
-                    {processing ? "Processing..." : "Run"}
-                </button>
-                { output && outputDetails !== null &&
-                    <>
-                        <button 
-                            className="minimize-btn"
-                            onClick={minimize}
-                        ></button>
-                        <OutputWindow outputDetails={outputDetails} />
-                        <CustomInput 
-                            customInput={customInput}
-                            setCustomInput={setCustomInput}
-                        />
-                    </>
-                }
+                <div className="ide-footer">
+                    <button 
+                        onClick={handleCompile}
+                        disabled={!code}
+                        className="compile-btn"
+                    >
+                        {processing ? "Processing..." : "Run"}
+                    </button>
+                    <LanguagesDropdown onSelectChange={onSelectChange} />
+                </div>
+            </div>
+            <div className="ide-right">
+                <OutputWindow outputDetails={outputDetails} />
+                <CustomInput 
+                    customInput={customInput}
+                    setCustomInput={setCustomInput}
+                />
             </div>
         </div>);
 }
