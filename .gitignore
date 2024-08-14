@@ -134,3 +134,5 @@ dist
 
 # Account key
 serviceAccountKey.json
+
+*build*

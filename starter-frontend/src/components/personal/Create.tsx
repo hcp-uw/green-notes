@@ -2,10 +2,10 @@ import React, { ChangeEvent, MouseEvent } from 'react'
 import { useState, useEffect } from 'react';
 import '../file-navigation/Navigation.css';
 import './Create.css';
-import { route, nil, concat, isRecord, ThumbnailInfo } from '../file-navigation/routes';
+import { route, nil, concat, isRecord, ThumbnailInfo, FetchRoute } from '../file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { useNavigate } from 'react-router-dom';
-import { getNoteContents } from '../../pages/notes/notes';
+import { getNoteContents, NoteData } from '../../pages/notes/notes';
 
 
 /* In general just needs to be cleaned up */
@@ -85,7 +85,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
                 const body = {
                     route: route,
-                    name: givenName,
+                    name: trimmed,
                     body: givenBody
                 }
           
@@ -101,7 +101,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
           
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
-                fetch("http://localhost:3001/createNote", payloadHeader)
+                fetch(FetchRoute+"/createNote", payloadHeader)
                     .then((res) => {
                         res.json().then((val) => createResponse(val, route))
                           .catch(() => console.error("error fetching /createNote: 200 response"))
@@ -115,8 +115,9 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
         }
     }
 
-    const tempResponse = (body: string, route: string): void => {
-        doMakeClick(name, eRoute, body);
+    const tempResponse = (noteData: NoteData, route: string): void => {
+
+        doMakeClick(name, eRoute, noteData.body);
     }
 
     const createResponse = (data: unknown, route: string): void => {
@@ -163,18 +164,17 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName}></input>
+                        <input type="text" value={name} onChange={changeName} className="name-input"></input>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Template:</p>
-                        <select name="template" id="template" onChange={(e) => setTempId(e.target.value)}>
+                        <select name="template" id="template" className='template-input' onChange={(e) => setTempId(e.target.value)}>
                             <option value="">No Template</option>
                             {templates(temps)}
                         </select>
                     </div>
                     <div className="maketxt-wrap">
-                        <p className="make-text">Create: </p>
-                        <button onClick={() => {
+                        <button className='create-button' onClick={() => {
                             if (isTemp) {
                                 doMakeClick(name, "Users/"+email+"/Templates", "");
                             } else if (tempId === ""){
@@ -185,7 +185,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                             }
                             
                             }}>
-                            WE PRAY
+                            Create
                         </button>
                     </div>
                 </div>

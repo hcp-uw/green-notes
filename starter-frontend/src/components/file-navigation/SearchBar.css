@@ -87,12 +87,19 @@
     flex-grow: 10;
 }
 
+.quarter-dropdown:hover {
+    cursor: pointer;
+}
+
 .submit-button {
    margin-top: 1rem;
    margin-bottom: 0;
+   text-decoration: none;
+   text-align: center;
 }
 
 .submit-button:hover {
     background-color: var(--dark-gray);
     color: var(--offbase-white);
+    cursor: pointer;
 }

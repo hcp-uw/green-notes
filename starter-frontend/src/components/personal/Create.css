@@ -1,19 +1,16 @@
 .make {
-    margin-top: 10px;
-    height: 80vh;
     position: fixed;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--offbase-white);
-    width: 60vw;
+    transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
+    margin-top: 10px;
+    width: min(70vw, 600px);
     z-index: 10;
+
+    border-radius: 10px;
+    background-color: var(--light-green);
+
+    padding: 35px;
 }
 
 /* close button for Create Note pop-up */
@@ -22,9 +19,11 @@
     right: 0;
     position: absolute;
     margin: 10px;
+
     cursor: pointer;
+
     border: 2px solid red;
-    background-color: white;
+    background-color: var(--light-green);
     color: red;
     font-size: 20px;
 }
@@ -36,29 +35,27 @@
 
 /* header/title for Make New Note/Temp */
 .make-header {
-    font-size: 3rem;
-    top: 0;
-    left: 0;
-
-    margin-top: 10px;
-    margin-left: 10px;
+    font-size: 2rem; 
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: center;   
 }
 
 /* wrapper for element where user can decide whether to make a note or a temp */
 .maketxt-wrap {
     display: flex;
-    margin-left: 10px;
     align-items: center;
 }
 
 /* txt specifcially for the "New: " */
 .make-text {
-    font-size: 2rem;
+    font-size: 1.5rem;
     top: 0;
     left: 0;
 
     word-wrap: inherit;
     display: block;
+    margin-bottom: 10px;
 }
 
 /* button indicating whether new note or temp */
@@ -67,7 +64,7 @@
     cursor: pointer;
 
     max-height: 2rem;
-    margin-left: 10px;
+    
     position: flex;
     margin-bottom: 0px;
     min-width: 7rem;
@@ -86,7 +83,7 @@
     cursor: pointer;
 
     max-height: 2rem;
-    margin-left: 10px;
+    
     position: flex;
     margin-bottom: 0px;
 
@@ -95,4 +92,48 @@
 
 .d-arrow {
     font-size: 1rem;
+}
+
+.name-input {
+    background-color: var(--lightest-gray);
+    border-radius: 7px;
+    font-size: 1.5rem;
+    font-family: "Fira Code";
+    width: 100%;
+    margin-left: 1.5rem;
+    margin-top: 10px;
+}
+
+.template-input {
+    font-size: 1.5rem;
+    font-family: "Fira Code";
+    background-color: var(--lightest-gray);
+    border-radius: 7px;
+    margin-left: 1.5rem;
+    width: 100%;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+
+.template-input:hover {
+    cursor: pointer;
+    background-color: var(--lighter-gray);
+}
+
+.create-button {
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 1.5rem;
+    background-color: var(--dark-green);
+    border-color: var(--dark-green);
+    color: var(--offbase-white);
+    padding: 2px 45px;
+    border-radius: 7px;
+}
+
+.create-button:hover {
+    cursor: pointer;
+    background-color: var(--darker-green);
 }

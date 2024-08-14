@@ -1,5 +1,6 @@
 {
-  "name": "starter-project",
+  "name": "green-notes",
+  "homepage": "https://hcp-uw.github.io/green-notes",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

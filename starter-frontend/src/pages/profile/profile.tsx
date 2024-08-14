@@ -1,59 +1,50 @@
-import  Logout  from '../../components/auth/Logout';
 import React from 'react';
-import { useState } from 'react';
-
-import profile from '../../assets/profile-button.png';
-import "./profile.css";
+import pfp from '../../assets/profile-button.png';
+import './profile.css';
 
 export default function Profile() {
 
-    const[isModal, setIsModal] = useState<boolean>(false);
-
-    const onOpen = () => {
-        setIsModal(!isModal);
-    }
-
     return (
-
-        // TODO: get background for logout modal to work again
-        <div className="profile-page">
-          {/* <div className="background"></div> */}
-            <div className="white-box">
+        <div className='profile-bg'>
+            <div className='bg-box'>
                 <User />
-                {/* <p className="profile-icon"><img id="profile-icon" src={profile}></img></p> */}
-                <button onClick={onOpen}>Logout?</button>
-                <Logout isModal={isModal} setIsModal={setIsModal}/>
+                <Stuff />
             </div>  
-            
-          
         </div>        
     );
 }
 
 function User() {
     return (
-        <div>
-            <Icon />
-            <Bio />
+        <div className='left-container'>
+            <img src={pfp} alt="" className='pfp-icon'></img>
+
+            <p className='name'>John Doe</p>
+            <p className='user'>@username</p>
+            
+            <div className='bio-box'>
+                    <p>hello my name is john doe.</p>
+            </div> 
         </div>
     );
 }
 
-function Icon() {
+function Stuff() {
     return (
-        <div className="profile-icon"><img className="profile-icon" src={profile}></img></div>
-    );
-}
-
-function Bio() {
-    return (
-        <div className="bio-box">
-            <div className="bio-text">
-                <p>
-                    Hello my name is john doe.
-                </p>
+        <div className='right-container'>
+            <h1>Shared Notes and Templates</h1>
+            <div className='grid-container'>
+                <p className='notes-box'> note 1 </p>
+                <p className='notes-box'> note 1 </p>
+                <p className='notes-box'> note 1 </p>
+                <p className='notes-box'> note 1 </p>
+                <p className='notes-box'> note 1 </p>
             </div>
-        </div> 
+
+            <h1 className='tags'>Common Tags:</h1>
+            <div>
+            </div>
+        </div>
     );
 }
 

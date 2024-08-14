@@ -1,6 +1,7 @@
 import { route, concat, nil } from "../file-navigation/routes"
 import { useState, useEffect, ChangeEvent } from "react"
 import { auth } from "../../config/firebase"
+import { FetchRoute } from "../file-navigation/routes"
 
 type FolderModalProps = {
     isMakingFolder: boolean;
@@ -61,7 +62,7 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
           
                 // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 // and the payload header is necessary stuff for server authentication
-                fetch("http://localhost:3001/createFolder", payloadHeader)
+                fetch(FetchRoute+"/createFolder", payloadHeader)
                     .then(() => window.location.reload())
                     .catch(() => console.error("Error fetching /createFolder: Failed to connect to server"));
                 
@@ -89,11 +90,10 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName}></input>
+                        <input className="name-input" type="text" value={name} onChange={changeName}></input>
                     </div>
                     <div className="maketxt-wrap">
-                        <p className="make-text">Create: </p>
-                        <button onClick={() => doMakeClick(name, eRoute)}>Make</button>
+                        <button className="create-button" onClick={() => doMakeClick(name, eRoute)}>Create</button>
                     </div>
 
                 </div>

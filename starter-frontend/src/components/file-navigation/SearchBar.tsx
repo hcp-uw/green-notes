@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import searchIcon from '../../assets/search-icon.svg';
 
 type AdvancedSearchProps = {
@@ -13,7 +14,7 @@ type SearchBarProps = {
     isAdvanced: boolean;
 
     /** Updates isAdvanced. */
-    onAdvance: () => void;
+    setIsAdvanced: React.Dispatch<React.SetStateAction<boolean>>
 
     /** True if search bar for collaboration page, false if search bar for notes page. */
     collaboration: boolean;
@@ -34,16 +35,36 @@ function SearchIcon() {
     );
 }
 
-/**
- * Part of the search bar where you actually input text.
- * 
- * TO-DO: 
- *  - Make functional.
- *  - Add advanced search bar pop-up.
- */
-function MainSearch() {
+type MainSearchProps = {
+    setIsAdvanced: React.Dispatch<React.SetStateAction<boolean>>;
+    isAdvanced: boolean;
+}
+
+function MainSearch({setIsAdvanced, isAdvanced}: MainSearchProps) {
+
+    const [readyToLeave, setReadyToLeave] = useState<boolean>(false);
+
+    const doFocusUpdate = () => {
+        setReadyToLeave(false);
+    }
+
+    const doClick = () => {
+        if (!isAdvanced) {
+            setIsAdvanced(true);
+            setReadyToLeave(true);
+        } else {
+            if(readyToLeave) {
+                setIsAdvanced(false);
+            } else {
+                setReadyToLeave(true);
+            }
+        }
+    }
+
+    
     return (
-        <input className="search-text" type="text" name="search" placeholder="Search notes and templates" autoComplete="off" />
+        <input className="search-text" type="text" name="search" placeholder="Search notes and templates" autoComplete="off" 
+        onFocus={() => doFocusUpdate()} onClick={() => doClick()} onBlur={() => setReadyToLeave(false)}/>
     );
 }
 
@@ -83,7 +104,8 @@ function LastRow(collaboration: boolean): JSX.Element {
             <div className="search-line flex-hor">
                 <div className="search-half flex-hor">
                     <p className="search-field">Quarter </p>
-                    <select className="search-box" name="season">
+                    <select className="search-box quarter-dropdown" name="season">
+                        <option value=""></option>
                         <option value="autumn">Autumn</option>
                         <option value="winter">Winter</option>
                         <option value="spring">Spring</option>
@@ -120,13 +142,13 @@ function LastRow(collaboration: boolean): JSX.Element {
 /**
  * Returns the whole search bar.
  */
-export default function SearchBar({isAdvanced, onAdvance, collaboration} : SearchBarProps) {
+export default function SearchBar({isAdvanced, setIsAdvanced, collaboration} : SearchBarProps) {
     return (
-        <form action="/notes">
+        <form action="/collaboration" >
             <AdvancedSearch isAdvanced={isAdvanced} collaboration={collaboration}/>
-            <div className="search-bar flex" onClick={onAdvance}>
+            <div className="search-bar flex">
                 <SearchIcon />
-                <MainSearch />
+                <MainSearch  setIsAdvanced={setIsAdvanced} isAdvanced={isAdvanced}/>
             </div>
         </form>
     );

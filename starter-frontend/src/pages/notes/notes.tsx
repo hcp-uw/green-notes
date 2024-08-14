@@ -3,13 +3,15 @@ import TemplateToggleButton from '../../components/personal/TemplateToggleButton
 import AddNote from "../../components/personal/AddNote";
 import Folders from "../../components/file-navigation/Folders";
 import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
-import SearchBar from "../../components/file-navigation/SearchBar";
+// import SearchBar from "../../components/file-navigation/SearchBar";
 import Create from "../../components/personal/Create";
 import NewFolder from '../../components/personal/NewFolder';
 import FolderModal from '../../components/personal/FolderModal';
 import { auth } from "../../config/firebase";
-import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat } from '../../components/file-navigation/routes';
+import { route, nil, cons, ThumbnailInfo, isRecord, rev, concat, FetchRoute } from '../../components/file-navigation/routes';
 import { User } from "firebase/auth";
+import DeleteFolderButton from '../../components/personal/DeleteFolderButton';
+import DeleteFolderModal from '../../components/personal/DeleteFolderModal';
 
 export function Notes(): JSX.Element {
 
@@ -21,6 +23,8 @@ export function Notes(): JSX.Element {
 
     // isMakingFolder represents state of whether user is making folder
     const [isMakingFolder, setMakingFolder] = useState<boolean>(false);
+
+    const [isDeletingFolder, setDeletingFolder] = useState<boolean>(false);
 
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
@@ -135,29 +139,30 @@ export function Notes(): JSX.Element {
 
     const getTemps = async (email: string): Promise<void> => {
         setIsLoading(true);
-                try {
-                    const user = auth.currentUser;
-                    const token = user && (await user.getIdToken());
-              
-                    const payloadHeader = {
-                      headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                      },
-                    };
-    
-                    const route: string = "Users/"+email+"/Templates";
-              
-                    // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
-                    // and the payload header is necessary stuff for server authentication
-                    fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
-                        .then((res) => {
-                            res.json().then((val) => doTempResponse(val, route))}) 
-                        .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
-                    
-                  } catch (e) {
-                    console.log(e);
-                  }
+        try {
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
+        
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "GET"
+            };
+
+            const route: string = "Users/"+email+"/Templates";
+        
+            // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
+            // and the payload header is necessary stuff for server authentication
+            fetch(FetchRoute+"/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+                .then((res) => {
+                    res.json().then((val) => doTempResponse(val, route))}) 
+                .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
+            
+          } catch (e) {
+            console.log(e);
+          }
     }
 
     // Method that is called when the template toggle button is clicked
@@ -192,7 +197,7 @@ export function Notes(): JSX.Element {
               
                 //     // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
                 //     // and the payload header is necessary stuff for server authentication
-                //     fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+                //     fetch(FetchRoute+"/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
                 //         .then((res) => {
                 //             res.json().then((val) => doTempResponse(val, route))}) 
                 //         .catch(() => console.error("Error fetching /getFolderContents: Failed to connect to server"));
@@ -230,9 +235,14 @@ export function Notes(): JSX.Element {
                 console.error('Invalid JSON from /getFolderContents', info.iD);
                 return;
             }
+
+            if (typeof info.content !== "string") {
+                console.error('Invalid JSON from /getFolderContents', info.content);
+                return;
+            }
     
             // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
             // Organizes them by doc or folder kind
             if (temp.kind === "doc") {
                 docs.push(temp);
@@ -248,7 +258,7 @@ export function Notes(): JSX.Element {
     if (isLoading) { // If page is loading
         return(
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className="nav-area flex">
                     <h1>Loading...</h1>
                 </div>
@@ -265,7 +275,7 @@ export function Notes(): JSX.Element {
     if (isTemp) { // is in Templates
         return(
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className='flex'>
                     <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email} /></h1>                </div>
                 <div className="nav-area flex">
@@ -282,7 +292,7 @@ export function Notes(): JSX.Element {
     if (currRouteName.tl.kind === "nil" || currRouteId.tl.kind === "nil") { // If user isn't in a folder ** folder functionality hasn't been implemented yet
         return (
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                 <div className='flex'>
                     <h1>Your <TemplateToggleButton isToggled={isTemp} doTempClick={doTempClick} email={user.email}/></h1>
                     <NewFolder onClick={setMakingFolder}/>
@@ -300,10 +310,11 @@ export function Notes(): JSX.Element {
     } else { // If user is in a folder
         return (
             <div className="page green-background nav-page">
-                <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/>
+                {/* <SearchBar isAdvanced={isAdvanced} onAdvance={() => setIsAdvanced(true)} collaboration={false}/> */}
                     <div className='flex'>
                         <PreviousFolder email={user.email} name={currRouteName.hd} doBackClick={backResponse}></PreviousFolder>
                         <NewFolder onClick={setMakingFolder}/>
+                        <DeleteFolderButton onClick={setDeletingFolder}/>
                     </div>                <div className="nav-area flex">
                     <AddNote isMaking={isMaking} onMake={() => setIsMaking(!isMaking)}/>
                     <Folders oldData={storedContent} data={currContent} setLoad={setIsLoading} resp={folderResponse} location={eRoute}/>
@@ -311,6 +322,7 @@ export function Notes(): JSX.Element {
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
+                    <DeleteFolderModal isDeleting={isDeletingFolder} setIsDeleting={setDeletingFolder} location="Not done yet"/>
                 </div>
             </div>
         );  
@@ -368,6 +380,7 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          method: "GET"
         };
 
         // Temp string for the route.
@@ -375,7 +388,7 @@ const getFolderContents = async (route: string, iD: string, name: string, cb: Fo
   
         // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
-        fetch("http://localhost:3001/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
+        fetch(FetchRoute+"/getFolderContents?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseFolderInfo just returns an array of ThumbnailInfo, but doesn't do anything with it yet, no update happens on the page
@@ -423,8 +436,13 @@ const parseFolderInfo = (data: unknown, iD: string, route: string, name: string,
             return [];
         }
 
+        if (typeof info.content !== "string") { // Checks that the element has a valid iD field
+            console.error('Invalid JSON from /getFolderContents', info.content);
+            return [];
+        }
+
         // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
-        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind};
+        const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
         // Organizes them by doc or folder kind
         if (temp.kind === "doc") {
             docs.push(temp);
@@ -468,6 +486,7 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
+          method: "GET"
         };
 
         // Temp string for the route. Will update to be the given route parameter
@@ -478,7 +497,7 @@ export const getNoteContents = async (route: string, cb: NoteCallback): Promise<
   
         // Fetches the /getNote. The string in the encodeURIComponent is the route
         // and the payload header is necessary stuff for server authentication
-        fetch("http://localhost:3001/getNote?route="+encodeURIComponent(route), payloadHeader)
+        fetch(FetchRoute+"/getNote?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => { // If the intial call works
                 if (res.status === 200) { // If the status is good
                     // Currently parseNoteInfo just returns the body in a string, but doesn't do anything with it yet, no update happens on the page
@@ -511,18 +530,70 @@ const parseNoteInfo = (data: unknown, route: string, cb: NoteCallback): void => 
         return;
     }
 
-    if (typeof data.data.body !== "string") {
-        console.error("Invalid JSON from /getFolderContents", data.data.body);
+    const body = data.data.body;
+    if (typeof body !== "string") {
+        console.error("Invalid JSON from /getFolderContents", body);
         return;
     }
 
-    cb(data.data.body, route);
+    const className = data.data.class;
+    if (typeof className !== "string") {
+        console.error("Invalid JSON from /getFolderContents", className);
+        return;
+    }
+
+    const name = data.data.name;
+    if (typeof name !== "string") {
+        console.error("Invalid JSON from /getFolderContents", name);
+        return;
+    }
+
+    const quarter = data.data.quarter;
+    if (typeof quarter !== "string") {
+        console.error("Invalid JSON from /getFolderContents", quarter);
+        return;
+    }
+
+    const tags = data.data.tags;
+    if (!Array.isArray(tags)) {
+        console.error("Invalid JSON from /getFolderContents", tags);
+        return;
+    }
+
+    const teacher = data.data.teacher;
+    if (typeof teacher !== "string") {
+        console.error("Invalid JSON from /getFolderContents", teacher);
+        return;
+    }
+
+    const year = data.data.year;
+    if (typeof year !== "number") {
+        console.error("Invalid JSON from /getFolderContents", year);
+        return;
+    }
+
+    const noteData: NoteData = {
+        body: body,
+        className: className,
+        name: name,
+        quarter: quarter,
+        tags: tags,
+        teacher: teacher,
+        year: year
+    }
+
+
+
+    cb(noteData, route);
     return;
 }
 
 
 // NoteCallback type used to update website state during getNote fetch
-export type NoteCallback = (body: string, route: string) => void;
+export type NoteData = {
+    body: string, className: string, name: string, quarter: string, tags: string[], teacher: string, year: number
+}
+export type NoteCallback = (noteData: NoteData, route: string) => void;
 
 const getExtendedRoute = (locationID: route, email: string): string => {
     let eRoute: string = "Users/" + email +"/Notes";

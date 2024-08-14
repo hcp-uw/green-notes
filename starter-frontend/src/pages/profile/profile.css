@@ -1,5 +1,5 @@
-/*Background*/
-.profile-page {
+/*Green Background*/
+.profile-bg {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,52 +7,114 @@
     height: 100vh;
   }
 
-.white-box {
-    /*
-    display: flex;
-    justify-content: center;
-    align-items: center;\*/
+/* white box background */
+.bg-box {
     margin-top: 50px;
     width: 95%;
     height: 85%;
     top: 50px;
     background-color: var(--offbase-white);
-    border-radius: 15px;
+    border-radius: 5px;
 }
 
-.profile-icon {
-    width: 150px;
-    height: 150px;
-    position:absolute;
-    margin-top: 30px;
-    margin-left: 35px;
+/* User related container */
+.left-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 500px;
+    width: 350px;
+    margin: 20px;
+    padding: 70px;
+
+    font-family: "Fira Code";
+}
+
+/* display name */
+.name {
+    color: #201F1F;
+    font-weight: 500;
+    font-size: 25px;
+    padding: 0px;
+    margin: 0px;
+}
+
+/* username */
+.user {
+    color:#3C8478;
+    margin: 0px;
+}
+
+.pfp-icon {
+    width: 200px;
+    height: auto;
 }
 
 .bio-box {
     width: 250px;
-    height: 200px;
+    height: 150px;
     flex-shrink: 0;
     border-radius: 36px;
     background: #EDE7E7;
+    margin: 20px;
 
-    position:absolute;
-    margin-top: 240px;
-    margin-left: 30px;
-
+    /* for the text within */
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.bio-text {
-    width: 286px;
-    height: 112px;
-    flex-shrink: 0;
     color: #201F1F;
-    text-align: center;
-    font-family: "Fira Code";
     font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding: 10px;
+}
+
+/* Notes and Templates */
+.right-container {
+    position: absolute;
+    top: 70px;
+    left: 350px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    height: 500px;
+    width: 500px;
+    margin: 20px;
+    padding: 50px;
+
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 25px;
+}
+
+.notes-box {
+    width: 200px;
+    height: 140px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #EDE7E7;
+    margin: 0px;
+
+    /* for the text within */
+    display: flex;
+    justify-content:left;
+    align-items:baseline;
+    color: #201F1F;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 20px;
+}
+
+/* create grid for tags,  */
+.tags {
+    /* text */
+    color:#3C8478;
+    margin-top: 30px;
 }
