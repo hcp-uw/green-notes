@@ -14,6 +14,8 @@ import Login from './pages/auth-pages/login';
 import Register from './pages/auth-pages/register';
 import NewProfile from './pages/edit-profile/EditProfile';
 import PrivateRoute from './components/auth/PrivateRoute';
+// Delete later
+import Testing from './pages/testing';
 
 function App(): JSX.Element {
   return (
@@ -29,6 +31,7 @@ function App(): JSX.Element {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/new-profile" element={<PrivateRoute><NewProfile /></PrivateRoute>} />
+        <Route path="/testing" element={<Testing />}/>
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <ErrorMessage />
