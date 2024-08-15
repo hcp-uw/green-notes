@@ -9,10 +9,11 @@ type DeleteModalProps = {
     isDeleting: boolean,
     setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>,
     givenPath: route,
-    eRoute: string
+    eRoute: string,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute}: DeleteModalProps): JSX.Element => {
+const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsLoading}: DeleteModalProps): JSX.Element => {
 
     const [currPath, setCurrPath] =  useState<string>("");
  
@@ -31,6 +32,7 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute}: Delet
 
     const doDeleteClick = async (route: string): Promise<void> => {
         try {
+            setIsLoading(true);
             const user = auth.currentUser;
             const token = user && (await user.getIdToken());
 

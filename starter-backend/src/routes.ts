@@ -567,8 +567,13 @@ export async function deleteFolder(req: SafeRequest, res: SafeResponse) {
         batch.delete(doc.ref);
     });
 
-    batch.commit()
-        .then((e) => res.status(200).send(e))
+    await batch.commit()
+        .then(() => {
+            const folderDocRoute: string = route.substring(0, route.length-8);
+            db.doc(folderDocRoute).delete()
+                .then((e) => res.send(e))
+                .catch((e) => res.status(400).send(e))
+        })
         .catch((e) => res.status(400).send(e));
 }
   

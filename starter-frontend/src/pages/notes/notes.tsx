@@ -322,7 +322,7 @@ export function Notes(): JSX.Element {
                     <Create isMaking={isMaking} onMake={() => setIsMaking(!isMaking)} isTemp={isTemp}
                         givenPath={rev(currRouteName)} eRoute={eRoute} email={user.email} temps={templates}/>
                     <FolderModal givenPath={rev(currRouteName)} isMakingFolder={isMakingFolder} onMakeFolder={setMakingFolder} eRoute={eRoute}/>
-                    <DeleteFolderModal isDeleting={isDeletingFolder} setIsDeleting={setDeletingFolder} givenPath={rev(currRouteName)} eRoute={eRoute}/>
+                    <DeleteFolderModal isDeleting={isDeletingFolder} setIsDeleting={setDeletingFolder} givenPath={rev(currRouteName)} eRoute={eRoute} setIsLoading={setIsLoading}/>
                 </div>
             </div>
         );  
