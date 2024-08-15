@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
-import { concat, nil, route } from "../file-navigation/routes";
+import { concat, nil, route, FetchRoute } from "../file-navigation/routes";
+import { auth } from "../../config/firebase";
 
 
 /* ONCE ALL OTHER BRANCHES ARE MERGED GRAB CSS FROM MODAL.CSS */
@@ -28,6 +29,32 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute}: Delet
         setCurrPath(temp);
     }, [givenPath])
 
+    const doDeleteClick = async (route: string): Promise<void> => {
+        try {
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
+
+      
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "DELETE"
+            };
+
+            fetch(FetchRoute+"/deleteFolder?route="+encodeURIComponent(route), payloadHeader)
+                .then(res => {
+                    window.location.reload();
+                    // console.log(res.status)
+                })
+                .catch(() => console.error("Error fetching /delteFolder: Failed to connect"));
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     if (!isDeleting) {
         return <></>
@@ -50,7 +77,7 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute}: Delet
                 </div>
                 <p>Note: You can't delete a folder if it has subfolders. You must delete those first</p>
                 <div className="maketxt-wrap">
-                    <button className="delete-button" onClick={() => console.log("deleted")}>Delete</button>
+                    <button className="delete-button" onClick={() => doDeleteClick(eRoute)}>Delete</button>
                     <button className="create-button" onClick={() => setIsDeleting(false)}>Cancel</button>
                 </div>
             </div>
