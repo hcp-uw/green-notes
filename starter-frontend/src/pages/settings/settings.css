@@ -5,6 +5,8 @@
     width: 680px;
     height: 600px;
     border-radius: 5px;
+
+    position: relative;
 }
 
 /* general settings text */
@@ -52,6 +54,46 @@
     margin-top: 50px;
 }
 
+/* separates Appearance settings from General settings */
 #appearance {
     margin-top: 70px;
 }
+
+#delete-button {
+    position: absolute;
+    bottom: 40px;
+
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 1rem;
+    background-color: var(--green);
+    border-color: var(--green);
+    padding: 2px;
+    border-radius: 7px;
+}
+
+#delete-button:hover {
+    cursor: pointer;
+    background-color: var(--dark-green);
+}
+
+
+/* --------------------- */
+/* DELETE ACCOUNT POP UP */
+.delete-account-popup {
+    height: 30vh;
+    width: 70vh;
+    position: fixed;
+    overflow: hidden;
+    background-color: var(--green);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+
+    text-align: center;
+    padding: 40px; /* to vertically center a bit more */
+}
+/* --------------------- */

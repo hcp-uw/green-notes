@@ -24,6 +24,7 @@ interface ContextParams {
   setError: React.Dispatch<React.SetStateAction<string>>;
   updateUserProfile: (user: User, profile: any) => Promise<void>;
   logout: () => Promise<void>;
+  deleteAccount: (user: User) => Promise<void>;
 }
 
 // returns a Consumer and Procider compenent.
@@ -61,6 +62,10 @@ export function AuthProvider({ children }: AuthProviderParams) {
     function logout() {
       return signOut(auth);
     }
+
+    function deleteAccount(user: User) {
+      return user.delete();
+    }
   
   
     useEffect(() => {
@@ -80,6 +85,7 @@ export function AuthProvider({ children }: AuthProviderParams) {
       setError,
       updateUserProfile,
       logout,
+      deleteAccount
     };
   
     return (

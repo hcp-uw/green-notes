@@ -70,6 +70,24 @@
     padding: 10px;
 }
 
+#edit-profile-button {
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 1rem;
+    background-color: var(--lightest-gray);
+    border-color: var(--green);
+    padding: 2px;
+    border-radius: 7px;
+}
+
+#edit-profile-button:hover {
+    cursor: pointer;
+    background-color: var(--green);
+}
+
+
 /* Notes and Templates */
 .right-container {
     position: absolute;
