@@ -26,6 +26,8 @@
     background-color: var(--light-green);
     color: red;
     font-size: 20px;
+
+    border-radius: 5px;
 }
 
 .make-exit:hover {

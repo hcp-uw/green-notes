@@ -131,7 +131,8 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
             return;
         }
 
-        navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
+        // navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
+        navigate("/note", {state: {route: route+"/"+data.id}});
     }
 
     const templates = (thumbnails: ThumbnailInfo[] | undefined): JSX.Element[] => {
