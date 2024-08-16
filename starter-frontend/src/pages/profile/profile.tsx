@@ -1,6 +1,7 @@
 import React from 'react';
 import pfp from '../../assets/profile-button.png';
 import './profile.css';
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
 
@@ -25,6 +26,7 @@ function User() {
             <div className='bio-box'>
                     <p>hello my name is john doe.</p>
             </div> 
+            <Link to="/settings"><button id='edit-profile-button'>Edit Profile</button></Link>
         </div>
     );
 }
