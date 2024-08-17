@@ -26,6 +26,8 @@
     background-color: var(--light-green);
     color: red;
     font-size: 20px;
+
+    border-radius: 5px;
 }
 
 .make-exit:hover {
@@ -136,4 +138,23 @@
 .create-button:hover {
     cursor: pointer;
     background-color: var(--darker-green);
+}
+
+
+.delete-button {
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 1.5rem;
+    background-color: rgba(255, 0, 0, 0.673);
+    border-color: rgba(255, 0, 0, 0.673);
+    color: var(--offbase-white);
+    padding: 2px 45px;
+    border-radius: 7px;
+}
+
+.delete-button:hover {
+    cursor: pointer;
+    background-color: rgb(211, 0, 0);
 }

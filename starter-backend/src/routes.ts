@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
 import { db } from "./config/firebase-config.js"
 
+
 // Require type checking of request body.
 type SafeRequest = Request<ParamsDictionary, {}, Record<string, unknown>>;
 type SafeResponse = Response;
@@ -405,6 +406,7 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
 
 }
 
+// Deletes the doc at the given route
 export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
@@ -418,6 +420,7 @@ export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
         .catch((a) => res.status(400).send(a))
 }
 
+// Gets all shared notes
 export async function getShared(req: SafeRequest, res: SafeResponse) {
 
     const searchUpper = req.query.name;
@@ -540,3 +543,37 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
     res.send({data: info})
     return;
 }
+
+// Deletes folder at the given route if it contains no subfolders
+export async function deleteFolder(req: SafeRequest, res: SafeResponse) {
+    const route = req.query.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+
+    const collectionRef = db.collection(route);
+    const snapshot = await collectionRef.get();
+
+    snapshot.forEach(doc => {
+        if (doc.data().type === "folder") {
+            res.status(409).send("folder contains subfolder");
+            return;
+        }
+    })
+
+    const batch = db.batch();
+    snapshot.forEach(doc => {
+        batch.delete(doc.ref);
+    });
+
+    await batch.commit()
+        .then(() => {
+            const folderDocRoute: string = route.substring(0, route.length-8);
+            db.doc(folderDocRoute).delete()
+                .then((e) => res.send(e))
+                .catch((e) => res.status(400).send(e))
+        })
+        .catch((e) => res.status(400).send(e));
+}
+  

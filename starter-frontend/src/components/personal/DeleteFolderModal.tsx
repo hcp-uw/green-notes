@@ -1,4 +1,6 @@
-import { useState, ChangeEvent } from "react"
+import { useState, useEffect } from "react"
+import { concat, nil, route, FetchRoute } from "../file-navigation/routes";
+import { auth } from "../../config/firebase";
 
 
 /* ONCE ALL OTHER BRANCHES ARE MERGED GRAB CSS FROM MODAL.CSS */
@@ -6,17 +8,55 @@ import { useState, ChangeEvent } from "react"
 type DeleteModalProps = {
     isDeleting: boolean,
     setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>,
-    location: string,
+    givenPath: route,
+    eRoute: string,
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const DeleteFolderModal = ({isDeleting, setIsDeleting, location}: DeleteModalProps): JSX.Element => {
+const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsLoading}: DeleteModalProps): JSX.Element => {
 
+    const [currPath, setCurrPath] =  useState<string>("");
+ 
+    useEffect(() => {
+        let temp: string = "";
 
-    // const [folderName, setFolderName] = useState<string>(location);
-    //    
-    // const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
-    //     setFolderName(evt.target.value);
-    // }
+        let tempPath: route = concat(nil, givenPath);
+
+        while (tempPath.kind !== "nil") {
+            temp = temp + tempPath.hd + "/";
+            tempPath = tempPath.tl;
+        }
+
+        setCurrPath(temp);
+    }, [givenPath])
+
+    const doDeleteClick = async (route: string): Promise<void> => {
+        try {
+            setIsLoading(true);
+            const user = auth.currentUser;
+            const token = user && (await user.getIdToken());
+
+      
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "DELETE"
+            };
+
+            fetch(FetchRoute+"/deleteFolder?route="+encodeURIComponent(route), payloadHeader)
+                .then(res => {
+                    window.location.reload();
+                    // console.log(res.status)
+                })
+                .catch(() => console.error("Error fetching /delteFolder: Failed to connect"));
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     if (!isDeleting) {
         return <></>
@@ -31,16 +71,16 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, location}: DeleteModalPro
                 <button className="make-exit" onClick={() => setIsDeleting(false)}>X</button>
 
                 <div className="maketxt-wrap">
-                    <p className="make-text">location: {location}</p>
+                    <p className="make-text">Location: {currPath}</p>
                     {/* <input type="text" value={folderName} onChange={changeName}></input> */}
                 </div>
                 <div className="maketxt-wrap">
-                    <p className="make-text">Would you like to delete this folder and all of its contents? This action can't be undone!</p>
+                    <p className="make-text">Would you like to delete this folder and all of its contents? <b>This action can't be undone!</b></p>
                 </div>
-                <p>Note: this feature hasn't been implemented yet</p>
+                <p>Note: You can't delete a folder if it has subfolders. You must delete those first</p>
                 <div className="maketxt-wrap">
-                    <button onClick={() => console.log("deleted")}>Delete</button>
-                    <button onClick={() => setIsDeleting(false)}>Cancel</button>
+                    <button className="delete-button" onClick={() => doDeleteClick(eRoute)}>Delete</button>
+                    <button className="create-button" onClick={() => setIsDeleting(false)}>Cancel</button>
                 </div>
             </div>
         </div>
