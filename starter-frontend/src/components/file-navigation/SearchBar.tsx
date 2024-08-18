@@ -89,6 +89,7 @@ function AdvancedSearch( { isAdvanced, collaboration } : AdvancedSearchProps ): 
                 {LastRow(collaboration)}
                 <div className="search-line search-full flex-hor">
                     <input className="search-box submit-button" type="submit" value="Search"></input>
+                    {/* <button className="search-box submit-button"></button> */}
                 </div>
             </div>
         );
@@ -144,7 +145,7 @@ function LastRow(collaboration: boolean): JSX.Element {
  */
 export default function SearchBar({isAdvanced, setIsAdvanced, collaboration} : SearchBarProps) {
     return (
-        <form action="/collaboration" >
+        <form action="./#/collaboration" >
             <AdvancedSearch isAdvanced={isAdvanced} collaboration={collaboration}/>
             <div className="search-bar flex">
                 <SearchIcon />
