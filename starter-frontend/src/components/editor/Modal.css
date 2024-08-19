@@ -118,3 +118,27 @@
 .modal-centered {
     margin-left: 15vw;
 }
+
+.location-link {
+    border: none;
+    text-decoration: underline;
+    background-color: var(--light-green);
+    font-size: 1.4rem;
+    margin-top: 10px;
+}
+
+.location-link:hover {
+    cursor: pointer;
+    color: var(--dark-green);
+}
+
+.location-template {
+    margin-top: 14px;
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.location-template:hover {
+    cursor: pointer;
+}
