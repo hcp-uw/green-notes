@@ -24,7 +24,7 @@ const DeleteModal = ({isDeleting, setIsDeleting, doDeleteClick}: DeleteModalProp
                     </div>
 
                     
-                    <div className="maketxt-wrap modal-centered">
+                    <div className="modaltxt-wrap modal-centered">
                         <button className="input-button" onClick={() => doDeleteClick()}>Yes, I'm Sure</button>
                         <button className="input-button" onClick={() => setIsDeleting(false)}>Don't Delete</button>
                     </div>

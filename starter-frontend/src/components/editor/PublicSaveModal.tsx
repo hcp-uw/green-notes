@@ -49,21 +49,27 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
             <label className="backdrop">
                 <input type="checkbox" checked={isPublicSaving} onChange={() => setIsPublicSaving(!isPublicSaving)}/>
             </label>
-            <div className="make">
-                <p className="make-header"> Save a Copy</p>
-                <button className="make-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Name:</p>
-                    <input className="name-input" type="text" value={name} onChange={changeName}></input>
+            <div className="modal-body">
+                <p className="modal-header"> Save a Copy</p>
+                <button className="modal-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Name:</p>
+                    <input className="text-input-major" type="text" value={name} onChange={changeName}></input>
                 </div>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Location: </p>
-                    <button className="location-link">TemplatesHome/</button>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Location: </p>
+                    <button className="location-link">TemplateHome/</button>
                 </div>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Save as template?</p>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Save as template?</p>
                     <input type="checkbox" className="location-template" checked={isTemplate} onChange={() => setIsTemplate(!isTemplate)}></input>
                 </div>
+
+                <div className="modaltxt-wrap modal-centered">
+                        <button className="input-button" onClick={() => console.log("save time")}>Save</button>
+                        <button className="input-button" onClick={() => setIsPublicSaving(false)}>Cancel</button>
+                </div>
+
 
             </div>
         </div>
@@ -76,20 +82,25 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
             <label className="backdrop">
                 <input type="checkbox" checked={isPublicSaving} onChange={() => setIsPublicSaving(!isPublicSaving)}/>
             </label>
-            <div className="make">
-                <p className="make-header"> Save a Copy</p>
-                <button className="make-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Name:</p>
-                    <input className="name-input" type="text" value={name} onChange={changeName}></input>
+            <div className="modal-body">
+                <p className="modal-header"> Save a Copy</p>
+                <button className="modal-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Name:</p>
+                    <input className="text-input-major" type="text" value={name} onChange={changeName}></input>
                 </div>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Location: </p>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Location: </p>
                     {LocationLinks()}
                 </div>
-                <div className="maketxt-wrap">
-                    <p className="make-text">Save as template?</p>
+                <div className="modaltxt-wrap">
+                    <p className="modal-text">Save as template?</p>
                     <input type="checkbox" className="location-template" checked={isTemplate} onChange={() => setIsTemplate(!isTemplate)}></input>
+                </div>
+
+                <div className="modaltxt-wrap modal-centered">
+                        <button className="input-button" onClick={() => console.log("save time")}>Save</button>
+                        <button className="input-button" onClick={() => setIsPublicSaving(false)}>Cancel</button>
                 </div>
 
 

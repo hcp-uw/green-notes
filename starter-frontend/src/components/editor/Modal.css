@@ -123,8 +123,7 @@
     border: none;
     text-decoration: underline;
     background-color: var(--light-green);
-    font-size: 1.4rem;
-    margin-top: 10px;
+    font-size: 1.8rem;
 }
 
 .location-link:hover {
@@ -133,10 +132,9 @@
 }
 
 .location-template {
-    margin-top: 14px;
     margin-left: 10px;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
 }
 
 .location-template:hover {
