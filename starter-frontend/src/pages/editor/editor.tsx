@@ -53,6 +53,12 @@ export function Note(): JSX.Element {
     // const route: string | null = params.get("route");
     const location = useLocation();
     const route = location.state.route;
+    let isPublic: boolean = true;
+    if (typeof route === "string") {
+        if (route.charAt(0) === "U") {
+            isPublic = false;
+        }
+    }
 
     // Response for when the call is succesful
     const fetchResponse = (noteData: NoteData, route: string) => {
@@ -183,26 +189,58 @@ export function Note(): JSX.Element {
     
     if (isLoading) {
         return (<>Loading....</>)
-    } else {
-        return (
-            <div className="page gray-background">
-                <EditModalButton setIsEditing={setIsEditing}/>
-                <ShareButton setIsSharing={setIsSharing}/>
-                <DeleteButton setIsDeleting={setIsDeleting}/>
-                <TextEditor 
-                initContent={currBody}
-                eRoute={route}
-                setIsLoading={setIsLoading} setCurrContent={setCurrBody}
-                />
-                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
-                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
-                    setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
-
-                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
-                            sharedRecently={sharedRecently} doShareClick={doShareClick}/>
-                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
-            </div>
-        );
     }
-    
+
+    if (isPublic) {
+        return (
+            <div className="page gray-background flex">
+                <PublicNoteDisplayer body={currBody}/>
+            {/* <EditModalButton setIsEditing={setIsEditing}/>
+            <ShareButton setIsSharing={setIsSharing}/>
+            <DeleteButton setIsDeleting={setIsDeleting}/> */}
+            {/* <TextEditor 
+            initContent={currBody}
+            eRoute={route}
+            setIsLoading={setIsLoading} setCurrContent={setCurrBody}
+            /> */}
+            {/* <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
+                givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
+                setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
+
+            <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
+                        sharedRecently={sharedRecently} doShareClick={doShareClick}/>
+            <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/> */}
+        </div>
+        )
+    }
+
+    return (
+        <div className="page gray-background">
+            <EditModalButton setIsEditing={setIsEditing}/>
+            <ShareButton setIsSharing={setIsSharing}/>
+            <DeleteButton setIsDeleting={setIsDeleting}/>
+            <TextEditor 
+            initContent={currBody}
+            eRoute={route}
+            setIsLoading={setIsLoading} setCurrContent={setCurrBody}
+            />
+            <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
+                givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
+                setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
+
+            <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
+                        sharedRecently={sharedRecently} doShareClick={doShareClick}/>
+            <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
+        </div>
+    );
+}
+
+const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
+    return (
+    <div className="display-window" >
+        <div dangerouslySetInnerHTML={{__html: body}}>
+
+        </div>
+    </div>
+    )
 }

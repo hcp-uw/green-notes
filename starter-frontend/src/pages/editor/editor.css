@@ -1,0 +1,20 @@
+.display-window {
+    padding: 25px;
+    height: calc(90vh - 55px);
+
+    background-color: var(--offbase-white);
+    width: min(70vw, 1200px);
+    /* position: relative; */
+
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 55%;
+
+
+    overflow: scroll;
+
+    margin-top: 10px;
+    border-radius: 10px;
+
+}

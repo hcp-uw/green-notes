@@ -179,7 +179,7 @@ export default function Collaboration(): JSX.Element {
                 <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
                 <h2>Public Notes</h2>
                 <div className="nav-area flex">
-                    <NoteThumbnails data={currNotes} location={"placeholder"}  areTemps={false}  email="temp"/>
+                    <NoteThumbnails data={currNotes} location={"Shared"}  areTemps={false}  email="temp"/>
                 </div>
             </div>
         );  
