@@ -576,4 +576,43 @@ export async function deleteFolder(req: SafeRequest, res: SafeResponse) {
         })
         .catch((e) => res.status(400).send(e));
 }
-  
+
+type BasicInfo = {name: string, iD: string}
+
+// Returns all folder names + ids from given folder route
+export async function getFolders(req: SafeRequest, res: SafeResponse) {
+    const route = req.query.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalide "route" parameter');
+        return;
+    }
+
+    const collectionRef = db.collection(route);
+    const snapshot = await collectionRef.get();
+
+    const info: BasicInfo[] = [];
+
+
+    snapshot.forEach(item => {
+        const iD: string = item.id;
+        const data = item.data();
+
+
+        const name: string = data.name;
+        const typeUnchecked: string = data.type;
+
+        if (typeUnchecked !== "folder" && typeUnchecked !== "doc" && typeUnchecked !== "placeholder") {
+            res.status(500).send("db error");
+             return;
+        }
+        const type: "folder" | "doc" | "placeholder" = typeUnchecked;
+
+        if (type === "folder") {
+            const obj: BasicInfo = {name: name, iD: iD};
+            info.push(obj);
+        }
+
+    })
+    res.send({data: info})
+    return;
+}

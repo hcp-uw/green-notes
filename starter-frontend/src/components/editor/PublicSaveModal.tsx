@@ -1,5 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { concat, cons, nil, rev, route, len } from "../file-navigation/routes";
+import { auth } from "../../config/firebase";
 
 
 type PublicSaveProps = {
@@ -15,15 +16,26 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     const [currRouteId, setCurrRouteId] = useState<route>(nil);
     const [isTemplate, setIsTemplate] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [storedContent, setStoredContent] = useState<Map<string, string[]>>(new Map());
 
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setName(evt.target.value);
     }
 
+
     useEffect(() => {
         setCurrRouteId(cons("test", nil));
         setCurrRouteName(cons("test", nil));
     }, [])
+
+    const user = auth.currentUser;
+    if (user === null) {
+        return<></>
+    }
+    const email = user.email;
+    if (email === null) {
+        return<></>
+    }
 
     const LocationLinks = (): JSX.Element[] => {
         const locations: JSX.Element[] = [];
@@ -55,6 +67,10 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         }
         setCurrRouteName(tempNames);
         setCurrRouteId(tempIds);
+    }
+
+    const SelectFiles = (): JSX.Element[] => {
+        return [];
     }
 
     if (!isPublicSaving) {
@@ -130,8 +146,25 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
             </div>
         </div>
     )
-    
-
 }
 
 export default PublicSaveModal
+
+const getExtendedRoute = (locationID: route, email: string): string => {
+    let eRoute: string = "Users/" + email +"/Notes";
+    let copyRoute: route = rev(locationID);
+
+    if (copyRoute.kind === "nil") {
+        return eRoute;
+    }
+
+    while (copyRoute.kind !== "nil") {
+        if (copyRoute.hd !== "") {
+            eRoute = eRoute + "/" + copyRoute.hd + "/content";
+        }
+        
+        copyRoute = copyRoute.tl;
+    }
+
+    return eRoute;
+}

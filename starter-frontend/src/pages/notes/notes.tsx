@@ -26,12 +26,12 @@ export function Notes(): JSX.Element {
 
     const [isDeletingFolder, setDeletingFolder] = useState<boolean>(false);
 
-    const params: URLSearchParams = new URLSearchParams(window.location.search);
-    const search: string | null = params.get("search");
+    // const params: URLSearchParams = new URLSearchParams(window.location.search);
+    // const search: string | null = params.get("search");
     // const routeParam: string | null = params.get("route");
 
     // TO-DO: Make updateable
-    const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
+    // const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
 
     // Keeps track of names of the folder route user is in
     const [currRouteName, setCurrRouteName] = useState<route>(nil);
