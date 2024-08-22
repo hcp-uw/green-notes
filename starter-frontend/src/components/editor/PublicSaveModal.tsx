@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from "react";
-import { nil, rev, route } from "../file-navigation/routes";
+import { ChangeEvent, useEffect, useState } from "react";
+import { concat, cons, nil, rev, route, len } from "../file-navigation/routes";
 
 
 type PublicSaveProps = {
@@ -20,23 +20,41 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         setName(evt.target.value);
     }
 
+    useEffect(() => {
+        setCurrRouteId(cons("test", nil));
+        setCurrRouteName(cons("test", nil));
+    }, [])
+
     const LocationLinks = (): JSX.Element[] => {
         const locations: JSX.Element[] = [];
         let reversed: route = rev(currRouteName);
         locations.push(
-            <button className="location-link">NotesHome/</button>
+            <button key="NotesHome" className="location-link" onClick={() => doLocationClick(0)}>NotesHome/</button>
         )
-        locations.push(
-            <button className="location-link">NotesHome/</button>
-        )
+        let index: number = 1;
         while (reversed.kind !== "nil") {
+            const temp: string = reversed.hd;
             locations.push (
-                <button className="location-link">{reversed.hd}/</button>
+                <button key={temp} className="location-link" onClick={() => doLocationClick(index)}>{temp}/</button>
             )
+            index ++;
             reversed = reversed.tl;
         }
 
         return locations;
+    }
+
+    const doLocationClick = (index: number): void => {
+        let length: number = len(currRouteName);
+        let tempNames: route = concat(currRouteName, nil);
+        let tempIds: route = concat(currRouteId, nil);
+        while (index < length && tempNames.kind !== "nil" && tempIds.kind !== "nil") {
+            tempNames = tempNames.tl;
+            tempIds = tempIds.tl;
+            length --;
+        }
+        setCurrRouteName(tempNames);
+        setCurrRouteId(tempIds);
     }
 
     if (!isPublicSaving) {
@@ -64,6 +82,8 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                     <p className="modal-text">Save as template?</p>
                     <input type="checkbox" className="location-template" checked={isTemplate} onChange={() => setIsTemplate(!isTemplate)}></input>
                 </div>
+
+                <p className="warning-text">Warning: You can't move this file later!</p>
 
                 <div className="modaltxt-wrap modal-centered">
                         <button className="input-button" onClick={() => console.log("save time")}>Save</button>
@@ -97,6 +117,9 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                     <p className="modal-text">Save as template?</p>
                     <input type="checkbox" className="location-template" checked={isTemplate} onChange={() => setIsTemplate(!isTemplate)}></input>
                 </div>
+
+                <p className="warning-text">Warning: You can't move this file later!</p>
+
 
                 <div className="modaltxt-wrap modal-centered">
                         <button className="input-button" onClick={() => console.log("save time")}>Save</button>
