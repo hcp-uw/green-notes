@@ -12,6 +12,7 @@
     top: 55%;
 
 
+    overflow-wrap: break-word;
     overflow: scroll;
 
     margin-top: 10px;

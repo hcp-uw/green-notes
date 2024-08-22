@@ -80,6 +80,7 @@
     border-top-right-radius: 11px;
     margin: 0;
     height: 80%;
+    overflow-wrap: break-word;
     overflow: hidden;
     padding: 14px 17px;
 }
