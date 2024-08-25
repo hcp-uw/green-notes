@@ -108,6 +108,7 @@
     background-color: var(--lightest-gray);
     border-radius: 10px;
     margin-right: 15vw;
+    margin-bottom: 15px;
 }
 
 .input-button:hover {

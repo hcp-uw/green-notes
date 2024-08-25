@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import { concat, cons, nil, rev, route, len } from "../file-navigation/routes";
+import { concat, cons, nil, rev, route, len, FetchRoute, isRecord } from "../file-navigation/routes";
 import { auth } from "../../config/firebase";
 
 
@@ -8,6 +8,8 @@ type PublicSaveProps = {
     isPublicSaving: boolean;
     setIsPublicSaving: React.Dispatch<React.SetStateAction<boolean>>;
 }
+type BasicInfo = {name: string, iD: string}
+type FoldersCallback = (data: BasicInfo[], name: string, iD: string, route: string) => void;
 
 const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSaveProps): JSX.Element => {
 
@@ -15,8 +17,9 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     const [currRouteName, setCurrRouteName] = useState<route>(nil);
     const [currRouteId, setCurrRouteId] = useState<route>(nil);
     const [isTemplate, setIsTemplate] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [storedContent, setStoredContent] = useState<Map<string, string[]>>(new Map());
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [currContent, setCurrContent] = useState<BasicInfo[]>([])
+    const [storedContent, setStoredContent] = useState<Map<string, BasicInfo[]>>(new Map());
 
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setName(evt.target.value);
@@ -24,18 +27,31 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
 
     useEffect(() => {
-        setCurrRouteId(cons("test", nil));
-        setCurrRouteName(cons("test", nil));
+        // setCurrRouteId(cons("test", nil));
+        // setCurrRouteName(cons("test", nil));
+        const user = auth.currentUser;
+        if (user === null) {
+            throw new Error("User isn't logged in");
+        }
+        if (user.email === null) {
+            throw new Error("User doesn't have associated email");
+        }
+        getFolders("Users/"+user.email+"/Notes", foldersResponse, "", "")
+        
+
     }, [])
 
-    const user = auth.currentUser;
-    if (user === null) {
-        return<></>
+    const foldersResponse = (data: BasicInfo[], name: string, iD: string, route: string): void => {
+        setCurrContent(data.slice(0));
+        if (name !== "" && iD !== "") {
+            setCurrRouteName(cons(name ,currRouteName));
+            setCurrRouteId(cons(iD, currRouteId));
+        }
+        setIsLoading(false);
+        setStoredContent(map => new Map(map.set(route, data.slice(0))))
     }
-    const email = user.email;
-    if (email === null) {
-        return<></>
-    }
+
+    
 
     const LocationLinks = (): JSX.Element[] => {
         const locations: JSX.Element[] = [];
@@ -69,8 +85,28 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         setCurrRouteId(tempIds);
     }
 
-    const SelectFiles = (): JSX.Element[] => {
-        return [];
+    const SelectFiles = (): JSX.Element => {
+        const options: JSX.Element[] = [];
+
+        if (isLoading) {
+            options.push(
+                <option key="loading" value="">Loading...</option>
+            )
+        } else {
+            options.push(
+                <option key="" value=""> </option>
+            )
+            for (const info of currContent) {
+                options.push(
+                    <option key={info.iD} value={info.iD}>{info.name}</option>
+                )
+            }
+        }
+        return (
+            <select name="files" id = "files">
+                {options}
+            </select>
+        )
     }
 
     if (!isPublicSaving) {
@@ -130,6 +166,10 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                     {LocationLinks()}
                 </div>
                 <div className="modaltxt-wrap">
+                    <p className="modal-text">Choose a file?</p>
+                    {SelectFiles()}
+                </div>
+                <div className="modaltxt-wrap">
                     <p className="modal-text">Save as template?</p>
                     <input type="checkbox" className="location-template" checked={isTemplate} onChange={() => setIsTemplate(!isTemplate)}></input>
                 </div>
@@ -149,6 +189,62 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 }
 
 export default PublicSaveModal
+
+
+const getFolders = async (route: string, cb: FoldersCallback, name: string, iD: string): Promise<void> => {
+    try {
+        const user = auth.currentUser;
+        const token = user && (await user.getIdToken());
+  
+        const payloadHeader = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          method: "GET"
+        };      
+
+        fetch(FetchRoute+"/getFolders?route="+encodeURIComponent(route), payloadHeader)
+            .then((res) => {
+                if (res.status === 200) {
+                    res.json().then((val) => parseFolders(val, cb, name, iD, route))
+                        .catch(() => console.error("Error fetching /getFolders: 200 response is not JSON"))
+                } else {
+                    console.error(`Error fetching /getFolders: bad status code: ${res.status}`)
+                }
+            })
+            .catch();
+      } catch (e) {
+        console.log(e);
+      }
+}
+
+const parseFolders = (data: unknown, cb: FoldersCallback, name: string, iD: string, route: string): void => {
+    const folders: BasicInfo[] = [];
+
+    if (!isRecord(data) || !Array.isArray(data.data)) {
+        console.error('Invalid JSON from /getFolders', data);
+        return;
+    }
+
+    for (const info of data.data) {
+
+        if (typeof info.name !== "string") {
+            console.error('Invalid JSON from /getFolders', info.name);
+            return;
+        }
+
+        if (typeof info.iD !== "string") {
+            console.error('Invalid JSON from /getFolers', info.iD);
+            return;
+        }
+
+        const temp: BasicInfo = {name: info.name, iD: info.iD};
+        folders.push(temp);
+    }
+
+    cb(folders, name, iD, route);
+}
 
 const getExtendedRoute = (locationID: route, email: string): string => {
     let eRoute: string = "Users/" + email +"/Notes";
