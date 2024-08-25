@@ -13,7 +13,7 @@ type FoldersCallback = (data: BasicInfo[], name: string, iD: string, route: stri
 
 const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSaveProps): JSX.Element => {
 
-    const [name, setName] = useState<string>(noteName + " (copy)");
+    const [currName, setCurrName] = useState<string>(noteName + " (copy)");
     const [currRouteName, setCurrRouteName] = useState<route>(nil);
     const [currRouteId, setCurrRouteId] = useState<route>(nil);
     const [isTemplate, setIsTemplate] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     const [storedContent, setStoredContent] = useState<Map<string, BasicInfo[]>>(new Map());
 
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
-        setName(evt.target.value);
+        setCurrName(evt.target.value);
     }
 
 
@@ -43,10 +43,6 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
     const foldersResponse = (data: BasicInfo[], name: string, iD: string, route: string): void => {
         setCurrContent(data.slice(0));
-        if (name !== "" && iD !== "") {
-            setCurrRouteName(cons(name ,currRouteName));
-            setCurrRouteId(cons(iD, currRouteId));
-        }
         setIsLoading(false);
         setStoredContent(map => new Map(map.set(route, data.slice(0))))
     }
@@ -72,7 +68,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         return locations;
     }
 
-    const doLocationClick = (index: number): void => {
+    const doLocationClick = (index: number): void => { // update currContent with storedContent
         let length: number = len(currRouteName);
         let tempNames: route = concat(currRouteName, nil);
         let tempIds: route = concat(currRouteId, nil);
@@ -83,6 +79,28 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         }
         setCurrRouteName(tempNames);
         setCurrRouteId(tempIds);
+    }
+
+    const folderClick = async (data: string): Promise<void> => {
+
+        const user = auth.currentUser;
+        if (user === null) {
+            console.error("user isn't logged in");
+            return;
+        }
+        if (user.email === null) {
+            console.error("user doesn't have email");
+            return;
+        }
+        const index: number = data.indexOf(" ");
+        const iD: string = data.substring(0, index);
+        const name: string = data.substring(index+1);
+        const eRoute: string = getExtendedRoute(currRouteId, user.email) +"/"+ iD + "/content"
+        setCurrRouteName(cons(name ,currRouteName));
+        setCurrRouteId(cons(iD, currRouteId));
+
+        setIsLoading(true);
+        getFolders(eRoute, foldersResponse, name, iD);
     }
 
     const SelectFiles = (): JSX.Element => {
@@ -98,12 +116,12 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
             )
             for (const info of currContent) {
                 options.push(
-                    <option key={info.iD} value={info.iD}>{info.name}</option>
+                    <option key={info.iD} value={info.iD + " " + info.name}>{info.name}</option>
                 )
             }
         }
         return (
-            <select name="files" id = "files">
+            <select name="files" id = "files" onChange={(e) => folderClick(e.target.value)}>
                 {options}
             </select>
         )
@@ -124,7 +142,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                 <button className="modal-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Name:</p>
-                    <input className="text-input-major" type="text" value={name} onChange={changeName}></input>
+                    <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
                 </div>
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Location: </p>
@@ -159,7 +177,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                 <button className="modal-exit" onClick={() => setIsPublicSaving(!isPublicSaving)}>X</button>
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Name:</p>
-                    <input className="text-input-major" type="text" value={name} onChange={changeName}></input>
+                    <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
                 </div>
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Location: </p>
