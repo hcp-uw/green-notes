@@ -27,8 +27,6 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
 
     useEffect(() => {
-        // setCurrRouteId(cons("test", nil));
-        // setCurrRouteName(cons("test", nil));
         const user = auth.currentUser;
         if (user === null) {
             throw new Error("User isn't logged in");
@@ -58,8 +56,9 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         let index: number = 1;
         while (reversed.kind !== "nil") {
             const temp: string = reversed.hd;
+            const copy: number = index;
             locations.push (
-                <button key={temp} className="location-link" onClick={() => doLocationClick(index)}>{temp}/</button>
+                <button key={temp} className="location-link" onClick={() => doLocationClick(copy)}>{temp}/</button>
             )
             index ++;
             reversed = reversed.tl;
@@ -70,18 +69,34 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
     const doLocationClick = (index: number): void => { // update currContent with storedContent
         let length: number = len(currRouteName);
-        let tempNames: route = concat(currRouteName, nil);
-        let tempIds: route = concat(currRouteId, nil);
-        while (index < length && tempNames.kind !== "nil" && tempIds.kind !== "nil") {
-            tempNames = tempNames.tl;
-            tempIds = tempIds.tl;
-            length --;
+        if (index !== length) {
+            let tempNames: route = concat(currRouteName, nil);
+            let tempIds: route = concat(currRouteId, nil);
+            while (index < length && tempNames.kind !== "nil" && tempIds.kind !== "nil") {
+                tempNames = tempNames.tl;
+                tempIds = tempIds.tl;
+                length --;
+            }
+    
+            const user = auth.currentUser;
+            if (user === null) {
+                throw new Error("User isn't logged in");
+            }
+            if (user.email === null) {
+                throw new Error("User doesn't have associated email");
+            }
+            const eRoute: string = getExtendedRoute(tempIds, user.email);
+            const tempContent = storedContent.get(eRoute);
+            if (tempContent !== undefined) {
+                setCurrContent(tempContent);
+            }
+            setCurrRouteName(tempNames);
+            setCurrRouteId(tempIds);
         }
-        setCurrRouteName(tempNames);
-        setCurrRouteId(tempIds);
+
     }
 
-    const folderClick = async (data: string): Promise<void> => {
+    const folderClick = async (data: string): Promise<void> => { // add a check in stored content
 
         const user = auth.currentUser;
         if (user === null) {
@@ -99,8 +114,14 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         setCurrRouteName(cons(name ,currRouteName));
         setCurrRouteId(cons(iD, currRouteId));
 
-        setIsLoading(true);
-        getFolders(eRoute, foldersResponse, name, iD);
+
+        const temp = storedContent.get(eRoute);
+        if (temp !== undefined) {
+            setCurrContent(temp)
+        } else {
+            setIsLoading(true);
+            getFolders(eRoute, foldersResponse, name, iD);
+        }
     }
 
     const SelectFiles = (): JSX.Element => {
