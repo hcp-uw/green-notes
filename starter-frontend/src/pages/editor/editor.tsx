@@ -12,7 +12,8 @@ import DeleteButton from "../../components/editor/DeleteButton";
 import DeleteModal from "../../components/editor/DeleteModal";
 import { useLocation } from "react-router-dom";
 import { FetchRoute } from "../../components/file-navigation/routes";
-
+import SavePublicButton from "../../components/editor/SavePublicButton";
+import PublicSaveModal from "../../components/editor/PublicSaveModal";
 
 export type DetailsData = {
     name: string,
@@ -37,6 +38,8 @@ export function Note(): JSX.Element {
 
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
+    const [isPublicSaving, setIsPublicSaving] = useState<boolean>(false);
+
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
     const [currTeacher, setCurrTeacher] = useState<string>("");
@@ -53,6 +56,12 @@ export function Note(): JSX.Element {
     // const route: string | null = params.get("route");
     const location = useLocation();
     const route = location.state.route;
+    let isPublic: boolean = true;
+    if (typeof route === "string") {
+        if (route.charAt(0) === "U") {
+            isPublic = false;
+        }
+    }
 
     // Response for when the call is succesful
     const fetchResponse = (noteData: NoteData, route: string) => {
@@ -183,26 +192,45 @@ export function Note(): JSX.Element {
     
     if (isLoading) {
         return (<>Loading....</>)
-    } else {
-        return (
-            <div className="page gray-background">
-                <EditModalButton setIsEditing={setIsEditing}/>
-                <ShareButton setIsSharing={setIsSharing}/>
-                <DeleteButton setIsDeleting={setIsDeleting}/>
-                <TextEditor 
-                initContent={currBody}
-                eRoute={route}
-                setIsLoading={setIsLoading} setCurrContent={setCurrBody}
-                />
-                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
-                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
-                    setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
-
-                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
-                            sharedRecently={sharedRecently} doShareClick={doShareClick}/>
-                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
-            </div>
-        );
     }
-    
+
+    if (isPublic) {
+        return (
+            <div className="page gray-background flex">
+                <SavePublicButton setIsPublicSaving={setIsPublicSaving} setIsLoading={setIsLoading}/>
+                <PublicNoteDisplayer body={currBody}/>
+                <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} noteName={currName} currBody={currBody}/>
+            </div>
+        )
+    }
+
+    return (
+        <div className="page gray-background">
+            <EditModalButton setIsEditing={setIsEditing}/>
+            <ShareButton setIsSharing={setIsSharing}/>
+            <DeleteButton setIsDeleting={setIsDeleting}/>
+            <TextEditor 
+            initContent={currBody}
+            eRoute={route}
+            setIsLoading={setIsLoading} setCurrContent={setCurrBody}
+            />
+            <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
+                givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
+                setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
+
+            <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
+                        sharedRecently={sharedRecently} doShareClick={doShareClick}/>
+            <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
+        </div>
+    );
+}
+
+const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
+    return (
+    <div className="display-window" >
+        <div dangerouslySetInnerHTML={{__html: body}}>
+
+        </div>
+    </div>
+    )
 }

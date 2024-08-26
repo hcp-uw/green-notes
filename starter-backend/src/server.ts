@@ -10,7 +10,8 @@ import { test, getNote, getFolderContents, createAccount,
     createNote, createFolder, saveDoc, saveDetails, shareDoc,
     deleteDoc,
     getShared,
-    deleteFolder, } from "./routes.js";
+    deleteFolder,
+    getFolders, } from "./routes.js";
 
 const app = express();
 
@@ -59,7 +60,9 @@ app.delete("/deleteDoc", deleteDoc);
 
 app.get("/getShared", getShared);
 
-app.delete("/deleteFolder", deleteFolder)
+app.delete("/deleteFolder", deleteFolder);
+
+app.get("/getFolders", getFolders);
 
 // error handling
 app.use(unknownEndpoint);

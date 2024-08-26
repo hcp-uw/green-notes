@@ -108,6 +108,7 @@
     background-color: var(--lightest-gray);
     border-radius: 10px;
     margin-right: 15vw;
+    margin-bottom: 15px;
 }
 
 .input-button:hover {
@@ -117,4 +118,26 @@
 
 .modal-centered {
     margin-left: 15vw;
+}
+
+.location-link {
+    border: none;
+    text-decoration: underline;
+    background-color: var(--light-green);
+    font-size: 1.8rem;
+}
+
+.location-link:hover {
+    cursor: pointer;
+    color: var(--dark-green);
+}
+
+.location-template {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.location-template:hover {
+    cursor: pointer;
 }
