@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
 import smile from '../../assets/profile-button.png';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../config/firebase';
 
 // edit profile page
-
 
 export default function NewProfile() {
   const navigate = useNavigate();
@@ -37,9 +38,11 @@ export default function NewProfile() {
       setError("");
       setLoading(true);
       const user = currentUser;
+      const fileRef = ref(storage, 'profile-button.png')
+      const photo = getDownloadURL(fileRef);
       const profile = {
         displayName: username,
-        // photoURL: avatars[selectedAvatar],
+        photoURL: photo,
       };
       await updateUserProfile(user, profile);
       navigate("/notes");

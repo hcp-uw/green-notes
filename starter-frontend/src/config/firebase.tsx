@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 
 // All sensitive data is in .env file that isn't part of
@@ -24,6 +25,8 @@ const auth = getAuth(app);
 
 // Starts and exports the database part of firebase
 const db = getFirestore(app);
+
+const storage = getStorage(app);
   
 
-export { auth, db };
+export { auth, db, storage };

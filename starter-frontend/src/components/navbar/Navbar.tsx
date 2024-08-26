@@ -48,10 +48,22 @@ function Profile(): JSX.Element {
         setIsModal(!isModal);
     }
 
+    const user = useAuth();
+    if (user === null) {
+        throw new Error();
+    }
+    const currentUser = user.currentUser;
+    if (currentUser === null) {
+        throw new Error();
+    }
+    if (currentUser.photoURL === null) {
+        throw new Error();
+    }
+
     return (
         <div>
             <Logout isModal={isModal} setIsModal={setIsModal}/>
-            <a onClick={handleOpen}><img id="profile-icon" src={profile} /></a>
+            <a onClick={handleOpen}><img id="profile-icon" src={currentUser.photoURL} /></a>
             {open ? (
                 <ul className="menu">
                 <li className="menu-item">
