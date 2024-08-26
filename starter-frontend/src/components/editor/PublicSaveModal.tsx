@@ -2,15 +2,20 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { concat, cons, nil, rev, route, len, FetchRoute, isRecord } from "../file-navigation/routes";
 import { auth } from "../../config/firebase";
 
-
+/** Parameters for PublicSaveModal */
 type PublicSaveProps = {
     noteName: string;
     isPublicSaving: boolean;
     setIsPublicSaving: React.Dispatch<React.SetStateAction<boolean>>;
 }
-type BasicInfo = {name: string, iD: string}
-type FoldersCallback = (data: BasicInfo[], name: string, iD: string, route: string) => void;
 
+/** Type to store most basic folder information */
+type BasicInfo = {name: string, iD: string}
+
+/** Defines callback method for /getFolders related calls */
+type FoldersCallback = (data: BasicInfo[], route: string) => void;
+
+/** Modal used to allow clients to save a copy of shared notes */
 const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSaveProps): JSX.Element => {
 
     const [currName, setCurrName] = useState<string>(noteName + " (copy)");
@@ -21,11 +26,12 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     const [currContent, setCurrContent] = useState<BasicInfo[]>([])
     const [storedContent, setStoredContent] = useState<Map<string, BasicInfo[]>>(new Map());
 
+    /** Basic function which updates the name state */
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setCurrName(evt.target.value);
     }
 
-
+    // Initial load of the modal. Fetches home files of user
     useEffect(() => {
         const user = auth.currentUser;
         if (user === null) {
@@ -39,14 +45,17 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
     }, [])
 
-    const foldersResponse = (data: BasicInfo[], name: string, iD: string, route: string): void => {
+    /** Response called after parsed folder info from server */
+    const foldersResponse = (data: BasicInfo[], route: string): void => {
         setCurrContent(data.slice(0));
         setIsLoading(false);
         setStoredContent(map => new Map(map.set(route, data.slice(0))))
     }
 
     
-
+    /** HTML element of clickable buttons to allow client
+     * to navigate back through folders
+     */
     const LocationLinks = (): JSX.Element[] => {
         const locations: JSX.Element[] = [];
         let reversed: route = rev(currRouteName);
@@ -67,6 +76,9 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         return locations;
     }
 
+    /** Navigates and updates current state to match
+     * whatever location link was clicked
+     */
     const doLocationClick = (index: number): void => { // update currContent with storedContent
         let length: number = len(currRouteName);
         if (index !== length) {
@@ -96,6 +108,10 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
     }
 
+    /** Navigates forward through the file system.
+     * Checks storedContent if client has already been in this location.
+     * If not, fetches relevant data from server
+     */
     const folderClick = async (data: string): Promise<void> => { // add a check in stored content
 
         const user = auth.currentUser;
@@ -124,6 +140,9 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         }
     }
 
+    /** HTML element of dropdown options for files.
+     * Allows clients to navigate forwards through files.
+     */
     const SelectFiles = (): JSX.Element => {
         const options: JSX.Element[] = [];
 
@@ -148,10 +167,12 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         )
     }
 
+    // Checks if the modal is open or not
     if (!isPublicSaving) {
         return <></>
     }
 
+    // Checks if the current location is in the templates folder or not
     if (isTemplate) {
         return (
             <div>
@@ -227,9 +248,12 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     )
 }
 
+/** Modal used to allow clients to save a copy of shared notes */
 export default PublicSaveModal
 
-
+/** Server call to /getFolders.
+ * Calls parseFolders method with relevant and fetched data
+ */
 const getFolders = async (route: string, cb: FoldersCallback, name: string, iD: string): Promise<void> => {
     try {
         const user = auth.currentUser;
@@ -246,7 +270,7 @@ const getFolders = async (route: string, cb: FoldersCallback, name: string, iD: 
         fetch(FetchRoute+"/getFolders?route="+encodeURIComponent(route), payloadHeader)
             .then((res) => {
                 if (res.status === 200) {
-                    res.json().then((val) => parseFolders(val, cb, name, iD, route))
+                    res.json().then((val) => parseFolders(val, cb, route))
                         .catch(() => console.error("Error fetching /getFolders: 200 response is not JSON"))
                 } else {
                     console.error(`Error fetching /getFolders: bad status code: ${res.status}`)
@@ -258,7 +282,10 @@ const getFolders = async (route: string, cb: FoldersCallback, name: string, iD: 
       }
 }
 
-const parseFolders = (data: unknown, cb: FoldersCallback, name: string, iD: string, route: string): void => {
+/** Parses data from getFolders and calls given
+ * callback method with relevant data
+ */
+const parseFolders = (data: unknown, cb: FoldersCallback, route: string): void => {
     const folders: BasicInfo[] = [];
 
     if (!isRecord(data) || !Array.isArray(data.data)) {
@@ -282,9 +309,13 @@ const parseFolders = (data: unknown, cb: FoldersCallback, name: string, iD: stri
         folders.push(temp);
     }
 
-    cb(folders, name, iD, route);
+    cb(folders, route);
 }
 
+/** Given a route and email,
+ * returns a string used as the route
+ * for backend server calls for db
+ */
 const getExtendedRoute = (locationID: route, email: string): string => {
     let eRoute: string = "Users/" + email +"/Notes";
     let copyRoute: route = rev(locationID);
