@@ -1,12 +1,14 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { concat, cons, nil, rev, route, len, FetchRoute, isRecord } from "../file-navigation/routes";
 import { auth } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
 
 /** Parameters for PublicSaveModal */
 type PublicSaveProps = {
     noteName: string;
     isPublicSaving: boolean;
     setIsPublicSaving: React.Dispatch<React.SetStateAction<boolean>>;
+    currBody: string;
 }
 
 /** Type to store most basic folder information */
@@ -16,8 +18,9 @@ type BasicInfo = {name: string, iD: string}
 type FoldersCallback = (data: BasicInfo[], route: string) => void;
 
 /** Modal used to allow clients to save a copy of shared notes */
-const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSaveProps): JSX.Element => {
+const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving, currBody}: PublicSaveProps): JSX.Element => {
 
+    const navigate = useNavigate();
     const [currName, setCurrName] = useState<string>(noteName + " (copy)");
     const [currRouteName, setCurrRouteName] = useState<route>(nil);
     const [currRouteId, setCurrRouteId] = useState<route>(nil);
@@ -40,7 +43,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
         if (user.email === null) {
             throw new Error("User doesn't have associated email");
         }
-        getFolders("Users/"+user.email+"/Notes", foldersResponse, "", "")
+        getFolders("Users/"+user.email+"/Notes", foldersResponse)
         
 
     }, [])
@@ -136,9 +139,88 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
             setCurrContent(temp)
         } else {
             setIsLoading(true);
-            getFolders(eRoute, foldersResponse, name, iD);
+            getFolders(eRoute, foldersResponse);
         }
     }
+
+    /** If not loading and name isn't empty, calls server
+     * and saves a copy at the folder location based on currRouteId.
+     * Then calls saveResponse
+     */
+    const saveClick = async (): Promise<void> => {
+        if (!isLoading) {
+            setIsLoading(true);
+            let eRoute: string;
+            const user = auth.currentUser;
+            if (user === null) {
+                console.error("user isn't logged in");
+                return;
+            }
+            if (user.email === null) {
+                console.error("user doesn't have email");
+                return;
+            }
+            if (isTemplate) {
+                eRoute = "Users/" + user.email +"/Templates"
+            } else {
+                eRoute = getExtendedRoute(currRouteId, user.email);
+            }
+
+            const trimmed: string = currName.trim();
+            if (trimmed !== "") {
+                try {
+                    const user = auth.currentUser;
+                    const token = user && (await user.getIdToken());
+    
+                    const body = {
+                        route: eRoute,
+                        name: trimmed,
+                        body: currBody
+                    }
+              
+                    const payloadHeader = {
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                      },
+                      method: "POST",
+                      body: JSON.stringify(body)
+                    };
+            
+              
+                    fetch(FetchRoute+"/createNote", payloadHeader)
+                        .then((res) => {
+                            res.json().then((val) => saveResponse(val, eRoute))
+                              .catch(() => console.error("error fetching /createNote: 200 response"))
+                        })
+                        .catch(() => console.error("Error fetching /createNote: Failed to connect to server"));
+                    
+            
+                  } catch (e) {
+                    console.log(e);
+                  }
+            } else {
+                setIsLoading(false);
+            }
+        }
+    }
+
+    /** Gets the id of the newly created note and navigates there */
+    const saveResponse = (data: unknown, route: string): void => {
+        if (!isRecord(data)) {
+            console.error('Invalid JSON from /createNote', data);
+            return;
+        }
+        console.log(data.JSON);
+        if (typeof data.id !== "string") {
+            console.error('Invalid id given from /createNote', data.id);
+            return;
+        }
+
+        // navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
+        navigate("/note", {state: {route: route+"/"+data.id}});
+    }
+
 
     /** HTML element of dropdown options for files.
      * Allows clients to navigate forwards through files.
@@ -198,7 +280,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
                 <p className="warning-text">Warning: You can't move this file later!</p>
 
                 <div className="modaltxt-wrap modal-centered">
-                        <button className="input-button" onClick={() => console.log("save time")}>Save</button>
+                        <button className="input-button" onClick={() => saveClick()}>Save</button>
                         <button className="input-button" onClick={() => setIsPublicSaving(false)}>Cancel</button>
                 </div>
 
@@ -238,7 +320,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
 
 
                 <div className="modaltxt-wrap modal-centered">
-                        <button className="input-button" onClick={() => console.log("save time")}>Save</button>
+                        <button className="input-button" onClick={() => saveClick()}>Save</button>
                         <button className="input-button" onClick={() => setIsPublicSaving(false)}>Cancel</button>
                 </div>
 
@@ -248,13 +330,12 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving}: PublicSa
     )
 }
 
-/** Modal used to allow clients to save a copy of shared notes */
 export default PublicSaveModal
 
 /** Server call to /getFolders.
  * Calls parseFolders method with relevant and fetched data
  */
-const getFolders = async (route: string, cb: FoldersCallback, name: string, iD: string): Promise<void> => {
+const getFolders = async (route: string, cb: FoldersCallback): Promise<void> => {
     try {
         const user = auth.currentUser;
         const token = user && (await user.getIdToken());

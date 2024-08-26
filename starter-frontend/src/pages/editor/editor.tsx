@@ -199,7 +199,7 @@ export function Note(): JSX.Element {
             <div className="page gray-background flex">
                 <SavePublicButton setIsPublicSaving={setIsPublicSaving} setIsLoading={setIsLoading}/>
                 <PublicNoteDisplayer body={currBody}/>
-                <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} noteName={currName}/>
+                <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} noteName={currName} currBody={currBody}/>
             </div>
         )
     }
