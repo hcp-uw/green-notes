@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-
+/** Home page of the app */
 export default function HomeScreen(): JSX.Element {
     return (
         <div className="page green-background smile-bg">
@@ -10,7 +10,7 @@ export default function HomeScreen(): JSX.Element {
 }
 
 
-// Returns the center text and start notes button
+/** Returns the center text and start notes button */
 function CenterText(): JSX.Element {
     return (
         <div className = "centText">

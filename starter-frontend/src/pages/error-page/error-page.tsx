@@ -1,5 +1,6 @@
 import { useRouteError, isRouteErrorResponse, Link } from "react-router-dom";
 
+/** Error page */
 export default function ErrorPage(): JSX.Element {
     return (
         <div id="error-page">
@@ -10,7 +11,7 @@ export default function ErrorPage(): JSX.Element {
     );
 }
 
-
+/** Error element */
 function Error(): JSX.Element {
     const error : unknown = useRouteError();
     console.error(error);
