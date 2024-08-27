@@ -1,8 +1,9 @@
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import { auth } from "../../config/firebase";
 import { DetailsData } from "../../pages/editor/editor";
 import { FetchRoute } from "../file-navigation/routes";
 
+/** Parameters for Edit Modal */
 type EditModalProps = {
     isEditing: boolean,
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>,
@@ -15,10 +16,9 @@ type EditModalProps = {
     route: string,
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
     fetchRes: (detailsData: DetailsData) => void,
-    // unsaved: boolean,
 }
 
-
+/** Modal that allows clients to edit details about notes */
 const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, tags, quarter, route, setIsLoading, fetchRes, /*unsaved*/}: EditModalProps): JSX.Element => {
     
     const [currName, setCurrName] = useState<string>(name);
@@ -29,19 +29,22 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
     const [currTempTag, setTempTag] = useState<string>("");
     const [currQuarter, setCurrQuarter] = useState<string>(quarter);
 
-
+    /** Changes state of name field */
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setCurrName(evt.target.value);
     }
 
+    /** Changes state of className field */
     const changeClass = (evt: ChangeEvent<HTMLInputElement>): void => {
         setCurrClass(evt.target.value);
     }
 
+    /** Changes state of teacher field */
     const changeTeacher = (evt: ChangeEvent<HTMLInputElement>): void => {
         setCurrTeacher(evt.target.value);
     }
 
+    /** Changes state of year field */
     const changeYear = (evt: ChangeEvent<HTMLInputElement>): void => {
         if (evt.target.value === "") {
             setCurrYear(0);
@@ -53,6 +56,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         }
     }
 
+    /** Changes state of Templates field */
     const changeTempTag = (evt: ChangeEvent<HTMLInputElement>): void => {
         const str: string = evt.target.value;
         if (str.length <= 20) {
@@ -60,6 +64,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         }
     }
 
+    /** Cancels most recent changes */
     const revert = (): void => {
         setCurrName(name);
         setCurrClass(givenClass);
@@ -71,7 +76,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         setIsEditing(!isEditing);
     }
 
-
+    /** Element which renders tag buttons */
     const renderTags = (): JSX.Element => {
         const tagElements: JSX.Element[] = [];
         for (const tempTag of currTags) {
@@ -79,7 +84,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
             <button className="tag" key={tempTag} onClick={() => removeTag(tempTag)}>{tempTag} X </button>)
         }
 
-        if (tagElements.length === 0) {
+        if (tagElements.length === 0) { // If no tags
             return (
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Tags: </p>
@@ -91,7 +96,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                 </div>
             )
         }
-        if (tagElements.length >= 10) {
+        if (tagElements.length >= 10) { // If at tag limit
             return (
                 <div>
                     <div className="modaltxt-wrap">
@@ -120,6 +125,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         )
     }
 
+    /** Method to add a tag */
     const addTag = (): void => {
         const trimmed: string = currTempTag.trim();
         for (const temp of currTags) {
@@ -136,6 +142,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         setTempTag("");
     }
 
+    /** Method to remove tag */
     const removeTag = (tagName: string): void => {
         const tagsCopy: string[] = currTags.slice(0);
         for (let i: number = 0; i < tagsCopy.length; i++) {
@@ -147,6 +154,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         }
     }
 
+    /** Method which calls server to save current details */
     const doSaveClick = async (): Promise<void> => {
         const trimmed: string = currName.trim();
         if (trimmed !== "") {
@@ -174,9 +182,6 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                   body: JSON.stringify(body)
                 };
         
-          
-                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
-                // and the payload header is necessary stuff for server authentication
                 fetch(FetchRoute+"/saveDetails", payloadHeader)
                     .then((res) => {
                         res.json().then((val) => saveResponse(val))
@@ -191,7 +196,8 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
         }
     }
 
-    const saveResponse = (val: unknown): void => {
+    /** Response after details are saved */
+    const saveResponse = (_val: unknown): void => {
         setIsEditing(false);
         const detailsData: DetailsData = {
             name: currName,
@@ -202,22 +208,9 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
             tags: currTags,
         }
         fetchRes(detailsData);
-        // console.log(val);
     }
 
-    // const unsavedNotif = (): JSX.Element => {
-    //     if (unsaved) {
-    //         return(
-    //             <div className="maketxt-wrap">
-    //                 <p className="make-text">You have unsaved work. Saved details now will lose all unsaved writing</p>
-    //             </div>
-    //         )
-    //     } else {
-    //         return <></>
-    //     }
-    // }
-
-    if (!isEditing) {
+    if (!isEditing) { // If modal is closed
         return <></>
     } else {
         return (
@@ -254,7 +247,6 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                     </div>
 
                     {renderTags()}
-                    {/* {unsavedNotif()} */}
                     <p className="warning-text">Warning: saving details will lose any unsaved progress! Please save your writing first!</p>
                     <div className="modaltxt-wrap modal-centered">
                         <button className="input-button" onClick={() => doSaveClick()}>Save</button>

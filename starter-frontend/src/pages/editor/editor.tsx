@@ -198,7 +198,7 @@ export function Note(): JSX.Element {
     if (isPublic) { // If note is publicly shared
         return (
             <div className="page gray-background flex">
-                <SavePublicButton setIsPublicSaving={setIsPublicSaving} setIsLoading={setIsLoading}/>
+                <SavePublicButton setIsPublicSaving={setIsPublicSaving}/>
                 <PublicNoteDisplayer body={currBody}/>
                 <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} 
                 noteName={currName} currBody={currBody}/>

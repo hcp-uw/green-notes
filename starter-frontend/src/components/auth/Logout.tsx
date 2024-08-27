@@ -1,11 +1,11 @@
-import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 
+/** Parameters for logout modal */
 type LogoutParams = {isModal: boolean, setIsModal: React.Dispatch<React.SetStateAction<boolean>>}
 
+/** Modal to allow client to logout */
 export default function Logout({ isModal, setIsModal }: LogoutParams) {
-  const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
   // const { logout, setError } = useAuth();
@@ -17,6 +17,7 @@ export default function Logout({ isModal, setIsModal }: LogoutParams) {
   const logout = used.logout;
   const setError = used.setError;
 
+  /** Handles client logging out and redirects to login page */
   async function handleLogout() {
     try {
       setError("");
@@ -28,8 +29,8 @@ export default function Logout({ isModal, setIsModal }: LogoutParams) {
     }
   }
 
-  // TODO: make logout popup and Private routes
-  if (!isModal) {
+
+  if (!isModal) { // If modal is closed
     return null;
   } else {
     return (

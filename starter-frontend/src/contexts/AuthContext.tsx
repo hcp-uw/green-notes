@@ -17,7 +17,7 @@ interface ContextParams {
   deleteAccount: (user: User) => Promise<void>;
 }
 
-/** Returns a Consumer and Procider compenent.
+/** Returns a Consumer and Provider component.
  * Provider gives state to its children. 
  * Takes in the value prop and passes it down to child components.
  * Consumer consumes and uses the state passed down to it by the provider 
