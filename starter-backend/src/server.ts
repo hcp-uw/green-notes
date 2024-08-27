@@ -6,12 +6,9 @@ import { VerifyToken } from "./middlewears/VerifyToken.js";
 
 import { unknownEndpoint } from "./middleware.js";
 
-import { test, getNote, getFolderContents, createAccount, 
+import { getNote, getFolderContents, createAccount, 
     createNote, createFolder, saveDoc, saveDetails, shareDoc,
-    deleteDoc,
-    getShared,
-    deleteFolder,
-    getFolders, } from "./routes.js";
+    deleteDoc, getShared, deleteFolder, getFolders, } from "./routes.js";
 
 const app = express();
 
@@ -27,41 +24,41 @@ app.use(VerifyToken);
 dotenv.config();
 
 
-// Basic test, ignore, probably delete
-app.get('/hello', (req, res) => { 
-    res.send('Attention HCP Project Team! If you see this, your front end and back end are connected') 
-})
-// Basic test, ignore, probably delete
-app.get("/", (req, res) => {
-    res.send("working fine");
-});
 
-// Basic test, ignore, probably delete
-app.get("/test", test);
-
-// From here and below actual real server calls
+// Gets data for a note
 app.get("/getNote", getNote);
 
+// Gets the data for the contents of a folder
 app.get("/getFolderContents", getFolderContents);
 
+// Sets up db for a newly created account
 app.post("/createAccount", createAccount);
 
+// Creates a new note
 app.post("/createNote", createNote);
 
+// Creates a new folder
 app.post("/createFolder", createFolder);
 
+// Saves the body content of a note
 app.put("/saveDoc", saveDoc);
 
+// Saves the details of a note
 app.put("/saveDetails", saveDetails);
 
+// Makes a copy of a note that is publicly shared
 app.post("/shareDoc", shareDoc);
 
+// Deletes a note
 app.delete("/deleteDoc", deleteDoc);
 
+// Returns publicly shared notes based on parameters
 app.get("/getShared", getShared);
 
+// Deletes a folder
 app.delete("/deleteFolder", deleteFolder);
 
+// Gets basic info of folders in a folder
 app.get("/getFolders", getFolders);
 
 // error handling
