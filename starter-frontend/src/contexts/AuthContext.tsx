@@ -1,21 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { createUserWithEmailAndPassword,
-        signInWithEmailAndPassword,
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword,
         signOut, User, UserCredential } from "firebase/auth";
 import { auth } from "../config/firebase";
 import { updateProfile } from "firebase/auth";
 
 
-// type ContextParams = {
-//   currentUser: User | null,
-//   login: (email: string, password: string) => Promise<UserCredential>,
-//   register: (email: string, password: string) => Promise<UserCredential>,
-//   error: string,
-//   setError: React.Dispatch<React.SetStateAction<string>>,
-//   updateUserProfile: (user: User, profile: any) => Promise<void>,
-//   logout: () => Promise<void>,
-// }
-
+/** Used for context parameters */
 interface ContextParams {
   currentUser: User | null;
   login: (email: string, password: string) => Promise<UserCredential>;
@@ -27,18 +17,21 @@ interface ContextParams {
   deleteAccount: (user: User) => Promise<void>;
 }
 
-// returns a Consumer and Procider compenent.
-// Provider gives state to its children. 
-// Takes in the value prop and passes it down to child components.
-// Confumer consumes and uses the state passed down to it by the provider
+/** Returns a Consumer and Procider compenent.
+ * Provider gives state to its children. 
+ * Takes in the value prop and passes it down to child components.
+ * Consumer consumes and uses the state passed down to it by the provider 
+*/
 const AuthContext = createContext<ContextParams | null>(null);
 
-// useAuth hook allows us to consume context by returning
-// a useContext instance of AuthContext
+/** useAuth hook allows us to consume context by returning
+ * a useContext instance of AuthContext
+*/
 export function useAuth() {
     return useContext(AuthContext);
 }
 
+/** Parameters for AuthProvider */
 type AuthProviderParams = {children: any}
 
 export function AuthProvider({ children }: AuthProviderParams) {

@@ -70,7 +70,7 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     }
 
     const collectionRef = db.collection(route);
-    const snapshot = await collectionRef.get();
+    const snapshot = await collectionRef.orderBy("name").get();
 
     const info: ThumbnailInfo[] = [];
 
@@ -472,7 +472,7 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
 
 
     const collectionRef = db.collection("Shared");
-    const snapshot = await collectionRef.get();
+    const snapshot = await collectionRef.limit(30).get();
 
     const info: ThumbnailInfo[] = [];
 
