@@ -1,20 +1,18 @@
-import { ChangeEvent } from 'react';
 import './TemplateToggleButton.css';
-import { auth } from "../../config/firebase";
 
+/** Parameters for Template Toggle Button */
 type ToggleProps = {
     /** True if toggled to templates. */
     isToggled: boolean;
 
-    /** Function to update isToggled. */
-    // onToggle: (event: ChangeEvent<HTMLInputElement>) => void;
-
+    /** Method when button is clicked */
     doTempClick: (email: string) => void;
 
+    /** Client email */
     email: string;
-
 }
 
+/** Button to toggle between template folder */
 const TemplateToggleButton = ({ isToggled, doTempClick, email }: ToggleProps): JSX.Element => {
 
 

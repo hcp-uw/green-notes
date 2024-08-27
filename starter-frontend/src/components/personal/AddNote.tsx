@@ -1,8 +1,7 @@
-/* Rounded rectangle with a plus in it. Click on to make new note. */
-
 import { ChangeEvent } from 'react';
 import plus from '../../assets/plus.svg';
 
+/** Parameters for the AddNote button */
 type AddNoteProps = {
     /** True if create pop-up is open. */
     isMaking: boolean;
@@ -11,6 +10,7 @@ type AddNoteProps = {
     onMake: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
+/** Button to open the Create new note modal */
 const AddNote =({ isMaking, onMake }: AddNoteProps): JSX.Element =>  {
     return (
         <div>

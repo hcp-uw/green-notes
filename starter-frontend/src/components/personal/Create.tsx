@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { getNoteContents, NoteData } from '../../pages/notes/notes';
 
 
-/* In general just needs to be cleaned up */
-
+/** Parameters for the create new note modal */
 type CreateProps = {
     /** True if make new note/template pop-up is open. */
     isMaking: boolean;
@@ -27,18 +26,9 @@ type CreateProps = {
     email: string;
 
     temps: ThumbnailInfo[] | undefined;
-
 }
 
-// There are a lot of comments, most of the commented code exists for the sake of trying
-// to create a dropdown for the new: note/template but for simplicity's sake it will remain
-// as a simple toggle button. Some comments also extend in notes.js
-
-// TODO: try to make button same size no matter the text and also give it more style
-// Also give more style to the big popup box
-
-// Continue to work on pop-up interaction/functionality
-// Look into making the ddown actually interactable
+/** Modal to create a new note */
 const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : CreateProps): JSX.Element => {
 
     const [isTempLocal, setIsTemp] = useState<boolean>(isTemp);
@@ -50,11 +40,12 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
     const navigate = useNavigate();
 
+    /** Method to update name state */
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setName(evt.target.value);
     }
 
-    // Updates pop-up whenever it is shown again
+    // Updates modal's currPath whenever it is shown again
     useEffect(() => {
         let temp: string = "";
 
@@ -76,6 +67,9 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
 
     }, [isMaking, isTemp, givenPath] )
 
+    /** Calls server to make new Note.
+     * Then navigates to the new note in the editor.
+     */
     const doMakeClick = async (givenName: string, route: string, givenBody: string): Promise<void> => {
         const trimmed: string = givenName.trim();
         if (trimmed !== "") {
@@ -98,9 +92,6 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                   body: JSON.stringify(body)
                 };
         
-          
-                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
-                // and the payload header is necessary stuff for server authentication
                 fetch(FetchRoute+"/createNote", payloadHeader)
                     .then((res) => {
                         res.json().then((val) => createResponse(val, route))
@@ -115,11 +106,13 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
         }
     }
 
+    /** Makes a new Note. Called when a template is used to make a new note */
     const tempResponse = (noteData: NoteData, route: string): void => {
 
         doMakeClick(name, eRoute, noteData.body);
     }
 
+    /** Response called after new note is made */
     const createResponse = (data: unknown, route: string): void => {
         if (!isRecord(data)) {
             console.error('Invalid JSON from /createNote', data);
@@ -131,10 +124,10 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
             return;
         }
 
-        // navigate("/note?route="+encodeURIComponent(route+"/"+data.id));
         navigate("/note", {state: {route: route+"/"+data.id}});
     }
 
+    /** Element which lists out templates */
     const templates = (thumbnails: ThumbnailInfo[] | undefined): JSX.Element[] => {
         if (thumbnails === undefined) {
             console.log("temps can't be found");
@@ -147,10 +140,36 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
         return options;
     }
 
-    if (!isMaking) {
+    if (!isMaking) { // If the modal is closed
         return <></>;
-    } else  if (isLoading) {
+    } else  if (isLoading) { // If the modal is loading
         return <h1>Loading...</h1>
+    } else if (isTemp) { // If the client is in the template folder
+        return  (
+            <div>
+                <label className="backdrop">
+                    <input type="checkbox" checked={isMaking} onChange={onMake}/>
+                </label>
+                <div className="make">
+                    <p className="make-header">Make New {title}</p>
+                    <button className="make-exit" onClick={onMake}>X</button>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Location: {currPath}</p>
+                    </div>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Name:</p>
+                        <input type="text" value={name} onChange={changeName} className="name-input"></input>
+                    </div>
+                    <div className="maketxt-wrap">
+                        <button className='create-button' onClick={() => {
+                            doMakeClick(name, "Users/"+email+"/Templates", "");
+                            }}>
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </div>
+        )
     } else {
         return  (
             <div>
@@ -176,16 +195,12 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                     </div>
                     <div className="maketxt-wrap">
                         <button className='create-button' onClick={() => {
-                            if (isTemp) {
-                                doMakeClick(name, "Users/"+email+"/Templates", "");
-                            } else if (tempId === ""){
+                            if (tempId === ""){
                                 doMakeClick(name, eRoute, "")
                             } else {
                                 setIsLoading(true);
                                 getNoteContents("Users/"+email+"/Templates/"+tempId, tempResponse)
-                            }
-                            
-                            }}>
+                            }}}>
                             Create
                         </button>
                     </div>
@@ -195,35 +210,5 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
     }
 }
 
-const DdownBut = ({ isTempLocal }: {isTempLocal: boolean}): JSX.Element => {
-    if (!isTempLocal) {
-        return (
-            <div>
-                Note {/* Note <span className="d-arrow">▼</span> */}
-            </div>
-        )
-    } else {
-        return (
-            <div>
-                Template {/* Template <span className="d-arrow">▼</span> */}
-            </div>
-        )
-    }
-}
-
-
-// const DdownContent = ({ isTempLocal, onTemp }) => {
-//     if (!isTempLocal) {
-//         return (
-//             <button onClick={onTemp} className="dropdown-content ddown-temp">
-//                 Template
-//             </button>
-//         )
-//     } else {
-//             <button onClick={onTemp} className="dropdown-content ddown-temp">
-//                 Note
-//             </button>
-//     }
-// }
 
 export default Create;
