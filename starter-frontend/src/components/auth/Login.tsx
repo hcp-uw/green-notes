@@ -59,6 +59,7 @@ export default function LoginForm() {
             type="email"
             autoComplete="email"
             required
+            pattern=".*\S+.*"
             className="authfield"
             placeholder="Email address"
             onChange={(e) => setEmail(e.target.value)}
@@ -71,6 +72,7 @@ export default function LoginForm() {
             type="password"
             autoComplete="password"
             required
+            pattern=".*\S+.*"
             className="authfield"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}

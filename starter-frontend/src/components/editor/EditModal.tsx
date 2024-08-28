@@ -89,7 +89,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                 <div className="modaltxt-wrap">
                     <p className="modal-text">Tags: </p>
                     <input className="text-input-minor" type="text" value={currTempTag} onChange={changeTempTag}></input>
-                    <button className="small-plus" onClick={() => addTag()}>+</button>
+                    {AddTagButton()}
                     <div>
                         No tags Currently (max 10)
                     </div>
@@ -116,13 +116,22 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
             <div className="modaltxt-wrap">
                 <p className="modal-text">Tags: </p>
                 <input className="text-input-minor" type="text" value={currTempTag} onChange={changeTempTag}></input>
-                <button className="small-plus" onClick={() => addTag()}>+</button>
+                {AddTagButton()}
                 <div>
                     {tagElements}
                 </div>
                 (max 10)
             </div>
         )
+    }
+
+    /** Button to add a tag */
+    const AddTagButton = (): JSX.Element => {
+        if (currTempTag.trim() !== "") {
+            return <button className="small-plus-valid" onClick={() => addTag()}>+</button>
+        } else {
+            return <button className="small-plus-invalid" onClick={() => addTag()}>+</button>
+        }
     }
 
     /** Method to add a tag */
@@ -224,7 +233,7 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
 
                     <div className="modaltxt-wrap">
                         <p className="modal-text">Name: </p>
-                        <input className="text-input-minor" type="text" value={currName} onChange={changeName}></input>
+                        <input className="text-input-minor required-input" required pattern=".*\S+.*" type="text" value={currName} onChange={changeName}></input>
 
                         <p className="modal-text">Class: </p>
                         <input className="text-input-minor" type="text" value={currClass} onChange={changeClass}></input>

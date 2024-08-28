@@ -158,7 +158,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName} className="name-input"></input>
+                        <input required pattern=".*\S+.*" type="text" value={name} onChange={changeName} className="name-input"></input>
                     </div>
                     <div className="maketxt-wrap">
                         <button className='create-button' onClick={() => {
@@ -184,7 +184,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input type="text" value={name} onChange={changeName} className="name-input"></input>
+                        <input required pattern=".*\S+.*" type="text" value={name} onChange={changeName} className="name-input"></input>
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Template:</p>

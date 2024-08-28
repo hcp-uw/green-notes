@@ -94,7 +94,7 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input className="name-input" type="text" value={name} onChange={changeName}></input>
+                        <input className="name-input" required pattern=".*\S+.*" type="text" value={name} onChange={changeName}></input>
                     </div>
                     <div className="maketxt-warp">
                         <p>You can't change the name later</p>

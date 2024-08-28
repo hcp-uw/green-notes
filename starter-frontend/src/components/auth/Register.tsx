@@ -88,6 +88,7 @@ export default function RegisterForm() {
                     type="email"
                     autoComplete="email"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Email address"
                     onChange={(e) => setEmail(e.target.value)}
@@ -100,6 +101,7 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
@@ -112,6 +114,7 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Confirm Password"
                     onChange={(e) => setConfirmPassword(e.target.value)}

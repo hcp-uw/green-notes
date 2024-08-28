@@ -6,6 +6,18 @@
     font-size: 1.5rem;
 }
 
+.authfield:valid {
+    outline-color: green;
+    outline-width: 1px;
+    outline-style: solid;
+}
+
+.authfield:invalid {
+    outline-color: red;
+    outline-width: 1px;
+    outline-style: solid;
+}
+
 .authfield:hover {
     background-color: var(--lightest-gray);
 }
