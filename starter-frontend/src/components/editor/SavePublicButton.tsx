@@ -1,14 +1,10 @@
+/** Parameters for button to open save copy modal */
 type SavePublicProps = {
     setIsPublicSaving: React.Dispatch<React.SetStateAction<boolean>>;
-    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SavePublicButton = ({setIsPublicSaving, setIsLoading}: SavePublicProps): JSX.Element => {
-
-    // const PublicButtonClick = (): void => {
-    //     setIsLoading(true);
-    //     setIsPublicSaving(true);
-    // }
+/** Button to open modal that saves a copy */
+const SavePublicButton = ({setIsPublicSaving}: SavePublicProps): JSX.Element => {
 
     return <button className="new-folder-button" onClick={() => setIsPublicSaving(true)}>Save a Copy</button>
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
 
-// Returns the login form for logging in
+/** Login input element */
 export default function LoginForm() {
 
     const [email, setEmail] = useState("");
@@ -25,13 +25,15 @@ export default function LoginForm() {
 
     const navigate = useNavigate();
 
+    /** Redirects home if client is logged in */
     useEffect(() => {
         if (currentUser) {
           navigate("/");
         }
       }, [currentUser, navigate]);
 
-    async function handleFormSubmit(e: any) {
+  /** Handles client logging in. If succesful, redirects to notes page */
+  async function handleFormSubmit(e: any) {
         e.preventDefault();
       
           try {
@@ -57,6 +59,7 @@ export default function LoginForm() {
             type="email"
             autoComplete="email"
             required
+            pattern=".*\S+.*"
             className="authfield"
             placeholder="Email address"
             onChange={(e) => setEmail(e.target.value)}
@@ -69,6 +72,7 @@ export default function LoginForm() {
             type="password"
             autoComplete="password"
             required
+            pattern=".*\S+.*"
             className="authfield"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}

@@ -7,30 +7,11 @@ import { db } from "./config/firebase-config.js"
 type SafeRequest = Request<ParamsDictionary, {}, Record<string, unknown>>;
 type SafeResponse = Response;
 
-// Basic test, probably delete at some point
-export async function test(req: SafeRequest, res: SafeResponse)  {
 
-    // // goes into/makes the collection "test"
-    // const docRef = db.collection('test').doc('omg it worked');
-
-    // // Gives the doc fields
-    // await docRef.set({
-    //     greeting: "hello",
-    //     exclamation: "this is great",
-    //     happy: "true",
-    //     favoriteNumber: 2
-    // });
-
-    res.send("added hopefully");
-}
-
-
-// Needs to be given route of doc in "Users/{userEmail}/Notes/{folderID}/content/{name}"
-// See db for how data is structured to ensure you are giving a proper route
-// Curly brackets mean that the text is just an example. All text outside of
-// curly brackets is necessary for every call (a "/content" is required after
-// every subfolder in "Notes" due to how firebase works).
-// You may have any number of subfolders in the route, but each must be followed by a "/content"
+/** Needs to be given route of doc in "Users/{userEmail}/Notes/{folderID}/content/{name}"
+ * See db for how data is structured to ensure you are giving a proper route.
+ * Gets note data from db.
+*/
 export async function getNote(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
@@ -56,10 +37,12 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
     }
 };
 
+/** Type to store thumbnail info of folders and notes */
 type ThumbnailInfo = {name: string, iD: string, kind: "folder" | "doc" | "placeholder", content: string}
 
-// Gets all folders and docs inside given route to a collection
-// See route parameterse in get doc function above
+/** Gets all folders and docs inside given route to a collection
+ * See route parameters in get doc function above
+*/
 export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
@@ -70,7 +53,7 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     }
 
     const collectionRef = db.collection(route);
-    const snapshot = await collectionRef.get();
+    const snapshot = await collectionRef.orderBy("name").get();
 
     const info: ThumbnailInfo[] = [];
 
@@ -109,7 +92,7 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
     return;
 }
 
-// Creates a new account in the db with a given email.
+/** Creates a new account in the db with a given email. */
 export async function createAccount(req: SafeRequest, res: SafeResponse) {
     const emailUpper = req.body.email;
     if (typeof emailUpper !== "string") {
@@ -138,7 +121,9 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
         .catch(() => res.status(400).send("error in adding account to db"))
 }
 
-// Placeholder code for when we want to make updates to account data, such as prefered name and profile picture
+/** Placeholder code for when we want to make updates to account data,
+ * such as prefered name and profile picture
+*/
 export async function updateAccount(req: SafeRequest, res: SafeResponse) {
     /* Example code for getting body parameters and checking them to be strings */
     // const data = req.body.data;
@@ -166,7 +151,9 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
         .catch(() => res.status(400).send("error in adding account to db"))
 }
 
-// Creates a new note or template at the given route with the given name and body content (if a template is used)
+/** Creates a new note or template at the given route with the
+ * given name and body content (if a template is used)
+*/
 export async function createNote(req: SafeRequest, res: SafeResponse) {
     const route = req.body.route;
     if (typeof route !== "string") {
@@ -205,7 +192,7 @@ export async function createNote(req: SafeRequest, res: SafeResponse) {
 
 }
 
-// Creates a new folder at the given route with the given name
+/** Creates a new folder at the given route with the given name */
 export async function createFolder(req: SafeRequest, res: SafeResponse) {
 
     const route = req.body.route;
@@ -240,7 +227,7 @@ export async function createFolder(req: SafeRequest, res: SafeResponse) {
     
 }
 
-// Saves the body content of the doc at the given route with the given body content
+/** Saves the body content of the doc at the given route with the given body content */
 export async function saveDoc(req: SafeRequest, res: SafeResponse) {
 
     const route = req.body.route;
@@ -262,7 +249,7 @@ export async function saveDoc(req: SafeRequest, res: SafeResponse) {
         .catch(() => res.status(400).send("failed"))
 }
 
-// Saves the details content of the doc at the given route with all the new given details
+/** Saves the details content of the doc at the given route with all the new given details */
 export async function saveDetails(req: SafeRequest, res: SafeResponse) {
     const route = req.body.route;
     if (typeof route !== "string") {
@@ -333,7 +320,7 @@ export async function saveDetails(req: SafeRequest, res: SafeResponse) {
       .catch((e) => res.status(400).send(e))
 }
 
-// Makes a new doc with the given body and details in the shared folder
+/** Makes a new doc with the given body and details in the shared folder */
 export async function shareDoc(req: SafeRequest, res: SafeResponse) {
 
     const body = req.body.body;
@@ -406,7 +393,7 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
 
 }
 
-// Deletes the doc at the given route
+/** Deletes the doc at the given route */
 export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
 
     const route = req.query.route;
@@ -420,7 +407,7 @@ export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
         .catch((a) => res.status(400).send(a))
 }
 
-// Gets all shared notes
+/** Gets shared notes based on the parameters */
 export async function getShared(req: SafeRequest, res: SafeResponse) {
 
     const searchUpper = req.query.name;
@@ -472,7 +459,7 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
 
 
     const collectionRef = db.collection("Shared");
-    const snapshot = await collectionRef.get();
+    const snapshot = await collectionRef.limit(30).get();
 
     const info: ThumbnailInfo[] = [];
 
@@ -544,7 +531,7 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
     return;
 }
 
-// Deletes folder at the given route if it contains no subfolders
+/** Deletes folder at the given route if it contains no subfolders */
 export async function deleteFolder(req: SafeRequest, res: SafeResponse) {
     const route = req.query.route;
     if (typeof route !== "string") {
@@ -579,7 +566,7 @@ export async function deleteFolder(req: SafeRequest, res: SafeResponse) {
 
 type BasicInfo = {name: string, iD: string}
 
-// Returns all folder names + ids from given folder route
+/** Returns all folder names + ids from given folder route */
 export async function getFolders(req: SafeRequest, res: SafeResponse) {
     const route = req.query.route;
     if (typeof route !== "string") {

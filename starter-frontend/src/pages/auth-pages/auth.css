@@ -1,12 +1,21 @@
-/* empty for now, will be used to style login and register forms, as well
-    as title text and redirection links */
-
 .authfield {
     appearance: none;
     margin: 10px;
     border: none;
     border-radius: 10px;
     font-size: 1.5rem;
+}
+
+.authfield:valid {
+    outline-color: green;
+    outline-width: 1px;
+    outline-style: solid;
+}
+
+.authfield:invalid {
+    outline-color: red;
+    outline-width: 1px;
+    outline-style: solid;
 }
 
 .authfield:hover {

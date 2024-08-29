@@ -2,9 +2,7 @@ import { useState, useEffect } from "react"
 import { concat, nil, route, FetchRoute } from "../file-navigation/routes";
 import { auth } from "../../config/firebase";
 
-
-/* ONCE ALL OTHER BRANCHES ARE MERGED GRAB CSS FROM MODAL.CSS */
-
+/** Parameters for Delete Modal */
 type DeleteModalProps = {
     isDeleting: boolean,
     setIsDeleting: React.Dispatch<React.SetStateAction<boolean>>,
@@ -13,10 +11,13 @@ type DeleteModalProps = {
     setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+/** Modal to delete folders */
 const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsLoading}: DeleteModalProps): JSX.Element => {
 
+    /** Current location of client */
     const [currPath, setCurrPath] =  useState<string>("");
  
+    // Updates the currPath when the client changes location
     useEffect(() => {
         let temp: string = "";
 
@@ -30,6 +31,9 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsL
         setCurrPath(temp);
     }, [givenPath])
 
+    /** Deletes the folder at the client's location.
+     * Then reloads the page
+     */
     const doDeleteClick = async (route: string): Promise<void> => {
         try {
             setIsLoading(true);
@@ -48,7 +52,6 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsL
             fetch(FetchRoute+"/deleteFolder?route="+encodeURIComponent(route), payloadHeader)
                 .then(res => {
                     window.location.reload();
-                    // console.log(res.status)
                 })
                 .catch(() => console.error("Error fetching /delteFolder: Failed to connect"));
 
@@ -58,7 +61,7 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsL
     }
 
 
-    if (!isDeleting) {
+    if (!isDeleting) { // If the modal is closed
         return <></>
     } else {
         return (
@@ -72,7 +75,6 @@ const DeleteFolderModal = ({isDeleting, setIsDeleting, givenPath, eRoute, setIsL
 
                 <div className="maketxt-wrap">
                     <p className="make-text">Location: {currPath}</p>
-                    {/* <input type="text" value={folderName} onChange={changeName}></input> */}
                 </div>
                 <div className="maketxt-wrap">
                     <p className="make-text">Would you like to delete this folder and all of its contents? <b>This action can't be undone!</b></p>

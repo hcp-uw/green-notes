@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../contexts/AuthContext";
@@ -6,7 +6,7 @@ import smile from '../../assets/profile-button.png';
 
 // edit profile page
 
-
+/** New Profile page */
 export default function NewProfile() {
   const navigate = useNavigate();
 

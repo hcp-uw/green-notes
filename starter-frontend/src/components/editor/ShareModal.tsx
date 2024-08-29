@@ -1,35 +1,26 @@
 import { useState, ChangeEvent } from "react"
 
+/** Parameters for share modal */
 type ShareModalProps = {
     isSharing: boolean,
     setIsSharing: React.Dispatch<React.SetStateAction<boolean>>,
     name: string,
     sharedRecently: boolean,
     doShareClick: (name: string) => Promise<void>,
-    // unsaved: boolean,
 }
 
+/** Modal to allow clients to public share notes */
 const ShareModal = ({isSharing, setIsSharing, name, sharedRecently, doShareClick, /*unsaved*/}: ShareModalProps): JSX.Element => {
 
     const [currName, setCurrName] = useState<string>(name)
 
+    /** Updates currName field */
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setCurrName(evt.target.value);
     }
 
-    // const unsavedNotif = (): JSX.Element => {
-    //     if (unsaved) {
-    //         return(
-    //             <div className="maketxt-wrap">
-    //                 <p className="make-text">You have unsaved work. Sharing now will lose all unsaved writing</p>
-    //             </div>
-    //         )
-    //     } else {
-    //         return <></>
-    //     }
-    // }
 
-    if (!isSharing) {
+    if (!isSharing) { // If modal is closed
         return(<></>)
     } else if (!sharedRecently){
         return (
@@ -43,12 +34,11 @@ const ShareModal = ({isSharing, setIsSharing, name, sharedRecently, doShareClick
 
                     <div className="modaltxt-wrap">
                         <p className="modal-text">Name: </p>
-                        <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
+                        <input className="text-input-major required-input"  required pattern=".*\S+.*" type="text" value={currName} onChange={changeName}></input>
                     </div>
                     <div className="modaltxt-wrap">
                         <p className="modal-text">Would you like to share a copy of this note? The shared details and content can't be changed later.</p>
                     </div>
-                    {/* {unsavedNotif()} */}
                     <p className="warning-text">Warning: sharing will lose any unsaved progress! Please save your writing first!</p>
                     <div className="modaltxt-wrap modal-centered">
                         <button className="input-button" onClick={() => doShareClick(currName)}>Share</button>
@@ -69,7 +59,7 @@ const ShareModal = ({isSharing, setIsSharing, name, sharedRecently, doShareClick
 
                     <div className="modaltxt-wrap">
                         <p className="modal-text">Name: </p>
-                        <input className="text-input-major" type="text" value={currName} onChange={changeName}></input>
+                        <input className="text-input-major required-input"  required pattern=".*\S+.*" type="text" value={currName} onChange={changeName}></input>
                     </div>
                     <div className="modaltxt-wrap">
                         <p className="modal-text">Would you like to share a copy of this note? The shared details and content can't be changed later</p>
