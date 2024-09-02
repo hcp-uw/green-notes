@@ -50,7 +50,7 @@
     width: 200px;
     height: auto;
     border-radius: 50%;
-    border: 2px solid var(--medium-gray);
+    /* border: 2px solid var(--medium-gray); */
 }
 
 .bio-box {

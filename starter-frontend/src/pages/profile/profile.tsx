@@ -25,13 +25,10 @@ function User() {
     if (currentUser === null) {
         throw new Error();
     }
-    if (currentUser.photoURL === null) {
-        throw new Error();
-    }
 
     return (
         <div className='left-container'>
-            <img src={currentUser.photoURL} alt="" className='pfp-icon'></img>
+            <img src={currentUser.photoURL || pfp} alt="" className='pfp-icon'></img>
 
             <p className='name'>{currentUser.displayName}</p>
             <p className='user'>{currentUser.email}</p>
