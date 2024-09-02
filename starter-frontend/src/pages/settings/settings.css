@@ -50,13 +50,33 @@
 #img {
     width: 40%;
     height: auto;
-    margin-top: 50px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 50px;
     border-radius: 50%;
-    border: 2px solid var(--medium-gray);
+    /* border: 2px solid var(--medium-gray); */
+    /* ----- */
+    /* display: inline;
+    justify-content: center;
+    margin: 0 auto;
+    height: auto; */
+    /* width: 100%;
+    clip-path: circle(); */
+    /* margin-left: -25%; */
 }
+
+/* #image-cropper {
+    width: 180px;
+    height: 180px; 
+    margin-top:2px;
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+/* #edit-profile-text {
+    margin-top: 80px;
+} */
 
 .profile-text {
     text-align: center;

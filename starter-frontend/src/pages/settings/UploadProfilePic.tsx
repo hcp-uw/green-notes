@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import profile from '../../assets/profile-button.png';
 
 /* Allows the user to change their profile photo by uploading an image from their device */
 
@@ -54,9 +55,11 @@ export default function UploadProfilePic(): JSX.Element {
 
     return (
         <div className='profile-text'>
-            <img src={photoUrl} alt='profile' id='img'></img>
+            <div className='container'>
+            <div id='image-cropper'><img src={photoUrl || profile} alt='profile' id='img'></img></div>
+            </div>
             <p></p>
-            <p>Edit profile photo:</p>
+            <p id='edit-profile-text'>Edit profile photo:</p>
             <input type="file" onChange={handleChange}></input>
             <button disabled={loading || !photo} onClick={handleClick}>Upload</button>
         </div>

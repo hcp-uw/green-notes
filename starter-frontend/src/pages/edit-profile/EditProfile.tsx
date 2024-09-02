@@ -39,7 +39,7 @@ export default function NewProfile() {
       setLoading(true);
       const user = currentUser;
       const fileRef = ref(storage, 'profile-button.png')
-      const photo = getDownloadURL(fileRef);
+      const photo = await getDownloadURL(fileRef);
       const profile = {
         displayName: username,
         photoURL: photo,

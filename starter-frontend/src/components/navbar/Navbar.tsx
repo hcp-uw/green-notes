@@ -66,14 +66,11 @@ function Profile(): JSX.Element {
     if (currentUser === null) {
         throw new Error();
     }
-    if (currentUser.photoURL === null) {
-        throw new Error();
-    }
 
     return (
         <div ref={dropdownRef}>
             <Logout isModal={isModal} setIsModal={setIsModal}/>
-            <a onClick={handleOpen}><img id="profile-icon" src={currentUser.photoURL} /></a>
+            <a onClick={handleOpen}><img id="profile-icon" src={currentUser.photoURL || profile} /></a>
             {open ? (
                 <ul className="menu">
                 <li className="menu-item">
