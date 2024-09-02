@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import Delete from './DeleteAccount';
 import EditName from './EditName';
 import UploadProfilePic from './UploadProfilePic';
+import EditBio from './EditBio';
 
 type WhiteBoxProps = {type: string, body: JSX.Element};
 
@@ -68,13 +69,20 @@ export default function Settings(): JSX.Element {
     }
 
     function BioBox(): JSX.Element {
+        const[isModal, setIsModal] = React.useState<boolean>(false);
+        const onOpen = () => {
+            setIsModal(!isModal);
+        }
         return (
             <div className='profile-text'>
                 {/* <form id='bio'>
                     <input placeholder="Add Bio..."></input>
                 </form> */}
+
+                {/* the text below should display a bio if the user has one, and a default text if the user does not */}
                 <p id='bio-text'><span>[Your bio here...]</span></p>
-                <button id='edit-button'>Edit Bio</button>
+                <button id='edit-button' onClick={onOpen}>Edit Bio</button>
+                <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio>
             </div>
         )
     }
