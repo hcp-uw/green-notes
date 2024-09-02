@@ -38,7 +38,7 @@ export default function Settings(): JSX.Element {
 
         return (
             <div className='settings-text'>
-                <h1>General</h1>
+                <h1>You</h1>
                 <div>
                     <p>Display Name: {currentUser.displayName} <button id='edit-button' onClick={onOpen}>Edit</button></p>
                     <p>Email: {currentUser.email}</p>
@@ -46,9 +46,9 @@ export default function Settings(): JSX.Element {
                 <EditName isModal={isModal} setIsModal={setIsModal}></EditName>
                 <Link to="/profile"><button id='back-button'>Back to Profile</button></Link>
                 
-                <h1 id='appearance'>Appearance</h1>
-                <p>Color Theme: <button>Default</button></p>
-                <p>^probably won't do this? but looks empty without</p>
+                <h1 id='appearance'>More</h1>
+                <p>Document Language: English</p>
+                <p>Color Theme: Default</p>
             </div>
         )
     }
@@ -70,9 +70,11 @@ export default function Settings(): JSX.Element {
     function BioBox(): JSX.Element {
         return (
             <div className='profile-text'>
-                <form id='bio'>
+                {/* <form id='bio'>
                     <input placeholder="Add Bio..."></input>
-                </form>
+                </form> */}
+                <p id='bio-text'><span>[Your bio here...]</span></p>
+                <button id='edit-button'>Edit Bio</button>
             </div>
         )
     }

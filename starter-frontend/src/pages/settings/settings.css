@@ -13,7 +13,6 @@
 .settings-text {
     line-height: 1.5;
     display: inline-block;
-    vertical-align: middle;
     margin-left: 60px;
     margin-top: 40px;
 }
@@ -37,6 +36,8 @@
     border-radius: 5px;
 
     position: relative;
+    /* display: flex;
+    justify-content: center; */
 }
 
 /* position the two main white boxes in the center of the page */
@@ -54,9 +55,7 @@
     margin-left: auto;
     margin-right: auto;
     border-radius: 50%;
-    border-style: solid;
-    border-width: 2px;
-    border-color: var(--medium-gray);
+    border: 2px solid var(--medium-gray);
 }
 
 .profile-text {
@@ -64,19 +63,26 @@
 }
 
 /* separate bio text from photo setting options */
-#bio {
+/* #bio {
     margin-top: 70px;
     text-align: center;
-}
+} */
 
-#bio input {
+/* #bio input {
     width: 60%;
     line-height: 100px;
+} */
+
+#bio-text {
+    text-align: center;
+    /* border: 1px solid black; */
+    /* width: 20vw; */
+    margin-top: 70px;
 }
 
 /* separates Appearance settings from General settings */
 #appearance {
-    margin-top: 70px;
+    margin-top: 50px;
 }
 
 #delete-button {
@@ -127,7 +133,7 @@
 /* --------------------- */
 /* BACK TO PROFILE BUTTON */
 #back-button {
-    margin-top: 40px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
     font-family: "Fira Code";

@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
 import { storage } from '../../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -8,7 +7,6 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 /* Allows the user to change their profile photo by uploading an image from their device */
 
 export default function UploadProfilePic(): JSX.Element {
-    const navigate = useNavigate();
     const user = useAuth();
     if (user === null) {
         throw new Error('error');
@@ -29,8 +27,8 @@ export default function UploadProfilePic(): JSX.Element {
         const snapshot = await uploadBytes(fileRef, file);
         const photoURL = await getDownloadURL(fileRef);
 
+        setPhotoUrl(photoURL);
         user.updateUserProfile(currentUser, {photoURL: photoURL});
-        navigate("/settings");
         setLoading(false);
     }
 
@@ -49,7 +47,6 @@ export default function UploadProfilePic(): JSX.Element {
     }
 
     useEffect(() => {
-        console.log("update profile photo");
         if (currentUser?.photoURL) {
             setPhotoUrl(currentUser.photoURL);
         }
@@ -59,10 +56,9 @@ export default function UploadProfilePic(): JSX.Element {
         <div className='profile-text'>
             <img src={photoUrl} alt='profile' id='img'></img>
             <p></p>
-            <p>Change photo:</p>
+            <p>Edit profile photo:</p>
             <input type="file" onChange={handleChange}></input>
             <button disabled={loading || !photo} onClick={handleClick}>Upload</button>
-            <p>*reload to see changes (fix this soon)</p>
         </div>
     )
 }
