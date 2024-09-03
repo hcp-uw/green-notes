@@ -52,4 +52,14 @@
     margin-left: 5px;
     text-decoration: none;
     color: black;
+    /* vertically center: */
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.menu-item {
+    height: 28px;
+    position: relative;
 }

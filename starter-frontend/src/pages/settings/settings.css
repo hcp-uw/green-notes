@@ -2,7 +2,7 @@
 #settings-box {
     background-color: var(--offbase-white);
     margin-top: 60px;
-    width: 680px;
+    width: 50vw;
     height: 600px;
     border-radius: 5px;
 
@@ -13,20 +13,31 @@
 .settings-text {
     line-height: 1.5;
     display: inline-block;
-    vertical-align: middle;
-    margin-left: 40px;
-    margin-top: 20px;
+    margin-left: 60px;
+    margin-top: 40px;
+}
+
+.settings-text input {
+    font-family: "Fira-Code";
+    font-size: 1.1rem;
+}
+
+#edit-icon {
+    position: absolute;
+    border: 1px black;
 }
 
 /* white box for changing profile photo */
 #profile-photo-box {
     background-color: var(--offbase-white);
     height: 600px;
-    width: 470px;
+    width: 30vw;
     margin-top: 60px;
     border-radius: 5px;
 
     position: relative;
+    /* display: flex;
+    justify-content: center; */
 }
 
 /* position the two main white boxes in the center of the page */
@@ -39,29 +50,65 @@
 #img {
     width: 40%;
     height: auto;
-    margin-top: 50px;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 50px;
+    border-radius: 50%;
+    /* border: 2px solid var(--medium-gray); */
+    /* ----- */
+    /* display: inline;
+    justify-content: center;
+    margin: 0 auto;
+    height: auto; */
+    /* width: 100%;
+    clip-path: circle(); */
+    /* margin-left: -25%; */
 }
 
-.profile-text p {
+/* #image-cropper {
+    width: 180px;
+    height: 180px; 
+    margin-top:2px;
+    margin-left: auto;
+    margin-right: auto;
+} */
+
+/* #edit-profile-text {
+    margin-top: 80px;
+} */
+
+.profile-text {
     text-align: center;
 }
 
 /* separate bio text from photo setting options */
-#bio {
-    margin-top: 50px;
+/* #bio {
+    margin-top: 70px;
+    text-align: center;
+} */
+
+/* #bio input {
+    width: 60%;
+    line-height: 100px;
+} */
+
+#bio-text {
+    text-align: center;
+    /* border: 1px solid black; */
+    /* width: 20vw; */
+    margin-top: 70px;
 }
 
 /* separates Appearance settings from General settings */
 #appearance {
-    margin-top: 70px;
+    margin-top: 50px;
 }
 
 #delete-button {
     position: absolute;
-    bottom: 40px;
+    bottom: 50px;
+    left: 60px;
 
     margin-top: 25px;
     margin-left: auto;
@@ -79,6 +126,69 @@
     background-color: var(--dark-green);
 }
 
+#spacing {
+    margin-top: 20px;
+}
+
+/* --------------------- */
+/* EDIT BUTTON */
+#edit-button {
+    /* margin-top: 5px; */
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 0.8rem;
+    background-color: var(--offbase-white);
+    border-color: var(--green);
+    padding: 2px;
+    border-radius: 7px;
+}
+
+#edit-button:hover {
+    cursor: pointer;
+    background-color: var(--green);
+}
+/* --------------------- */
+
+/* --------------------- */
+/* BACK TO PROFILE BUTTON */
+#back-button {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Fira Code";
+    font-size: 1rem;
+    background-color: var(--green);
+    border-color: var(--green);
+    padding: 2px;
+    border-radius: 7px;
+}
+
+#back-button:hover {
+    cursor: pointer;
+    background-color: var(--dark-green);
+}
+/* --------------------- */
+
+/* --------------------- */
+/* EDIT NAME POP UP */
+.edit-name-popup {
+    height: 20vh;
+    width: 50vh;
+    position: fixed;
+    overflow: hidden;
+    background-color: var(--green);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+
+    text-align: center;
+    padding: 50px; /* to vertically center a bit more */
+
+    z-index: 1;
+}
+/* --------------------- */
 
 /* --------------------- */
 /* DELETE ACCOUNT POP UP */
@@ -95,5 +205,7 @@
 
     text-align: center;
     padding: 40px; /* to vertically center a bit more */
+
+    z-index: 1;
 }
 /* --------------------- */
