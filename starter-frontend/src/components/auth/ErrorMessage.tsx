@@ -1,6 +1,7 @@
 import { XCircleIcon } from "@heroicons/react/solid";
 import { useAuth } from "../../contexts/AuthContext";
 
+/** Error Pop-up */
 export default function ErrorMessage() {
     // const { error, setError } = useAuth();
     const used = useAuth();

@@ -5,6 +5,7 @@ import { ThumbnailInfo } from '../../components/file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { isRecord, FetchRoute } from '../../components/file-navigation/routes';
 
+/** Collaboration/Public Notes page */
 export default function Collaboration(): JSX.Element {
     const params: URLSearchParams = new URLSearchParams(window.location.search);
     const search: string | null = params.get("search");
@@ -14,24 +15,23 @@ export default function Collaboration(): JSX.Element {
     const className: string | null = params.get("class");
     const tags: string | null = params.get("tags");
 
-    // TO-DO: Make updateable
+    // Searchbar dropdown state
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
 
+    // Loading state
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    // Current displayed content
     const [currNotes, setCurrNotes] = useState<ThumbnailInfo[]>([]);
 
-    const placeholder: ThumbnailInfo[] = [];
-    placeholder.push({name: "example", iD: "asdfasdfasdf", kind: "doc", content: ""});
-    placeholder.push({name: "example again", iD: "qwerqwerqwer", kind: "doc", content: ""});
-    placeholder.push({name: "It's yet another example", iD: "zxcvzxcvzxcv", kind: "doc", content: ""});
-    
+   // Initial load to get shared notes
     useEffect(() => {
-
-    
         getNotes();
-    }, [auth.currentUser])
+    }, [])
 
+    /** Method which fetches server for public notes based on
+     * the current states representing search parameters
+     */
     const getNotes = async (): Promise<void> => {
         try {
             const user = auth.currentUser;
@@ -112,8 +112,9 @@ export default function Collaboration(): JSX.Element {
           }
     }
 
+    /** Parses and updates state with given server response */
     const fetchResponse = (val: unknown): void => {
-        if (!isRecord(val) || !Array.isArray(val.data)) { // if given data from server is invalid JSON
+        if (!isRecord(val) || !Array.isArray(val.data)) {
             console.error('Invalid JSON from /getFolderContents', val);
             return;
         }
@@ -122,27 +123,26 @@ export default function Collaboration(): JSX.Element {
 
         for (const info of val.data) {
 
-            if (typeof info.name !== "string") { // Checks that the element has a vaild name field
+            if (typeof info.name !== "string") {
                 console.error('Invalid JSON from /getFolderContents', info.name);
                 return;
             }
     
-            if (typeof info.iD !== "string") { // Checks that the element has a valid iD field
+            if (typeof info.iD !== "string") {
                 console.error('Invalid JSON from /getFolderContents', info.iD);
                 return;
             }
     
-            if (info.kind !== "doc") { // Checks that the elment has a vaild kind field
+            if (info.kind !== "doc") {
                 console.error('Invalid JSON from /getFolderContents', info.iD);
                 return;
             }
     
-            if (typeof info.content !== "string") { // Checks that the element has a valid iD field
+            if (typeof info.content !== "string") {
                 console.error('Invalid JSON from /getFolderContents', info.content);
                 return;
             }
     
-            // Pushes the relavent info as a ThumbnailInfo to the main array to be returned
             const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
             docs.push(temp);
         }
@@ -153,7 +153,7 @@ export default function Collaboration(): JSX.Element {
 
     
 
-    if (isLoading) {
+    if (isLoading) { // If the page is loading
         return (
             <div className="page green-background nav-page">
             <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
@@ -163,7 +163,7 @@ export default function Collaboration(): JSX.Element {
             </div>
         </div>
         )
-    } else if (currNotes.length === 0) {
+    } else if (currNotes.length === 0) { // If no notes show up
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
@@ -179,7 +179,7 @@ export default function Collaboration(): JSX.Element {
                 <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
                 <h2>Public Notes</h2>
                 <div className="nav-area flex">
-                    <NoteThumbnails data={currNotes} location={"placeholder"}  areTemps={false}  email="temp"/>
+                    <NoteThumbnails data={currNotes} location={"Shared"}  areTemps={false}  email="temp"/>
                 </div>
             </div>
         );  

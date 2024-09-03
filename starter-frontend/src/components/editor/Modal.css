@@ -71,7 +71,7 @@
     font-family: "Fira Code";
 }
 
-.small-plus {
+.small-plus-valid {
     border-radius: 5px;
     background-color: var(--dark-green);
     border: black;
@@ -80,9 +80,18 @@
     margin-right: 10px;
 }
 
-.small-plus:hover {
+.small-plus-valid:hover {
     cursor: pointer;
     background-color: var(--green)
+}
+
+.small-plus-invalid {
+    border-radius: 5px;
+    background-color: var(--green);
+    border: black;
+    font-size: 1.4rem;
+    color: white;
+    margin-right: 10px;
 }
 
 .tag {
@@ -108,6 +117,7 @@
     background-color: var(--lightest-gray);
     border-radius: 10px;
     margin-right: 15vw;
+    margin-bottom: 15px;
 }
 
 .input-button:hover {
@@ -117,4 +127,38 @@
 
 .modal-centered {
     margin-left: 15vw;
+}
+
+.location-link {
+    border: none;
+    text-decoration: underline;
+    background-color: var(--light-green);
+    font-size: 1.8rem;
+}
+
+.location-link:hover {
+    cursor: pointer;
+    color: var(--dark-green);
+}
+
+.location-template {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.location-template:hover {
+    cursor: pointer;
+}
+
+.required-input:user-valid {
+    outline-color: green;
+    outline-width: 1px;
+    outline-style: solid;
+}
+
+.required-input:user-invalid {
+    outline-color: red;
+    outline-width: 1px;
+    outline-style: solid;
 }

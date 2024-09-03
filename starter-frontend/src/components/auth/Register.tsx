@@ -5,35 +5,37 @@ import { useState, useEffect } from 'react';
 import { auth } from '../../config/firebase';
 import { FetchRoute } from '../file-navigation/routes';
 
-// Returns the regester form for making new accounts
+/** Register input element */
 export default function RegisterForm() {
     
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    // const { currentUser, register, setError } = useAuth();
-    const used = useAuth();
-    if (used === null) {
-      throw new Error("bad");
-    }
+  // const { currentUser, register, setError } = useAuth();
+  const used = useAuth();
+  if (used === null) {
+    throw new Error("bad");
+  }
 
-    const currentUser = used.currentUser;
-    const register = used.register;
-    const setError = used.setError;
+  const currentUser = used.currentUser;
+  const register = used.register;
+  const setError = used.setError;
 
     
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+  // Navigates home if client is logged in
     useEffect(() => {
         if (currentUser) {
           navigate("/");
         }
       }, [currentUser, navigate]);
 
-    async function handleFormSubmit(e: any) {
+  /** Handles logging in */
+  async function handleFormSubmit(e: any) {
         e.preventDefault();
     
         if (password !== confirmPassword) {
@@ -52,6 +54,7 @@ export default function RegisterForm() {
           setLoading(false);
     }
 
+    /** Method which creates account and sets up db in the server */
     const createAccount = async (email: string): Promise<void> => {    
         try {
             const user = auth.currentUser;
@@ -85,6 +88,7 @@ export default function RegisterForm() {
                     type="email"
                     autoComplete="email"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Email address"
                     onChange={(e) => setEmail(e.target.value)}
@@ -97,6 +101,7 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
@@ -109,6 +114,7 @@ export default function RegisterForm() {
                     type="password"
                     autoComplete="current-password"
                     required
+                    pattern=".*\S+.*"
                     className="authfield"
                     placeholder="Confirm Password"
                     onChange={(e) => setConfirmPassword(e.target.value)}

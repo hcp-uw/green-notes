@@ -3,6 +3,7 @@ import { useState, useEffect, ChangeEvent } from "react"
 import { auth } from "../../config/firebase"
 import { FetchRoute } from "../file-navigation/routes"
 
+/** Parameters for New Folder Modal */
 type FolderModalProps = {
     isMakingFolder: boolean;
 
@@ -13,17 +14,21 @@ type FolderModalProps = {
     eRoute: string;
 }
 
-// Uses css from Create.css
+/** Modal for making a new folder */
 const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderModalProps): JSX.Element => {
 
-
+    // Current path the client is in
     const [currPath, setCurrPath] = useState<string>("");
+
+    // state of name field
     const [name, setName] = useState<string>("");
 
+    /** Updates name field */
     const changeName = (evt: ChangeEvent<HTMLInputElement>): void => {
         setName(evt.target.value);
     }
 
+    // Updates the path whenever the client changes location
     useEffect(() => {
         let temp: string = "";
 
@@ -37,7 +42,9 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
         setCurrPath(temp);
     }, [givenPath])
 
-
+    /** Calls the server to make a new folder at the client's location.
+     * Refreshes the page after successful
+     */
     const doMakeClick = async (givenName: string, route: string): Promise<void> => {
         const trimmed: string = givenName.trim();
         if (trimmed !== "") {
@@ -59,9 +66,6 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
                   body: JSON.stringify(body)
                 };
         
-          
-                // Fetches the /getFolderContents. The string in the encodeURIComponent is the route
-                // and the payload header is necessary stuff for server authentication
                 fetch(FetchRoute+"/createFolder", payloadHeader)
                     .then(() => window.location.reload())
                     .catch(() => console.error("Error fetching /createFolder: Failed to connect to server"));
@@ -74,7 +78,7 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
     }
 
 
-    if (!isMakingFolder) {
+    if (!isMakingFolder) { // If modal is closed
         return <></>
     } else {
         return (
@@ -90,7 +94,7 @@ const FolderModal = ({isMakingFolder, onMakeFolder, givenPath, eRoute} : FolderM
                     </div>
                     <div className="maketxt-wrap">
                         <p className="make-text">Name:</p>
-                        <input className="name-input" type="text" value={name} onChange={changeName}></input>
+                        <input className="name-input" required pattern=".*\S+.*" type="text" value={name} onChange={changeName}></input>
                     </div>
                     <div className="maketxt-warp">
                         <p>You can't change the name later</p>

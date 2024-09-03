@@ -12,8 +12,10 @@ import DeleteButton from "../../components/editor/DeleteButton";
 import DeleteModal from "../../components/editor/DeleteModal";
 import { useLocation } from "react-router-dom";
 import { FetchRoute } from "../../components/file-navigation/routes";
+import SavePublicButton from "../../components/editor/SavePublicButton";
+import PublicSaveModal from "../../components/editor/PublicSaveModal";
 
-
+/** Type for storing details about note documents */
 export type DetailsData = {
     name: string,
     class: string,
@@ -31,11 +33,17 @@ export function Note(): JSX.Element {
     // Text state used to get data from server to pass to TextEditor 
     const [currBody, setCurrBody] = useState<string>("");
 
+    // Edit Modal state
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
+    // Sharing Modal state
     const [isSharing, setIsSharing] = useState<boolean>(false);
 
+    // Deleting Modal state
     const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+    // Saving a Copy Modal state
+    const [isPublicSaving, setIsPublicSaving] = useState<boolean>(false);
 
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
@@ -44,20 +52,20 @@ export function Note(): JSX.Element {
     const [currTags, setCurrTags] = useState<string[]>([]);
     const [currQuarter, setCurrQuarter] = useState<string>("");
     const [sharedRecently, setSharedRecently] = useState<boolean>(false);
-    // const [isUnsaved, setIsUnsaved] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
-    // Window params, for now just for the "route" param
-    // const params: URLSearchParams = new URLSearchParams(window.location.search);
-    // const route: string | null = params.get("route");
     const location = useLocation();
     const route = location.state.route;
+    let isPublic: boolean = true;
+    if (typeof route === "string") {
+        if (route.charAt(0) === "U") { // Checks if current route is in Users or Shared
+            isPublic = false;
+        }
+    }
 
-    // Response for when the call is succesful
-    const fetchResponse = (noteData: NoteData, route: string) => {
-        // console.log("Body:", noteData.body);
-        // console.log("route:", route);
+    /** Response after the intial call to get notes data */
+    const fetchResponse = (noteData: NoteData, _route: string) => {
         setCurrBody(noteData.body);
         setCurrName(noteData.name);
         setCurrClass(noteData.className);
@@ -68,6 +76,7 @@ export function Note(): JSX.Element {
         setIsLoading(false);
     }
 
+    /** Response after details are saved */
     const detailsResponse = (detailsData: DetailsData): void => {
         setCurrName(detailsData.name);
         setCurrClass(detailsData.class);
@@ -78,6 +87,7 @@ export function Note(): JSX.Element {
         setIsLoading(false);
     }
 
+    /** Method called when the client shares their note */
     const doShareClick = async (name: string): Promise<void> => {
         const trimmed: string = name.trim();
         if (trimmed !== "") {
@@ -119,6 +129,7 @@ export function Note(): JSX.Element {
         }
     }
 
+    /** Method called when client deletes their note */
     const doDeleteClick = async (): Promise<void> => {
         setIsLoading(true);
         if (typeof route === "string") {
@@ -138,7 +149,7 @@ export function Note(): JSX.Element {
                 fetch(FetchRoute+"/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
                     .then((res) => {
                         console.log(res.status);
-                        navigate("/Notes");
+                        navigate("/notes");
                     })
                     .catch((a) => console.log(a))
                 
@@ -148,12 +159,11 @@ export function Note(): JSX.Element {
         }
     }
 
-    // On initial load and when auth.currentUser changes.
-    // The second case should never be a possibility without changing pages anyways
+    // On initial load, fetches note data from server
     useEffect(() => {
         if (typeof route !== "string") {
-            console.log("no route given");
-            // navigate("/notes")
+            console.error("no route given");
+            navigate("/notes")
         } else {
 
             const user = auth.currentUser;
@@ -174,35 +184,55 @@ export function Note(): JSX.Element {
 
             fetchNotes(user);
         }
-    }, [route])
+    }, [])
 
-    if (typeof route !== "string") {
+    if (typeof route !== "string") { // If route of note isn't valid
         return <>error</>
     }
 
     
-    if (isLoading) {
+    if (isLoading) { // If page is loading
         return (<>Loading....</>)
-    } else {
-        return (
-            <div className="page gray-background">
-                <EditModalButton setIsEditing={setIsEditing}/>
-                <ShareButton setIsSharing={setIsSharing}/>
-                <DeleteButton setIsDeleting={setIsDeleting}/>
-                <TextEditor 
-                initContent={currBody}
-                eRoute={route}
-                setIsLoading={setIsLoading} setCurrContent={setCurrBody}
-                />
-                <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
-                    givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
-                    setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
-
-                <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
-                            sharedRecently={sharedRecently} doShareClick={doShareClick}/>
-                <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
-            </div>
-        );
     }
-    
+
+    if (isPublic) { // If note is publicly shared
+        return (
+            <div className="page gray-background flex">
+                <SavePublicButton setIsPublicSaving={setIsPublicSaving}/>
+                <PublicNoteDisplayer body={currBody}/>
+                <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} 
+                noteName={currName} currBody={currBody}/>
+            </div>
+        )
+    }
+
+    return (
+        <div className="page gray-background">
+            <EditModalButton setIsEditing={setIsEditing}/>
+            <ShareButton setIsSharing={setIsSharing}/>
+            <DeleteButton setIsDeleting={setIsDeleting}/>
+            <TextEditor initContent={currBody} eRoute={route} 
+            setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
+            
+            <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
+                givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
+                setIsLoading={setIsLoading} fetchRes={detailsResponse}/>
+
+            <ShareModal isSharing={isSharing} setIsSharing={setIsSharing} name={currName} 
+                        sharedRecently={sharedRecently} doShareClick={doShareClick}/>
+
+            <DeleteModal isDeleting={isDeleting} setIsDeleting={setIsDeleting} doDeleteClick={doDeleteClick}/>
+        </div>
+    );
+}
+
+/** Element to display content when the note is a publicy shared one */
+const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
+    return (
+    <div className="display-window" >
+        <div dangerouslySetInnerHTML={{__html: body}}>
+
+        </div>
+    </div>
+    )
 }
