@@ -2,6 +2,7 @@ import React from 'react';
 import pfp from '../../assets/profile-button.png';
 import './profile.css';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function Profile() {
 
@@ -16,12 +17,21 @@ export default function Profile() {
 }
 
 function User() {
+    const user = useAuth();
+    if (user === null) {
+        throw new Error();
+    }
+    const currentUser = user.currentUser;
+    if (currentUser === null) {
+        throw new Error();
+    }
+
     return (
         <div className='left-container'>
-            <img src={pfp} alt="" className='pfp-icon'></img>
+            <img src={currentUser.photoURL || pfp} alt="" className='pfp-icon'></img>
 
-            <p className='name'>John Doe</p>
-            <p className='user'>@username</p>
+            <p className='name'>{currentUser.displayName}</p>
+            <p className='user'>{currentUser.email}</p>
             
             <div className='bio-box'>
                     <p>hello my name is john doe.</p>

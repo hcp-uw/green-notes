@@ -37,6 +37,7 @@
     font-size: 25px;
     padding: 0px;
     margin: 0px;
+    margin-top: 8px;
 }
 
 /* username */
@@ -48,6 +49,8 @@
 .pfp-icon {
     width: 200px;
     height: auto;
+    border-radius: 50%;
+    /* border: 2px solid var(--medium-gray); */
 }
 
 .bio-box {
