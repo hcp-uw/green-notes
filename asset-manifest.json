@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/green-notes/static/css/main.e4a92f69.css",
-    "main.js": "/green-notes/static/js/main.0d58b2a2.js",
+    "main.css": "/green-notes/static/css/main.f69783c5.css",
+    "main.js": "/green-notes/static/js/main.8796e784.js",
     "static/media/linkedin.png": "/green-notes/static/media/linkedin.2cb68259234fd70a3815.png",
     "static/media/binary-tree-logo.png": "/green-notes/static/media/binary-tree-logo.db6fefd30bfc3a9cdf2c.png",
     "static/media/github.png": "/green-notes/static/media/github.4027c62d5c05488f18e5.png",
@@ -9,11 +9,11 @@
     "index.html": "/green-notes/index.html",
     "static/media/search-icon.svg": "/green-notes/static/media/search-icon.1cc99f4c9a5d68c19c918effb366a3d5.svg",
     "static/media/plus.svg": "/green-notes/static/media/plus.24801a0d72af045f7b0f20039bb42679.svg",
-    "main.e4a92f69.css.map": "/green-notes/static/css/main.e4a92f69.css.map",
-    "main.0d58b2a2.js.map": "/green-notes/static/js/main.0d58b2a2.js.map"
+    "main.f69783c5.css.map": "/green-notes/static/css/main.f69783c5.css.map",
+    "main.8796e784.js.map": "/green-notes/static/js/main.8796e784.js.map"
   },
   "entrypoints": [
-    "static/css/main.e4a92f69.css",
-    "static/js/main.0d58b2a2.js"
+    "static/css/main.f69783c5.css",
+    "static/js/main.8796e784.js"
   ]
 }
