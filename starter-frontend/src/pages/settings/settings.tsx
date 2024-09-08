@@ -80,9 +80,9 @@ export default function Settings(): JSX.Element {
                 </form> */}
 
                 {/* the text below should display a bio if the user has one, and a default text if the user does not */}
-                <p id='bio-text'><span>[Your bio here...]</span></p>
-                <button id='edit-button' onClick={onOpen}>Edit Bio</button>
-                {/* <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio> */}
+                {/* <p id='bio-text'><span>[Your bio here...]</span></p>
+                <button id='edit-button' onClick={onOpen}>Edit Bio</button> */}
+                <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio>
             </div>
         )
     }

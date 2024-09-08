@@ -105,7 +105,8 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
     // Currently we have no user data to be stored. If we do and we need basic default
     // values, we can set them here.
     const data = {
-        dataAndThings: "random example stuff" 
+        dataAndThings: "random example stuff",
+        bio: 'placeholder text'
     };
 
     db.collection("Users").doc(email).set(data)
@@ -603,3 +604,23 @@ export async function getFolders(req: SafeRequest, res: SafeResponse) {
     res.send({data: info})
     return;
 }
+
+export async function updateBio(req: SafeRequest, res: SafeResponse) {
+    const email = req.body.email;
+    if (typeof email != "string") {
+        res.status(400).send('missing or invalid email parameter');
+        return;
+    }
+ const bio = req.body.bio;
+ 
+ 
+    db.collection("Users").doc(email).update({bio: bio})
+        .then(() => res.status(200).send("updated"))
+        .catch(() => res.status(400).send("failed"))
+ }
+ 
+ 
+ export async function getBio(req: SafeRequest, res: SafeResponse) {
+    // TO DO
+ }
+ 
