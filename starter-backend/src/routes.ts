@@ -21,11 +21,6 @@ export async function getNote(req: SafeRequest, res: SafeResponse) {
         return;
     }
 
-
-    // Also add in a way to check that the given user is properly logged in
-    // Maybe do this through firestore db permissions, but it might not have
-    // that power
-
     const noteRef = db.doc(route);
     const doc = await noteRef.get();
     if (!doc.exists) {
@@ -62,11 +57,6 @@ export async function getFolderContents(req: SafeRequest, res: SafeResponse) {
         const iD: string = item.id;
         const data = item.data();
 
-        // if (typeof data.name !== "string") {
-        //     res.status(500).send("db error");
-        //     return;
-        // }
-
         const name: string = data.name;
         const typeUnchecked: string = data.type;
 
@@ -102,8 +92,7 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
 
     const email = emailUpper.toLowerCase();
 
-    // Currently we have no user data to be stored. If we do and we need basic default
-    // values, we can set them here.
+
     const data = {
         dataAndThings: "random example stuff",
         bio: 'placeholder text'
@@ -123,17 +112,12 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
 }
 
 /** Placeholder code for when we want to make updates to account data,
- * such as prefered name and profile picture
+ * such as prefered name and profile picture.
+ * NOT CURRENTLY IN USE
 */
 export async function updateAccount(req: SafeRequest, res: SafeResponse) {
-    /* Example code for getting body parameters and checking them to be strings */
-    // const data = req.body.data;
-    // if (typeof data !== "string") {
-    //     res.status(400).send('missing or invalid "data" parameter');
-    //     return;
-    // }
 
-    // We will need an email to find the user in the db
+
     const emailUpper = req.body.email;
     if (typeof emailUpper !== "string") {
         res.status(400).send('missing or invalid "email" parameter');
@@ -141,12 +125,13 @@ export async function updateAccount(req: SafeRequest, res: SafeResponse) {
     };
     const email: string = emailUpper.toLowerCase();
 
-    // Example data that we can populate with body params
+
     const data = {
         example: "example data"
     }
 
     // Firebase call to update the "email" doc in the "users" collection with "data"
+    // Be wary that this is setting data rather than updating
     await db.collection("Users").doc(email).set(data)
         .then(() => res.status(200).send("account succesfully added"))
         .catch(() => res.status(400).send("error in adding account to db"))
@@ -608,19 +593,23 @@ export async function getFolders(req: SafeRequest, res: SafeResponse) {
 export async function updateBio(req: SafeRequest, res: SafeResponse) {
     const email = req.body.email;
     if (typeof email != "string") {
-        res.status(400).send('missing or invalid email parameter');
+        res.status(400).send('missing or invalid "email" parameter');
         return;
     }
- const bio = req.body.bio;
+    const bio = req.body.bio;
+    if (typeof bio != "string") {
+        res.status(400).send('missing or invalid "bio" parameter');
+        return;
+    }
  
  
     db.collection("Users").doc(email).update({bio: bio})
         .then(() => res.status(200).send("updated"))
         .catch(() => res.status(400).send("failed"))
- }
+}
  
  
- export async function getBio(req: SafeRequest, res: SafeResponse) {
+export async function getBio(req: SafeRequest, res: SafeResponse) {
     // TO DO
- }
+}
  

@@ -8,7 +8,8 @@ import { unknownEndpoint } from "./middleware.js";
 
 import { getNote, getFolderContents, createAccount, 
     createNote, createFolder, saveDoc, saveDetails, shareDoc,
-    deleteDoc, getShared, deleteFolder, getFolders, } from "./routes.js";
+    deleteDoc, getShared, deleteFolder, getFolders,
+    updateBio, } from "./routes.js";
 
 const app = express();
 
@@ -60,6 +61,8 @@ app.delete("/deleteFolder", deleteFolder);
 
 // Gets basic info of folders in a folder
 app.get("/getFolders", getFolders);
+
+app.put("/updateBio", updateBio)
 
 // error handling
 app.use(unknownEndpoint);
