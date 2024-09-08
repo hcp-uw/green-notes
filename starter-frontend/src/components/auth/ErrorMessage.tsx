@@ -6,7 +6,7 @@ export default function ErrorMessage() {
     // const { error, setError } = useAuth();
     const used = useAuth();
     if (used === null) {
-        throw new Error("bad");
+        throw new Error("user object is null");
     }
     const error = used.error;
     const setError = used.setError;

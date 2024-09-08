@@ -11,11 +11,11 @@ export default function Delete({ isModal, setIsModal }: DeleteAccountProps) {
 
     async function handleDeleteAccount() {
         if (user === null) {
-            throw new Error("Not logged in");
+            throw new Error("user object is null");
         }
         const currentUser = user.currentUser;
         if (currentUser === null) {
-            throw new Error("Not logged in");
+            throw new Error("currentUser is null, probably not logged in");
         }
         user.deleteAccount(currentUser);
         setIsModal(false);

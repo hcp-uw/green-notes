@@ -118,7 +118,7 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
             console.error('Invalid JSON from /createNote', data);
             return;
         }
-        console.log(data.JSON);
+
         if (typeof data.id !== "string") {
             console.error('Invalid id given from /createNote', data.id);
             return;
@@ -130,7 +130,6 @@ const Create = ({ isMaking, onMake, isTemp, givenPath, eRoute, email, temps } : 
     /** Element which lists out templates */
     const templates = (thumbnails: ThumbnailInfo[] | undefined): JSX.Element[] => {
         if (thumbnails === undefined) {
-            console.log("temps can't be found");
             return [];
         }
         const options: JSX.Element[] = [];

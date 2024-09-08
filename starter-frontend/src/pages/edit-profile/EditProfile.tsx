@@ -21,7 +21,7 @@ export default function NewProfile() {
 
   const used = useAuth();
   if (used === null) {
-    throw new Error("bad");
+    throw new Error("user object is null");
   }
 
   const currentUser = used.currentUser;
@@ -29,7 +29,7 @@ export default function NewProfile() {
   const setError = used.setError;
 
   if (currentUser === null) {
-    throw new Error("user can't be null right now");
+    throw new Error("currentUser can't be null right now");
   }
 
 

@@ -59,7 +59,6 @@ function save(setContent: React.Dispatch<React.SetStateAction<string>>, editorRe
     const content = editorRef.current.getContent();
     setContent(content);
     setCurrContent(content);
-    // console.log(content);
     doSave(content, eRoute, setIsLoading, setContent, setCurrContent);
     
   }

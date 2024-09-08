@@ -19,11 +19,11 @@ export default function Profile() {
 function User() {
     const user = useAuth();
     if (user === null) {
-        throw new Error();
+        throw new Error("user object is null");
     }
     const currentUser = user.currentUser;
     if (currentUser === null) {
-        throw new Error();
+        throw new Error("currentUser is null, probably not logged in");
     }
 
     return (

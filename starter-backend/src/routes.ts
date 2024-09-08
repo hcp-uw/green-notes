@@ -482,9 +482,6 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
         }
 
         const tagsArray: string[] = tags.split(",");
-        // for (const asdf of tagsArray) {
-        //     console.log('logged: "'+ asdf +'"');
-        // }
         for (let i = 0; i < tagsArray.length; i++) {
             if (tagsArray[i].toLowerCase().trim() !== "") {
                 let tagValid = false; // Checks if the tag passes, starts as no until it finds a matching tag

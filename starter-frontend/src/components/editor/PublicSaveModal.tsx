@@ -211,7 +211,7 @@ const PublicSaveModal = ({noteName, isPublicSaving, setIsPublicSaving, currBody}
             console.error('Invalid JSON from /createNote', data);
             return;
         }
-        console.log(data.JSON);
+        
         if (typeof data.id !== "string") {
             console.error('Invalid id given from /createNote', data.id);
             return;

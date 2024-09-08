@@ -60,11 +60,11 @@ function Profile(): JSX.Element {
 
     const user = useAuth();
     if (user === null) {
-        throw new Error();
+        throw new Error("user object is null");
     }
     const currentUser = user.currentUser;
     if (currentUser === null) {
-        throw new Error();
+        throw new Error("currentUser is null, probably not logged in");
     }
 
     return (
@@ -106,7 +106,7 @@ function LogInButton(): JSX.Element {
 function Corner(): JSX.Element {
     const used = useAuth();
     if (used === null) {
-        throw new Error("bad");
+        throw new Error("user object is null");
     }
 
     const currentUser = used.currentUser;

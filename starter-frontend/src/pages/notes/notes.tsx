@@ -49,7 +49,7 @@ export function Notes(): JSX.Element {
 
         const user = auth.currentUser;
         if (user === null) {
-            throw new Error("User isn't logged in");
+            throw new Error("currentUser is null, probably not logged in");
         }
         if (user.email === null) {
             throw new Error("User doesn't have associated email");

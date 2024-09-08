@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }: PrivateRouteParams) => {
 
     const used = useAuth();
     if (used === null) {
-        throw new Error("bad");
+        throw new Error("user object is null");
     }
 
     const currentUser = used.currentUser;
