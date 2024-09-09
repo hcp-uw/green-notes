@@ -376,6 +376,12 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
         return;
     }
 
+    const email = req.body.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    }
+
     const data = {
         name: nameTrimmed,
         body: body,
@@ -384,7 +390,8 @@ export async function shareDoc(req: SafeRequest, res: SafeResponse) {
         tags: tagsTrimmed,
         teacher: teacherTrimmed,
         type: "doc",
-        year: year
+        year: year,
+        email: email
     }
 
     db.collection("Shared").add(data)
@@ -602,4 +609,57 @@ export async function getFolders(req: SafeRequest, res: SafeResponse) {
     })
     res.send({data: info})
     return;
+}
+
+/** Returns all shared docs of given email and all tags used more than once */
+export async function sharedAndTags(req: SafeRequest, res: SafeResponse) {
+    const email = req.query.email;
+    if (typeof email !== "string") {
+        res.status(400).send('missing or invalid "email" parameter');
+        return;
+    }
+
+    const collectionRef = db.collection("Shared");
+    const snapshot = await collectionRef.get();
+
+    const info: ThumbnailInfo[] = [];
+    const tagMap: Map<string, number> = new Map();
+
+    snapshot.forEach(item => {
+        const data = item.data();
+        const iD: string = item.id;
+        const name: string = data.name;
+        const content: string = data.body;
+        const tempEmail: string = data.email;
+        const tagsArray: string[] = data.tagsArray
+
+        if (tempEmail === email) {
+            const temp: ThumbnailInfo = {
+                name: name,
+                iD: iD,
+                kind: "doc",
+                content: content
+            }
+            info.push(temp);
+            for (let i = 0; i < tagsArray.length; i++) {
+                const tag: string = tagsArray[i];
+                const tally: number | undefined = tagMap.get(tag);
+                if (tally === undefined) {
+                    tagMap.set(tag, 1);
+                } else {
+                    tagMap.set(tag, tally + 1);
+                }
+            }
+        }
+    })
+
+    const tagInfo: string[] = [];
+    for (const key of tagMap.keys()) {
+        const tal: number | undefined = tagMap.get(key);
+        if (tal !== undefined && tal >= 2) {
+            tagInfo.push(key);
+        }
+    }
+
+    res.send({thumbnailData: info, tagData: tagInfo})
 }

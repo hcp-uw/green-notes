@@ -96,6 +96,14 @@ export function Note(): JSX.Element {
                 const user = auth.currentUser;
                 const token = user && (await user.getIdToken());
 
+                if (user === null) {
+                    throw new Error("user object is null");
+                }
+                const email = user.email;
+                if (email === null) {
+                    throw new Error("user email is null");
+                }
+
                 const body = {
                     name: trimmed,
                     class: currClass,
@@ -103,7 +111,8 @@ export function Note(): JSX.Element {
                     year: currYear,
                     quarter: currQuarter,
                     tags: currTags,
-                    body: currBody
+                    body: currBody,
+                    email: email
                 }
 
                 const payloadHeader = {
