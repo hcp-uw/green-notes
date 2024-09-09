@@ -619,7 +619,8 @@ export async function sharedAndTags(req: SafeRequest, res: SafeResponse) {
         return;
     }
 
-    const collectionRef = db.collection("Shared");
+    // const collectionRef = db.collection("Shared");
+    const collectionRef = db.collection("Shared").where('email', '==', email).orderBy('name');
     const snapshot = await collectionRef.get();
 
     const info: ThumbnailInfo[] = [];
@@ -630,10 +631,10 @@ export async function sharedAndTags(req: SafeRequest, res: SafeResponse) {
         const iD: string = item.id;
         const name: string = data.name;
         const content: string = data.body;
-        const tempEmail: string = data.email;
+        // const tempEmail: string = data.email;
         const tagsArray: string[] = data.tagsArray
 
-        if (tempEmail === email) {
+        // if (tempEmail === email) {
             const temp: ThumbnailInfo = {
                 name: name,
                 iD: iD,
@@ -650,7 +651,7 @@ export async function sharedAndTags(req: SafeRequest, res: SafeResponse) {
                     tagMap.set(tag, tally + 1);
                 }
             }
-        }
+        // }
     })
 
     const tagInfo: string[] = [];
