@@ -7,10 +7,18 @@ import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import LanguagesDropdown from "./LanguagesDropdown";
 
+type IDEProps = {
+    // Initial code in the IDE
+    initCode: string, 
 
-export default function IDE(): JSX.Element {
-    const [code, setCode] = useState<string>("");
-    const [customInput, setCustomInput] = useState<string>("");
+    // Initial text in the custom input
+    initInput: string
+}
+
+
+export default function IDE({initCode, initInput}: IDEProps): JSX.Element {
+    const [code, setCode] = useState<string>(initCode);
+    const [customInput, setCustomInput] = useState<string>(initInput);
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
