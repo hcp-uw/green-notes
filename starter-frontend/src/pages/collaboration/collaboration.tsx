@@ -19,7 +19,7 @@ export default function Collaboration(): JSX.Element {
     const [isAdvanced, setIsAdvanced] = useState<boolean>(false);
 
     // Loading state
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     // Current displayed content
     const [currNotes, setCurrNotes] = useState<ThumbnailInfo[]>([]);

@@ -1,66 +1,136 @@
-// import { db } from '../../../../starter-backend/src/config/firebase-config';
-// import { doc, updateDoc } from "firebase/firestore";
-  
-// export async function EditBioField(): Promise<void> {
-//   const userRef = doc(db, "users", "frank");
-
-//   await updateDoc(userRef, {
-//       "favorites.color": "Red"
-//   });
-
-//   db.collection("users").doc("frank").update({
-//     "favorites.firebase": "Help")};
-// }
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
 import './settings.css';
+import { isRecord, FetchRoute } from "../../components/file-navigation/routes";
 
 /* Allows the user to edit their bio */
 
 type EditBioProps = {isModal: boolean, setIsModal: React.Dispatch<React.SetStateAction<boolean>>}
 
 export default function EditBio({ isModal, setIsModal }: EditBioProps) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const user = useAuth();
 
     if (user === null) {
-        throw new Error("Not logged in");
+        throw new Error("user object is null");
     }
     const currentUser = user.currentUser;
     if (currentUser === null) {
-        throw new Error("Not logged in");
+        throw new Error("currentUser is null, probably not logged in");
+    }
+    if (currentUser.email === null) {
+        throw new Error("User is not logged in / doesn't have email")
     }
 
     const [bio, setBio] = useState("");
-    const setError = user.setError;
+    const [loading, setIsLoading] = useState(true);
+    // const setError = user.setError;
 
-    const handleEditBio = async (e: any) => {
-        // e.preventDefault();
+    useEffect(() => {
+        getBio();
+    }, [])
 
-        // try {
-        //     setError("");
-        //     await user.updateUserProfile(currentUser, { displayName: name });
+    // fetches the user's bio
+    const getBio = async(): Promise<void> => {
+        try {
+            const token = currentUser && (await currentUser.getIdToken());
+      
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "GET"
+            };
 
-        //     setIsModal(false);
-        //     navigate("/settings");
-        // } catch (e) {
-        //     setError("failed to update display name");
-        // }
+            fetch(FetchRoute + "/getBio?route=" + encodeURIComponent("Users/" + currentUser.email), payloadHeader)
+                .then((res) => {
+                    res.json().then((val) => fetchResponse(val))
+                })
+                .catch(() => console.error("Error fetching /getBio: Failed to connect to server"))
+        } catch (e) {
+            console.log(e);
+        }
     }
 
-    if (!isModal) {
-        return null;
-    } else {
+    // helper function for fetching user's bio
+    const fetchResponse = (val: unknown): void => {
+        if (!isRecord(val)) {
+            console.error('Invalid JSON from /getBio', val);
+            return;
+        }
+        console.log(val.data);
+        if (typeof val.data !== 'string') {
+            console.error('Invalid JSON from /getBio', val);
+            return;
+        }
+
+        setBio(val.data);
+        setIsLoading(false);
+    }
+
+    // saves an updated bio to the database
+    const handleEditBio = async(): Promise<void> => {
+        try {
+            setIsLoading(true);
+            const token = currentUser && (await currentUser.getIdToken());
+
+            const body = {
+                email: currentUser.email,
+                bio: bio
+            }
+
+            const payloadHeader = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                method: "PUT",
+                body: JSON.stringify(body)
+            }
+
+            fetch(FetchRoute+"/updateBio", payloadHeader)
+                .then(() => {
+                    setBio(bio);
+                    setIsLoading(false);
+                })
+                .catch(() => console.error("Error fetching /updateBio: Failed to connect to server"));
+
+            setIsModal(false);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    const onOpen = () => {
+        setIsModal(!isModal);
+    }
+
+    if (isModal) {
         return (
-            <div className="edit-name-popup">
-                <form>
-                    <div><input id="new-name" type="text" placeholder="Enter your bio" onChange={(e) => setBio(e.target.value)}></input></div>
-                    <button onClick={handleEditBio}>Save</button>
-                    <button onClick={() => setIsModal(false)}>Cancel</button>
-                </form>
+            <div>
+            <div className="edit-name-popup"> {/*className="edit-name-popup"*/}
+                <div><input id="new-name" type="text" placeholder="Enter your bio" onChange={(e) => setBio(e.target.value)}></input></div>
+                <button onClick={handleEditBio}>Save</button>
+                <button onClick={() => setIsModal(false)}>Cancel</button>
+            </div>
+            <div>
+                <p id='bio-text'>{bio}</p>
+                <button id='edit-button' onClick={onOpen}>Edit Bio</button>
+            </div>
             </div>
         );
     }
+    if (loading) {
+        return (
+            <p id='bio-text'>Loading...</p>
+        )
+    }
+    return (
+            <div>
+                <p id='bio-text'>{bio}</p>
+                <button id='edit-button' onClick={onOpen}>Edit Bio</button>
+            </div>
+    );
 }

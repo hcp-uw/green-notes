@@ -10,16 +10,16 @@ import profile from '../../assets/profile-button.png';
 export default function UploadProfilePic(): JSX.Element {
     const user = useAuth();
     if (user === null) {
-        throw new Error('error');
+        throw new Error('user object is null');
     }
     const currentUser = user.currentUser;
     if (currentUser === null) {
-        throw new Error('error');
+        throw new Error('currentUser is null, probably not logged in');
     }
 
     async function upload(file: any, user: any, setLoading: any) {
         if (user === null) {
-            throw new Error('error');
+            throw new Error('user object is null');
         }
         const currentUser = user.currentUser;
         const fileRef = ref(storage, currentUser.uid + '.png');

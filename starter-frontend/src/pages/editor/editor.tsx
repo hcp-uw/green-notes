@@ -148,7 +148,7 @@ export function Note(): JSX.Element {
     
                 fetch(FetchRoute+"/deleteDoc?route="+encodeURIComponent(route), payloadHeader)
                     .then((res) => {
-                        console.log(res.status);
+                        // console.log(res.status);
                         navigate("/notes");
                     })
                     .catch((a) => console.log(a))

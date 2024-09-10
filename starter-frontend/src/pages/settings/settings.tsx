@@ -29,12 +29,12 @@ export default function Settings(): JSX.Element {
 
         const user = useAuth();
         if (user === null) {
-            throw new Error("Not logged in")
+            throw new Error("user object is null")
         }
 
         const currentUser = user.currentUser;
         if (currentUser === null) {
-            throw new Error("Not logged in");
+            throw new Error("currentUser is null, probably not logged in");
         }
 
         return (
@@ -80,9 +80,9 @@ export default function Settings(): JSX.Element {
                 </form> */}
 
                 {/* the text below should display a bio if the user has one, and a default text if the user does not */}
-                <p id='bio-text'><span>[Your bio here...]</span></p>
-                <button id='edit-button' onClick={onOpen}>Edit Bio</button>
-                {/* <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio> */}
+                {/* <p id='bio-text'><span>[Your bio here...]</span></p>
+                <button id='edit-button' onClick={onOpen}>Edit Bio</button> */}
+                <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio>
             </div>
         )
     }
