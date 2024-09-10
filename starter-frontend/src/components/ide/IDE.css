@@ -45,7 +45,7 @@
     margin: 0;
     padding: 10px;
     height: 95%;
-    overflow: scroll;
+    overflow: auto;
 }
 
 
@@ -83,7 +83,7 @@
 }
 
 .ide-btn {
-    flex-grow: 1;
+    width: 33.33%;
     border-radius: 0;
     border: 0.3px var(--dark-gray) solid;
     border-bottom: 0;
