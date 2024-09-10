@@ -22,4 +22,6 @@
 
 #main-area {
     display: flex;
+    padding: 15px;
+    gap: 15px;
 }

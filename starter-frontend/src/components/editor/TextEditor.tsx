@@ -23,10 +23,11 @@ export default function TextEditor({initContent, eRoute, setIsLoading, setCurrCo
           initialValue={content}
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
           id='editor'
+          licenseKey="gpl"
           onInit={(_evt, editor) => {editorRef.current = editor}}
           init={{ 
             height: "calc(100vh - 105px)",
-            licenseKey: 'gpl', 
+            width: "auto",
             resize: false, 
             menubar: false,
             plugins: [
