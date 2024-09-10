@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
 import './settings.css';
-import { FetchRoute } from "../../components/file-navigation/routes";
+import { isRecord, FetchRoute } from "../../components/file-navigation/routes";
 
 /* Allows the user to edit their bio */
 
@@ -19,26 +19,58 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
     if (currentUser === null) {
         throw new Error("currentUser is null, probably not logged in");
     }
+    if (currentUser.email === null) {
+        throw new Error("User is not logged in / doesn't have email")
+    }
 
     const [bio, setBio] = useState("");
-    const [loading, setIsLoading] = useState(false);
+    const [loading, setIsLoading] = useState(true);
     // const setError = user.setError;
 
-    // const handleEditBio = async (e: any) => {
-    //     e.preventDefault();
+    useEffect(() => {
+        getBio();
+    }, [])
 
-    //     try {
-    //         setError("");
-    //         // Save button should send bio data to the server, server should take in the data and save it to the db
+    // fetches the user's bio
+    const getBio = async(): Promise<void> => {
+        try {
+            const token = currentUser && (await currentUser.getIdToken());
+      
+            const payloadHeader = {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              method: "GET"
+            };
 
-    //         setIsModal(false);
-    //         navigate("/settings");
-    //     } catch (e) {
-    //         setError("failed to update display name");
-    //     }
-    // }
+            fetch(FetchRoute + "/getBio?route=" + encodeURIComponent("Users/" + currentUser.email), payloadHeader)
+                .then((res) => {
+                    res.json().then((val) => fetchResponse(val))
+                })
+                .catch(() => console.error("Error fetching /getBio: Failed to connect to server"))
+        } catch (e) {
+            console.log(e);
+        }
+    }
 
-    // This might be very wrong
+    // helper function for fetching user's bio
+    const fetchResponse = (val: unknown): void => {
+        if (!isRecord(val)) {
+            console.error('Invalid JSON from /getBio', val);
+            return;
+        }
+        console.log(val.data);
+        if (typeof val.data !== 'string') {
+            console.error('Invalid JSON from /getBio', val);
+            return;
+        }
+
+        setBio(val.data);
+        setIsLoading(false);
+    }
+
+    // saves an updated bio to the database
     const handleEditBio = async(): Promise<void> => {
         try {
             setIsLoading(true);
@@ -71,8 +103,6 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
         }
     }
 
-    // add function that gets the bio stored in firestore to display
-
     const onOpen = () => {
         setIsModal(!isModal);
     }
@@ -81,22 +111,25 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
         return (
             <div>
             <div className="edit-name-popup"> {/*className="edit-name-popup"*/}
-                <form>
-                    <div><input id="new-name" type="text" placeholder="Enter your bio" onChange={(e) => setBio(e.target.value)}></input></div>
-                    <button onClick={handleEditBio}>Save</button>
-                    <button onClick={() => setIsModal(false)}>Cancel</button>
-                </form>
+                <div><input id="new-name" type="text" placeholder="Enter your bio" onChange={(e) => setBio(e.target.value)}></input></div>
+                <button onClick={handleEditBio}>Save</button>
+                <button onClick={() => setIsModal(false)}>Cancel</button>
             </div>
             <div>
-                <p id='bio-text'>{bio || "Your Bio Here"}</p>
+                <p id='bio-text'>{bio}</p>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
             </div>
         );
     }
+    if (loading) {
+        return (
+            <p id='bio-text'>Loading...</p>
+        )
+    }
     return (
             <div>
-                <p id='bio-text'>{bio || "Your Bio Here"}</p>
+                <p id='bio-text'>{bio}</p>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
     );

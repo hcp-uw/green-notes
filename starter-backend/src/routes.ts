@@ -95,7 +95,7 @@ export async function createAccount(req: SafeRequest, res: SafeResponse) {
 
     const data = {
         dataAndThings: "random example stuff",
-        bio: 'placeholder text'
+        bio: 'Your bio here'
     };
 
     db.collection("Users").doc(email).set(data)
@@ -607,6 +607,24 @@ export async function updateBio(req: SafeRequest, res: SafeResponse) {
  
  
 export async function getBio(req: SafeRequest, res: SafeResponse) {
-    // TO DO
+    const route = req.query.route;
+    if (typeof route !== "string") {
+        res.status(400).send('missing or invalid "route" parameter');
+        return;
+    }
+    const bioRef = db.doc(route);
+    const doc = await bioRef.get();
+
+    if (!doc.exists) {
+        res.send("no doc found :(");
+        return;
+    } else {
+        const data = doc.data();
+        if (typeof data === "undefined") {
+            return;
+        }
+        res.send({data: data.bio});
+        return;
+    }
 }
  
