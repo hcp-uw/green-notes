@@ -1,5 +1,6 @@
 // @ts-nocheck
 // Select height change from https://stackoverflow.com/a/60912805
+// Select remove border from https://stackoverflow.com/a/52615293
 
 import React from "react";
 import Select, { SingleValue } from "react-select";
@@ -18,6 +19,9 @@ export default function LanguagesDropdown( { onSelectChange }: LanguagesDropdown
           minHeight: '30px',
           height: '30px',
           boxShadow: state.isFocused ? null : null,
+          border: 0,
+          boxShadow: 'none', 
+          borderRadius: '0px',
         }),
     
         valueContainer: (provided, state) => ({

@@ -39,13 +39,13 @@ function getOutput(outputDetails: any): JSX.Element {
 
 export default function OutputWindow({outputDetails}: OutputWindowProps): JSX.Element {
     return (
-        <>
+        <div className="ide-output-full">
             <h1 className="ide-output-h1">
                 Output
             </h1>
             <div className="ide-output-window">
                 {outputDetails ? <>{getOutput(outputDetails)}</> : null}
             </div>
-        </>
+        </div>
     );
 }

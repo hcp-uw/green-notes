@@ -123,18 +123,20 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
                 theme="vs-dark"
             />
             
+            <div className="in-output">
+                <OutputWindow outputDetails={outputDetails} />
+                <CustomInput 
+                    customInput={customInput}
+                    setCustomInput={setCustomInput}
+                />
+            </div>
             
-            <OutputWindow outputDetails={outputDetails} />
-            <CustomInput 
-                customInput={customInput}
-                setCustomInput={setCustomInput}
-            />
 
             <div className="ide-footer">
                 <button 
                     onClick={handleCompile}
                     disabled={!code}
-                    className="ide-btn"
+                    className="ide-btn compile-btn"
                 >
                     {processing ? "Processing..." : "Run"}
                 </button>
@@ -147,7 +149,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
                 </button>
                 <button
                     onClick={handleClose}
-                    className="ide-btn"
+                    className="ide-btn close-btn"
                 >
                     Close
                 </button>
