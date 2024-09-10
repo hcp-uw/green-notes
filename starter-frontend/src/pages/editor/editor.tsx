@@ -218,9 +218,14 @@ export function Note(): JSX.Element {
             <EditModalButton setIsEditing={setIsEditing}/>
             <ShareButton setIsSharing={setIsSharing}/>
             <DeleteButton setIsDeleting={setIsDeleting}/>
-            <TextEditor initContent={currBody} eRoute={route} 
-            setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
-            {isIDEOpen && <IDE initCode={initIDECode}/>}
+            <div id="main-area">
+                <TextEditor initContent={currBody} eRoute={route} 
+                setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
+                {
+                // isIDEOpen && 
+                <IDE initCode={initIDECode}/>}
+            </div>
+            
             
             <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
                 givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
@@ -234,7 +239,7 @@ export function Note(): JSX.Element {
     );
 }
 
-/** Element to display content when the note is a publicy shared one */
+/** Element to display content when the note is a publicly shared one */
 const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
     return (
     <div className="display-window" >

@@ -19,3 +19,7 @@
     border-radius: 10px;
 
 }
+
+#main-area {
+    display: flex;
+}

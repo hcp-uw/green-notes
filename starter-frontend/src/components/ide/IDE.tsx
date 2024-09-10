@@ -113,30 +113,32 @@ export default function IDE({initCode}: IDEProps): JSX.Element {
     
     return (
         <div className="ide">
-            <div className="ide-left">
-                <CodeEditor 
-                    code={code}
-                    onChange={onChange}
-                    language={language?.value}
-                    theme="vs-dark"
-                />
-                <div className="ide-footer">
-                    <button 
-                        onClick={handleCompile}
-                        disabled={!code}
-                        className="compile-btn"
-                    >
-                        {processing ? "Processing..." : "Run"}
-                    </button>
-                    <LanguagesDropdown onSelectChange={onSelectChange} />
-                </div>
+            
+            <CodeEditor 
+                code={code}
+                onChange={onChange}
+                language={language?.value}
+                theme="vs-dark"
+            />
+            
+            
+            <OutputWindow outputDetails={outputDetails} />
+            <CustomInput 
+                customInput={customInput}
+                setCustomInput={setCustomInput}
+            />
+
+            <div className="ide-footer">
+                <button 
+                    onClick={handleCompile}
+                    disabled={!code}
+                    className="compile-btn"
+                >
+                    {processing ? "Processing..." : "Run"}
+                </button>
+                <LanguagesDropdown onSelectChange={onSelectChange} />
             </div>
-            <div className="ide-right">
-                <OutputWindow outputDetails={outputDetails} />
-                <CustomInput 
-                    customInput={customInput}
-                    setCustomInput={setCustomInput}
-                />
-            </div>
-        </div>);
+            
+        </div>
+    );
 }
