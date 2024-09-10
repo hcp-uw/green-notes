@@ -22,6 +22,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
     const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
+    const [updated, setUpdated] = useState<boolean>(false);
     
     function onSelectChange(sl: languageOption | null): void {
         console.log("Selected option ", sl);
@@ -34,6 +35,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
         switch (action) {
             case "code": {
                 setCode(data);
+                setUpdated(true);
                 break;
             }
             default: {
@@ -112,6 +114,11 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
     function handleClose(_evt: MouseEvent<HTMLButtonElement>): void {
         setIsIDEOpen(false);
     }
+
+    function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
+        setUpdated(false);
+        // TO-DO: ADD ACTUAL SAVING
+    }
     
     return (
         <div className="ide">
@@ -141,8 +148,8 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
                     {processing ? "Processing..." : "Run"}
                 </button>
                 <button
-                    // onClick={handleUpdate}
-                    // disabled={!update}
+                    onClick={handleUpdate}
+                    disabled={!updated}
                     className="ide-btn"
                 >
                     Update
