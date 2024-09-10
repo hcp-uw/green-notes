@@ -48,9 +48,11 @@ export function Note(): JSX.Element {
 
     // IDE
     // If IDE is open
-    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
+    // TO-DO CHANGE false
+    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(true);
     // Initial IDE code
     const [initIDECode, setInitIDECode] = useState<string>("");
+    
 
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
@@ -222,8 +224,8 @@ export function Note(): JSX.Element {
                 <TextEditor initContent={currBody} eRoute={route} 
                 setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
                 {
-                // isIDEOpen && 
-                <IDE initCode={initIDECode}/>}
+                isIDEOpen && 
+                <IDE initCode={initIDECode} setIsIDEOpen={setIsIDEOpen}/>}
             </div>
             
             

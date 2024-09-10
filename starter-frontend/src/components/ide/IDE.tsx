@@ -9,11 +9,13 @@ import LanguagesDropdown from "./LanguagesDropdown";
 
 type IDEProps = {
     // Initial code in the IDE
-    initCode: string, 
+    initCode: string,
+    
+    setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function IDE({initCode}: IDEProps): JSX.Element {
+export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
     const [code, setCode] = useState<string>(initCode);
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
@@ -107,8 +109,8 @@ export default function IDE({initCode}: IDEProps): JSX.Element {
           }
     }
 
-    function minimize(_evt: MouseEvent<HTMLButtonElement>): void {
-        setOutput(false);
+    function handleClose(_evt: MouseEvent<HTMLButtonElement>): void {
+        setIsIDEOpen(false);
     }
     
     return (
@@ -132,15 +134,23 @@ export default function IDE({initCode}: IDEProps): JSX.Element {
                 <button 
                     onClick={handleCompile}
                     disabled={!code}
-                    className="compile-btn"
+                    className="ide-btn"
                 >
                     {processing ? "Processing..." : "Run"}
                 </button>
-                {/* <button>
-                    onClick={handleUpdate}
-                    disabled={!update}
-                    className=""
-                </button> */}
+                <button
+                    // onClick={handleUpdate}
+                    // disabled={!update}
+                    className="ide-btn"
+                >
+                    Update
+                </button>
+                <button
+                    onClick={handleClose}
+                    className="ide-btn"
+                >
+                    Close
+                </button>
             </div>
             
         </div>
