@@ -15,6 +15,9 @@
     flex-grow: 1;
 }
 
+.editor-wrapper, .monaco-editor, .overflow-guard { 
+    
+}
 
 /* Input and Output */
 .in-output {
@@ -25,8 +28,7 @@
 /* Output Window */
 .ide-output-full {
     width: 60%;
-    border: 0.3px black solid;
-    border-top: 0;
+    border-bottom: 0.3px var(--dark-gray) solid;
 }
 
 .ide-output-h1 {
@@ -52,13 +54,16 @@
     color: red;
 }
 
+.ide-output {
+}
 
 /* Custom Input */
 .ide-input {
     height: 100%;
     width: 40%;
     resize: none;
-    border: 0.3px black solid;
+    border-left: 0.6px var(--dark-gray) solid;
+    border-bottom: 0.3px var(--dark-gray) solid;
     border-top: 0;
     padding: 10px;
     margin: 0;
@@ -73,14 +78,20 @@
     display: flex;
     margin: 0;
     height: 6%;
+    /* overflow: hidden; */
 }
 
 .ide-btn {
     flex-grow: 1;
     border-radius: 0;
-    border: 0.3px black solid;
+    border: 0.3px var(--dark-gray) solid;
+    border-bottom: 0;
     background-color: var(--light-green);
     font-family: 'Amiko';
+}
+
+.compile-btn {
+    border-left: 0;
 }
 
 .compile-btn:disabled {
@@ -90,6 +101,7 @@
 .close-btn {
     border-bottom-right-radius: 6.5px;
     background-color: pink;
+    border-right: 0;
 }
 
 .ide-btn:hover {
