@@ -113,7 +113,7 @@ export default function IDE({initCode}: IDEProps): JSX.Element {
     
     return (
         <div className="ide">
-            
+            <LanguagesDropdown onSelectChange={onSelectChange} />
             <CodeEditor 
                 code={code}
                 onChange={onChange}
@@ -136,7 +136,7 @@ export default function IDE({initCode}: IDEProps): JSX.Element {
                 >
                     {processing ? "Processing..." : "Run"}
                 </button>
-                <LanguagesDropdown onSelectChange={onSelectChange} />
+                
             </div>
             
         </div>
