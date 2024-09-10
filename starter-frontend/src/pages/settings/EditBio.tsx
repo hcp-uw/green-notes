@@ -113,7 +113,6 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
                 <button onClick={() => setIsModal(false)}>Cancel</button>
             </div>
             <div>
-                {/* <p id='bio-text'>{bio}</p> */}
                 <div id='bio-text'>{bio}</div>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
@@ -127,7 +126,6 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
     }
     return (
             <div>
-                {/* <p id='bio-text'>{bio}</p> */}
                 <div id='bio-text'>{bio}</div>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
