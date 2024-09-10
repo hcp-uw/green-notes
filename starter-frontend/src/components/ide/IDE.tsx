@@ -10,15 +10,12 @@ import LanguagesDropdown from "./LanguagesDropdown";
 type IDEProps = {
     // Initial code in the IDE
     initCode: string, 
-
-    // Initial text in the custom input
-    initInput: string
 }
 
 
-export default function IDE({initCode, initInput}: IDEProps): JSX.Element {
+export default function IDE({initCode}: IDEProps): JSX.Element {
     const [code, setCode] = useState<string>(initCode);
-    const [customInput, setCustomInput] = useState<string>(initInput);
+    const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
@@ -101,14 +98,12 @@ export default function IDE({initCode, initInput}: IDEProps): JSX.Element {
             } else {
               setProcessing(false);
               setOutputDetails(response.data);
-            //   showSuccessToast(`Compiled Successfully!`);
               console.log("response.data", response.data);
               return;
             }
           } catch (err) {
             console.log("err", err);
             setProcessing(false);
-            // showErrorToast();
           }
     }
 

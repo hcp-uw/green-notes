@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import { FetchRoute } from "../../components/file-navigation/routes";
 import SavePublicButton from "../../components/editor/SavePublicButton";
 import PublicSaveModal from "../../components/editor/PublicSaveModal";
+import IDE from "../../components/ide/IDE";
 
 /** Type for storing details about note documents */
 export type DetailsData = {
@@ -44,6 +45,12 @@ export function Note(): JSX.Element {
 
     // Saving a Copy Modal state
     const [isPublicSaving, setIsPublicSaving] = useState<boolean>(false);
+
+    // IDE
+    // If IDE is open
+    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
+    // Initial IDE code
+    const [initIDECode, setInitIDECode] = useState<string>("");
 
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
@@ -213,6 +220,7 @@ export function Note(): JSX.Element {
             <DeleteButton setIsDeleting={setIsDeleting}/>
             <TextEditor initContent={currBody} eRoute={route} 
             setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
+            {isIDEOpen && <IDE initCode={initIDECode}/>}
             
             <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
                 givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
