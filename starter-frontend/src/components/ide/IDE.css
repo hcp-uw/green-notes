@@ -95,7 +95,7 @@
     border-left: 0;
 }
 
-.compile-btn:disabled {
+.ide-btn:disabled, .ide-btn:hover:disabled {
     background-color: lightgray;
 }
 
