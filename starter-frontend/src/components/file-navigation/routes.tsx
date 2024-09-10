@@ -56,6 +56,14 @@ export const isRecord = (val: unknown): val is Record<string, unknown> => {
     return val !== null && typeof val === "object";
   };
 
-/** Backend server url */
-export const FetchRoute: string = "http://localhost:3001";
+
+// export const FetchRoute: string = "http://localhost:3001";
 // export const FetchRoute: string = "https://green-notes.onrender.com";
+const envRoute: string | undefined = process.env.REACT_APP_SERVER_URL
+/** Backend server url */
+export let FetchRoute: string = "";
+if (envRoute === undefined) {
+    FetchRoute = "http://localhost:3001"
+} else {
+    FetchRoute = envRoute
+}
