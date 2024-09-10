@@ -66,6 +66,7 @@
     border-bottom: 0.3px var(--dark-gray) solid;
     border-top: 0;
     padding: 10px;
+    padding-top: 5px;
     margin: 0;
 }
 
