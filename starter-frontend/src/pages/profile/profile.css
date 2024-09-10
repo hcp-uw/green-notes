@@ -46,18 +46,34 @@
     margin: 0px;
 }
 
+/* old:  */
 .pfp-icon {
     width: 200px;
     height: auto;
     border-radius: 50%;
-    /* border: 2px solid var(--medium-gray); */
 }
+
+/* #image {
+    position: relative;
+    width: 205px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+}
+
+#img {
+    height: 100%;
+    width: 100%;
+} */
 
 .bio-box {
     width: 250px;
     height: 150px;
     flex-shrink: 0;
-    border-radius: 36px;
+    border-radius: 25px;
     background: #EDE7E7;
     margin: 20px;
 
@@ -71,6 +87,7 @@
     font-weight: 400;
     line-height: normal;
     padding: 10px;
+    text-align: center;
 }
 
 #edit-profile-button {

@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
 import './settings.css';
 import { isRecord, FetchRoute } from "../../components/file-navigation/routes";
@@ -9,7 +8,6 @@ import { isRecord, FetchRoute } from "../../components/file-navigation/routes";
 type EditBioProps = {isModal: boolean, setIsModal: React.Dispatch<React.SetStateAction<boolean>>}
 
 export default function EditBio({ isModal, setIsModal }: EditBioProps) {
-    // const navigate = useNavigate();
     const user = useAuth();
 
     if (user === null) {
@@ -25,7 +23,6 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
 
     const [bio, setBio] = useState("");
     const [loading, setIsLoading] = useState(true);
-    // const setError = user.setError;
 
     useEffect(() => {
         getBio();
@@ -116,7 +113,8 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
                 <button onClick={() => setIsModal(false)}>Cancel</button>
             </div>
             <div>
-                <p id='bio-text'>{bio}</p>
+                {/* <p id='bio-text'>{bio}</p> */}
+                <div id='bio-text'>{bio}</div>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
             </div>
@@ -129,7 +127,8 @@ export default function EditBio({ isModal, setIsModal }: EditBioProps) {
     }
     return (
             <div>
-                <p id='bio-text'>{bio}</p>
+                {/* <p id='bio-text'>{bio}</p> */}
+                <div id='bio-text'>{bio}</div>
                 <button id='edit-button' onClick={onOpen}>Edit Bio</button>
             </div>
     );

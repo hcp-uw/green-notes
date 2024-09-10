@@ -55,53 +55,43 @@
     margin-right: auto;
     margin-top: 50px;
     border-radius: 50%;
-    /* border: 2px solid var(--medium-gray); */
-    /* ----- */
-    /* display: inline;
-    justify-content: center;
-    margin: 0 auto;
-    height: auto; */
-    /* width: 100%;
-    clip-path: circle(); */
-    /* margin-left: -25%; */
+
+    /* height:100%;
+    width: 100%; */
 }
 
+
+/* actually works for cropping rectangular photos but can't get it to 
+work for all instances of the profile photo :( */
 /* #image-cropper {
-    width: 180px;
-    height: 180px; 
-    margin-top:2px;
+    position: relative;
+    width: 205px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
     margin-left: auto;
     margin-right: auto;
-} */
-
-/* #edit-profile-text {
-    margin-top: 80px;
+    margin-top: 50px;
 } */
 
 .profile-text {
     text-align: center;
 }
 
-/* separate bio text from photo setting options */
-/* #bio {
-    margin-top: 70px;
-    text-align: center;
-} */
-
-/* #bio input {
-    width: 60%;
-    line-height: 100px;
-} */
-
+/* bio text format */
 #bio-text {
     text-align: center;
-    /* border: 1px solid black; */
-    /* width: 20vw; */
+    width: 15vw;
+    margin: auto;
     margin-top: 70px;
+    background-color: var(--lightest-gray);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
 }
 
-/* separates Appearance settings from General settings */
-#appearance {
+/* separates More settings from General You settings */
+#more {
     margin-top: 50px;
 }
 
@@ -133,7 +123,7 @@
 /* --------------------- */
 /* EDIT BUTTON */
 #edit-button {
-    /* margin-top: 5px; */
+    margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
     font-family: "Fira Code";

@@ -56,7 +56,7 @@ export default function UploadProfilePic(): JSX.Element {
     return (
         <div className='profile-text'>
             <div className='container'>
-            <div id='image-cropper'><img src={photoUrl || profile} alt='profile' id='img'></img></div>
+                <div id='image-cropper'><img src={photoUrl || profile} alt='profile' id='img'></img></div>
             </div>
             <p></p>
             <p id='edit-profile-text'>Edit profile photo:</p>

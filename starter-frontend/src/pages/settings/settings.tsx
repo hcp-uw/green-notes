@@ -1,7 +1,6 @@
 import './settings.css';
-import React, {useState} from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
-import profile from '../../assets/profile-button.png';
 import { useAuth } from '../../contexts/AuthContext';
 import Delete from './DeleteAccount';
 import EditName from './EditName';
@@ -47,7 +46,7 @@ export default function Settings(): JSX.Element {
                 <EditName isModal={isModal} setIsModal={setIsModal}></EditName>
                 <Link to="/profile"><button id='back-button'>Back to Profile</button></Link>
                 
-                <h1 id='appearance'>More</h1>
+                <h1 id='more'>More</h1>
                 <p>Document Language: English</p>
                 <p>Color Theme: Default</p>
             </div>
@@ -75,13 +74,6 @@ export default function Settings(): JSX.Element {
         }
         return (
             <div className='profile-text'>
-                {/* <form id='bio'>
-                    <input placeholder="Add Bio..."></input>
-                </form> */}
-
-                {/* the text below should display a bio if the user has one, and a default text if the user does not */}
-                {/* <p id='bio-text'><span>[Your bio here...]</span></p>
-                <button id='edit-button' onClick={onOpen}>Edit Bio</button> */}
                 <EditBio isModal={isModal} setIsModal={setIsModal}></EditBio>
             </div>
         )
