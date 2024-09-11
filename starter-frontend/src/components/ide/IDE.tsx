@@ -22,12 +22,13 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
     const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
-    const [updated, setUpdated] = useState<boolean>(false);
+    const [updated, setUpdated] = useState<boolean>(true);
     
     function onSelectChange(sl: languageOption | null): void {
         console.log("Selected option ", sl);
         if (sl !== null) {
             setLanguage(sl);
+            setUpdated(false);
         }
     }
 
@@ -35,7 +36,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
         switch (action) {
             case "code": {
                 setCode(data);
-                setUpdated(true);
+                setUpdated(false);
                 break;
             }
             default: {
@@ -116,7 +117,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
     }
 
     function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
-        setUpdated(false);
+        setUpdated(true);
         // TO-DO: ADD ACTUAL SAVING
     }
     
@@ -149,7 +150,7 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
                 </button>
                 <button
                     onClick={handleUpdate}
-                    disabled={!updated}
+                    disabled={updated}
                     className="ide-btn"
                 >
                     Update
