@@ -1,3 +1,5 @@
+// TinyMCE React Plugin: https://stackoverflow.com/a/77054502
+
 import { Editor } from "tinymce";
 
 type PluginRegistrationProps = {

@@ -1,3 +1,5 @@
+// TinyMCE React Plugin: https://stackoverflow.com/a/77054502
+
 import React, { useCallback, useRef, useState } from 'react';
 import { Editor, IAllProps } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
