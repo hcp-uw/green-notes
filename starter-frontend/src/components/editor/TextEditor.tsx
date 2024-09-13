@@ -8,6 +8,7 @@ import { FetchRoute } from '../file-navigation/routes';
 import IDEPlugin from './IDEPlugin';
 
 type TextEditorProps = {
+  editorRef: React.Ref<TinyMCEEditor | null>,
   initContent: string,
   eRoute: string,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
@@ -16,8 +17,8 @@ type TextEditorProps = {
   setupEditor?: (e: TinyMCEEditor) => void
 } & Partial<IAllProps>;
 
-export default function TextEditor({initContent, eRoute, setIsLoading, setCurrContent, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
-    const editorRef = useRef<TinyMCEEditor | null>(null);
+export default function TextEditor({editorRef, initContent, eRoute, setIsLoading, setCurrContent, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
+    // const editorRef = useRef<TinyMCEEditor | null>(null);
 
     const [content, setContent] = useState<string>(initContent);
 
@@ -34,6 +35,7 @@ export default function TextEditor({initContent, eRoute, setIsLoading, setCurrCo
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
           id='editor'
           licenseKey="gpl"
+          // @ts-ignore
           onInit={(_evt, editor) => {editorRef.current = editor}}
           init={{ 
             height: "calc(100vh - 105px)",
@@ -52,6 +54,7 @@ export default function TextEditor({initContent, eRoute, setIsLoading, setCurrCo
               'removeformat | help | save | ide',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }', 
             save_onsavecallback: (): void => {
+              // @ts-ignore
               save(setContent, editorRef, eRoute, setIsLoading, setCurrContent)
             }, 
             setup, 
@@ -62,6 +65,8 @@ export default function TextEditor({initContent, eRoute, setIsLoading, setCurrCo
       </div>
     );
 }
+
+
 
 
 /** Saves current text in the editor. 

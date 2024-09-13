@@ -6,16 +6,19 @@ import { languageOption, languageOptions } from "./languageOptions";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import LanguagesDropdown from "./LanguagesDropdown";
+import { Editor as TinyMCEEditor } from "tinymce";
 
 type IDEProps = {
     // Initial code in the IDE
     initCode: string,
     
-    setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>, 
+
+    editorRef: React.RefObject<TinyMCEEditor | null>
 }
 
 
-export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
+export default function IDE({initCode, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
     const [code, setCode] = useState<string>(initCode);
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
@@ -114,11 +117,33 @@ export default function IDE({initCode, setIsIDEOpen}: IDEProps): JSX.Element {
 
     function handleClose(_evt: MouseEvent<HTMLButtonElement>): void {
         setIsIDEOpen(false);
-    }
+    } 
 
     function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
         setUpdated(true);
         // TO-DO: ADD ACTUAL SAVING
+        // let cont = document.querySelector("code");
+        // let newCont = document.createElement("p");
+        // newCont.textContent = "Hello testing";
+        // cont?.replaceWith(newCont);
+
+        if (editorRef !== null) {
+            const editor = editorRef.current;
+            if (editor !== null) {
+                let oldCode = editor.dom.get("active");
+                let newCode = document.createElement("code");
+                newCode.textContent = code;
+                newCode.dataset.lang = "" + language.id;
+                newCode.id = "active";
+                editor.dom.replace(newCode, oldCode);
+                // var content = editor.getContent();
+                // // content = content.replace(/(?<=cow\s+).*?(?=\s+milk)/g, 'http://mydomain.com');
+                // // content = content.replace(/(?<=className='active'\>\s+).*?(?=\s+\<\code\>)/g, 'http://mydomain.com');
+                // editor.setContent(content);
+            }
+            
+        }
+        
     }
     
     return (

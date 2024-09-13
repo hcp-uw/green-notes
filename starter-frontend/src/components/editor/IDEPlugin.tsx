@@ -13,7 +13,7 @@ export default function IDEPlugin({editor, openNewIDE}: PluginRegistrationProps)
     icon: "sourcecode", 
     onAction: function () {
         editor.execCommand('mceInsertContent', false, 
-          "<br><code className='active' id='l0'><\code><br><button onClick={openIDE}>Run in IDE</button><br>"
+          "<br><code data-language='0' id='active'></code><br><button onClick={openIDE}>Run in IDE</button><br>"
         );
         openNewIDE();
     },

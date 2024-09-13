@@ -1,5 +1,5 @@
 import TextEditor from "../../components/editor/TextEditor";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getNoteContents, NoteData } from "../notes/notes";
 import { User } from "firebase/auth";
 import { auth } from "../../config/firebase";
@@ -15,6 +15,7 @@ import { FetchRoute } from "../../components/file-navigation/routes";
 import SavePublicButton from "../../components/editor/SavePublicButton";
 import PublicSaveModal from "../../components/editor/PublicSaveModal";
 import IDE from "../../components/ide/IDE";
+import { Editor as TinyMCEEditor } from 'tinymce';
 
 /** Type for storing details about note documents */
 export type DetailsData = {
@@ -54,6 +55,10 @@ export function Note(): JSX.Element {
     const [initIDECode, setInitIDECode] = useState<string>("");
     // Initial IDE language
     const [initIDELang, setInitIDELang] = useState<number>(0);
+
+    // ***
+    const editorRef = useRef<TinyMCEEditor | null>(null);
+
     
     function openNewIDE(): void {
         setIsIDEOpen(true);
@@ -230,12 +235,12 @@ export function Note(): JSX.Element {
             <ShareButton setIsSharing={setIsSharing}/>
             <DeleteButton setIsDeleting={setIsDeleting}/>
             <div id="main-area">
-                <TextEditor initContent={currBody} eRoute={route} 
+                <TextEditor editorRef={editorRef} initContent={currBody} eRoute={route} 
                 setIsLoading={setIsLoading} setCurrContent={setCurrBody} 
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
-                <IDE initCode={initIDECode} setIsIDEOpen={setIsIDEOpen}/>}
+                <IDE initCode={initIDECode} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
             </div>
             
             
