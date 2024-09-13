@@ -193,7 +193,7 @@ export default function IDE({initCode, setIsIDEOpen, editorRef}: IDEProps): JSX.
                     disabled={updated}
                     className="ide-btn"
                 >
-                    Save Code
+                    Update Note
                 </button>
                 <button
                     onClick={handleClose}
