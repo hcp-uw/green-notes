@@ -263,7 +263,7 @@ export function Note(): JSX.Element {
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
-                <IDE initCode={initIDECode} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                <IDE initCode={initIDECode} initLang={initIDELang} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
             </div>
             
             

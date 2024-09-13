@@ -11,6 +11,8 @@ import { Editor as TinyMCEEditor } from "tinymce";
 type IDEProps = {
     // Initial code in the IDE
     initCode: string,
+
+    initLang: number,
     
     setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>, 
 
@@ -18,13 +20,13 @@ type IDEProps = {
 }
 
 
-export default function IDE({initCode, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
+export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
     const [code, setCode] = useState<string>(initCode);
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
-    const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
+    const [language, setLanguage] = useState<languageOption>(languageOptions[initLang]);
     const [updated, setUpdated] = useState<boolean>(true);
     
     function onSelectChange(sl: languageOption | null): void {
@@ -125,39 +127,27 @@ export default function IDE({initCode, setIsIDEOpen, editorRef}: IDEProps): JSX.
                 if (oldCode !== null) {
                     oldCode.id = "";
                 }
-                // var content = editor.getContent();
-                // // content = content.replace(/(?<=cow\s+).*?(?=\s+milk)/g, 'http://mydomain.com');
-                // // content = content.replace(/(?<=className='active'\>\s+).*?(?=\s+\<\code\>)/g, 'http://mydomain.com');
-                // editor.setContent(content);
             }
             
         }
     } 
 
     function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
-        setUpdated(true);
-        // TO-DO: ADD ACTUAL SAVING
-        // let cont = document.querySelector("code");
-        // let newCont = document.createElement("p");
-        // newCont.textContent = "Hello testing";
-        // cont?.replaceWith(newCont);
-
         if (editorRef !== null) {
             const editor = editorRef.current;
             if (editor !== null) {
                 let oldCode = editor.dom.get("active");
                 let newCode = document.createElement("code");
                 newCode.textContent = code;
-                newCode.dataset.lang = "" + language.id;
+                const langIndex = languageOptions.findIndex(function(obj){return obj.id == language.id});
+                newCode.dataset.lang = "" + langIndex;
                 newCode.id = "active";
                 editor.dom.replace(newCode, oldCode);
-                // var content = editor.getContent();
-                // // content = content.replace(/(?<=cow\s+).*?(?=\s+milk)/g, 'http://mydomain.com');
-                // // content = content.replace(/(?<=className='active'\>\s+).*?(?=\s+\<\code\>)/g, 'http://mydomain.com');
-                // editor.setContent(content);
             }
             
         }
+
+        setUpdated(true);
         
     }
     
