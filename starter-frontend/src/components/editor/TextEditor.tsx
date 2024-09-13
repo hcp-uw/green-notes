@@ -1,20 +1,33 @@
-import React, { useRef, useState } from 'react';
-import { Editor } from '@tinymce/tinymce-react';
+// TinyMCE React Plugin: https://stackoverflow.com/a/77054502
+
+import React, { useCallback, useRef, useState } from 'react';
+import { Editor, IAllProps } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { auth } from '../../config/firebase';
 import { FetchRoute } from '../file-navigation/routes';
+import IDEPlugin from './IDEPlugin';
 
 type TextEditorProps = {
+  editorRef: React.Ref<TinyMCEEditor | null>,
   initContent: string,
   eRoute: string,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setCurrContent:  React.Dispatch<React.SetStateAction<string>>
-}
+  setCurrContent:  React.Dispatch<React.SetStateAction<string>>, 
+  openIDE: (this: HTMLButtonElement, ev: MouseEvent) => void,
+  openNewIDE: () => void,
+  setupEditor?: (e: TinyMCEEditor) => void
+} & Partial<IAllProps>;
 
-export default function TextEditor({initContent, eRoute, setIsLoading, setCurrContent} : TextEditorProps) {
-    const editorRef = useRef<TinyMCEEditor | null>(null);
+export default function TextEditor({editorRef, initContent, eRoute, setIsLoading, setCurrContent, openIDE, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
+    // const editorRef = useRef<TinyMCEEditor | null>(null);
 
     const [content, setContent] = useState<string>(initContent);
+
+    const setup = useCallback((editor: TinyMCEEditor) => {
+      IDEPlugin( {editor, openIDE, openNewIDE} );
+      setupEditor && setupEditor(editor);
+    }, []);
+
 
     return (
       <div id="editor-area">
@@ -23,31 +36,40 @@ export default function TextEditor({initContent, eRoute, setIsLoading, setCurrCo
           initialValue={content}
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
           id='editor'
+          licenseKey="gpl"
+          // @ts-ignore
           onInit={(_evt, editor) => {editorRef.current = editor}}
           init={{ 
             height: "calc(100vh - 105px)",
-            licenseKey: 'gpl', 
+            width: "auto",
             resize: false, 
             menubar: false,
+            extended_valid_elements: 'button[className|onClick]',
             plugins: [
               'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
               'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-              'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 'save'
+              'insertdatetime', 'media', 'table', 'preview', 'help', 'wordcount', 
+              'save'
             ],
             toolbar: 'undo redo | blocks | ' +
               'bold italic forecolor | alignleft aligncenter ' +
               'alignright alignjustify | bullist numlist outdent indent | ' +
-              'removeformat | help | save',
+              'removeformat | help | save | ide',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }', 
             save_onsavecallback: (): void => {
+              // @ts-ignore
               save(setContent, editorRef, eRoute, setIsLoading, setCurrContent)
-            }
+            }, 
+            setup, 
+            ...init,
           }}
         />
         </form>
       </div>
     );
 }
+
+
 
 
 /** Saves current text in the editor. 

@@ -6,20 +6,34 @@ import { languageOption, languageOptions } from "./languageOptions";
 import OutputWindow from "./OutputWindow";
 import CustomInput from "./CustomInput";
 import LanguagesDropdown from "./LanguagesDropdown";
+import { Editor as TinyMCEEditor } from "tinymce";
+
+type IDEProps = {
+    // Initial code in the IDE
+    initCode: string,
+
+    initLang: number,
+    
+    setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>, 
+
+    editorRef: React.RefObject<TinyMCEEditor | null>
+}
 
 
-export default function IDE(): JSX.Element {
-    const [code, setCode] = useState<string>("");
+export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
+    const [code, setCode] = useState<string>(initCode);
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
-    const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
+    const [language, setLanguage] = useState<languageOption>(languageOptions[initLang]);
+    const [updated, setUpdated] = useState<boolean>(true);
     
     function onSelectChange(sl: languageOption | null): void {
         console.log("Selected option ", sl);
         if (sl !== null) {
             setLanguage(sl);
+            setUpdated(false);
         }
     }
 
@@ -27,6 +41,7 @@ export default function IDE(): JSX.Element {
         switch (action) {
             case "code": {
                 setCode(data);
+                setUpdated(false);
                 break;
             }
             default: {
@@ -93,47 +108,91 @@ export default function IDE(): JSX.Element {
             } else {
               setProcessing(false);
               setOutputDetails(response.data);
-            //   showSuccessToast(`Compiled Successfully!`);
               console.log("response.data", response.data);
               return;
             }
           } catch (err) {
             console.log("err", err);
             setProcessing(false);
-            // showErrorToast();
           }
     }
 
-    function minimize(_evt: MouseEvent<HTMLButtonElement>): void {
-        setOutput(false);
+    function handleClose(_evt: MouseEvent<HTMLButtonElement>): void {
+        // TO-DO: add check if code isn't updated
+        setIsIDEOpen(false);
+        if (editorRef !== null) {
+            const editor = editorRef.current;
+            if (editor !== null) {
+                let oldCode = editor.dom.get("active");
+                if (oldCode !== null) {
+                    oldCode.id = "";
+                }
+            }
+            
+        }
+    } 
+
+    function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
+        if (editorRef !== null) {
+            const editor = editorRef.current;
+            if (editor !== null) {
+                let oldCode = editor.dom.get("active");
+                let newCode = document.createElement("code");
+                newCode.textContent = code;
+                const langIndex = languageOptions.findIndex(function(obj){return obj.id == language.id});
+                newCode.dataset.lang = "" + langIndex;
+                newCode.id = "active";
+                editor.dom.replace(newCode, oldCode);
+            }
+            
+        }
+
+        setUpdated(true);
+        
     }
     
     return (
         <div className="ide">
-            <div className="ide-left">
-                <CodeEditor 
-                    code={code}
-                    onChange={onChange}
-                    language={language?.value}
-                    theme="vs-dark"
-                />
-                <div className="ide-footer">
-                    <button 
-                        onClick={handleCompile}
-                        disabled={!code}
-                        className="compile-btn"
-                    >
-                        {processing ? "Processing..." : "Run"}
-                    </button>
-                    <LanguagesDropdown onSelectChange={onSelectChange} />
-                </div>
-            </div>
-            <div className="ide-right">
+            <LanguagesDropdown onSelectChange={onSelectChange} />
+            <CodeEditor 
+                code={code}
+                onChange={onChange}
+                language={language?.value}
+                theme="vs-dark"
+            />
+            
+            <div className="in-output">
                 <OutputWindow outputDetails={outputDetails} />
                 <CustomInput 
                     customInput={customInput}
                     setCustomInput={setCustomInput}
                 />
             </div>
-        </div>);
+            
+
+            <div className="ide-footer">
+                <button 
+                    onClick={handleCompile}
+                    disabled={!code}
+                    className="ide-btn compile-btn"
+                >
+                    {processing ? "Processing..." : "Run"}
+                </button>
+                <button
+                    onClick={handleUpdate}
+                    disabled={updated}
+                    className="ide-btn"
+                >
+                    Update Note
+                </button>
+                <button
+                    onClick={handleClose}
+                    className="ide-btn close-btn"
+                >
+                    Close
+                </button>
+            </div>
+            
+        </div>
+    );
 }

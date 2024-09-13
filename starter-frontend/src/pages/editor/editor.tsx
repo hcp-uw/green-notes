@@ -1,5 +1,5 @@
 import TextEditor from "../../components/editor/TextEditor";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getNoteContents, NoteData } from "../notes/notes";
 import { User } from "firebase/auth";
 import { auth } from "../../config/firebase";
@@ -14,6 +14,8 @@ import { useLocation } from "react-router-dom";
 import { FetchRoute } from "../../components/file-navigation/routes";
 import SavePublicButton from "../../components/editor/SavePublicButton";
 import PublicSaveModal from "../../components/editor/PublicSaveModal";
+import IDE from "../../components/ide/IDE";
+import { Editor as TinyMCEEditor } from 'tinymce';
 
 /** Type for storing details about note documents */
 export type DetailsData = {
@@ -44,6 +46,50 @@ export function Note(): JSX.Element {
 
     // Saving a Copy Modal state
     const [isPublicSaving, setIsPublicSaving] = useState<boolean>(false);
+
+    // IDE
+    // If IDE is open
+    // TO-DO CHANGE false
+    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
+    // Initial IDE code
+    const [initIDECode, setInitIDECode] = useState<string>("");
+    // Initial IDE language
+    const [initIDELang, setInitIDELang] = useState<number>(0);
+
+    // ***
+    const editorRef = useRef<TinyMCEEditor | null>(null);
+
+    
+    function openNewIDE(): void {
+        setInitIDECode("");
+        setInitIDELang(0);
+        setIsIDEOpen(true);
+    }
+
+    function openIDE(this: HTMLButtonElement, _ev: MouseEvent): void {
+        const parentDiv = this.parentNode;
+        if (parentDiv !== null) {
+            const codeBlock = parentDiv.querySelector("code");
+            if (codeBlock !== null) {
+                const codeContent = codeBlock.textContent;
+                if (codeContent === null) {
+                    setInitIDECode("");
+                } else {
+                    setInitIDECode(codeContent);
+                }
+                const language = codeBlock.dataset.lang;
+                if (language === null) {
+                    setInitIDELang(0);
+                } else {
+                    setInitIDELang(Number(language));
+                }
+                
+                setIsIDEOpen(true);    
+            }
+        }
+    }
+
+    
 
     const [currName, setCurrName] = useState<string>("");
     const [currClass, setCurrClass] = useState<string>("");
@@ -211,8 +257,15 @@ export function Note(): JSX.Element {
             <EditModalButton setIsEditing={setIsEditing}/>
             <ShareButton setIsSharing={setIsSharing}/>
             <DeleteButton setIsDeleting={setIsDeleting}/>
-            <TextEditor initContent={currBody} eRoute={route} 
-            setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
+            <div id="main-area">
+                <TextEditor editorRef={editorRef} initContent={currBody} eRoute={route} 
+                setIsLoading={setIsLoading} setCurrContent={setCurrBody} openIDE={openIDE}
+                openNewIDE={openNewIDE}/>
+                {
+                isIDEOpen && 
+                <IDE initCode={initIDECode} initLang={initIDELang} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+            </div>
+            
             
             <EditModal isEditing={isEditing} setIsEditing={setIsEditing} name={currName} quarter={currQuarter}
                 givenClass={currClass} teacher={currTeacher} year={currYear} tags={currTags} route={route} 
@@ -226,7 +279,7 @@ export function Note(): JSX.Element {
     );
 }
 
-/** Element to display content when the note is a publicy shared one */
+/** Element to display content when the note is a publicly shared one */
 const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
     return (
     <div className="display-window" >

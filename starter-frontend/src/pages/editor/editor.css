@@ -19,3 +19,9 @@
     border-radius: 10px;
 
 }
+
+#main-area {
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+}
