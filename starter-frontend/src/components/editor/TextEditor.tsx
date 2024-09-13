@@ -13,19 +13,21 @@ type TextEditorProps = {
   eRoute: string,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setCurrContent:  React.Dispatch<React.SetStateAction<string>>, 
+  openIDE: (this: HTMLButtonElement, ev: MouseEvent) => void,
   openNewIDE: () => void,
   setupEditor?: (e: TinyMCEEditor) => void
 } & Partial<IAllProps>;
 
-export default function TextEditor({editorRef, initContent, eRoute, setIsLoading, setCurrContent, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
+export default function TextEditor({editorRef, initContent, eRoute, setIsLoading, setCurrContent, openIDE, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
     // const editorRef = useRef<TinyMCEEditor | null>(null);
 
     const [content, setContent] = useState<string>(initContent);
 
     const setup = useCallback((editor: TinyMCEEditor) => {
-      IDEPlugin( {editor, openNewIDE} );
+      IDEPlugin( {editor, openIDE, openNewIDE} );
       setupEditor && setupEditor(editor);
     }, []);
+
 
     return (
       <div id="editor-area">
@@ -42,6 +44,7 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
             width: "auto",
             resize: false, 
             menubar: false,
+            extended_valid_elements: 'button[className|onClick]',
             plugins: [
               'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
               'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

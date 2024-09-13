@@ -61,9 +61,32 @@ export function Note(): JSX.Element {
 
     
     function openNewIDE(): void {
-        setIsIDEOpen(true);
         setInitIDECode("");
         setInitIDELang(0);
+        setIsIDEOpen(true);
+    }
+
+    function openIDE(this: HTMLButtonElement, _ev: MouseEvent): void {
+        const parentDiv = this.parentNode;
+        if (parentDiv !== null) {
+            const codeBlock = parentDiv.querySelector("code");
+            if (codeBlock !== null) {
+                const codeContent = codeBlock.textContent;
+                if (codeContent === null) {
+                    setInitIDECode("");
+                } else {
+                    setInitIDECode(codeContent);
+                }
+                const language = codeBlock.dataset.lang;
+                if (language === null) {
+                    setInitIDELang(0);
+                } else {
+                    setInitIDELang(Number(language));
+                }
+                
+                setIsIDEOpen(true);    
+            }
+        }
     }
 
     
@@ -236,7 +259,7 @@ export function Note(): JSX.Element {
             <DeleteButton setIsDeleting={setIsDeleting}/>
             <div id="main-area">
                 <TextEditor editorRef={editorRef} initContent={currBody} eRoute={route} 
-                setIsLoading={setIsLoading} setCurrContent={setCurrBody} 
+                setIsLoading={setIsLoading} setCurrContent={setCurrBody} openIDE={openIDE}
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
