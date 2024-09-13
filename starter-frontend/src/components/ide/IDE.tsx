@@ -116,7 +116,22 @@ export default function IDE({initCode, setIsIDEOpen, editorRef}: IDEProps): JSX.
     }
 
     function handleClose(_evt: MouseEvent<HTMLButtonElement>): void {
+        // TO-DO: add check if code isn't updated
         setIsIDEOpen(false);
+        if (editorRef !== null) {
+            const editor = editorRef.current;
+            if (editor !== null) {
+                let oldCode = editor.dom.get("active");
+                if (oldCode !== null) {
+                    oldCode.id = "";
+                }
+                // var content = editor.getContent();
+                // // content = content.replace(/(?<=cow\s+).*?(?=\s+milk)/g, 'http://mydomain.com');
+                // // content = content.replace(/(?<=className='active'\>\s+).*?(?=\s+\<\code\>)/g, 'http://mydomain.com');
+                // editor.setContent(content);
+            }
+            
+        }
     } 
 
     function handleUpdate(_evt: MouseEvent<HTMLButtonElement>): void {
