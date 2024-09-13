@@ -5,23 +5,24 @@ import { Editor, IAllProps } from '@tinymce/tinymce-react';
 import { Editor as TinyMCEEditor } from 'tinymce';
 import { auth } from '../../config/firebase';
 import { FetchRoute } from '../file-navigation/routes';
-import RegisterPlugins from './plugins/RegisterPlugins';
+import IDEPlugin from './IDEPlugin';
 
 type TextEditorProps = {
   initContent: string,
   eRoute: string,
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
   setCurrContent:  React.Dispatch<React.SetStateAction<string>>, 
+  openNewIDE: () => void,
   setupEditor?: (e: TinyMCEEditor) => void
 } & Partial<IAllProps>;
 
-export default function TextEditor({initContent, eRoute, setIsLoading, setCurrContent, setupEditor, init = {}, ...rest} : TextEditorProps) {
+export default function TextEditor({initContent, eRoute, setIsLoading, setCurrContent, openNewIDE, setupEditor, init = {}, ...rest} : TextEditorProps) {
     const editorRef = useRef<TinyMCEEditor | null>(null);
 
     const [content, setContent] = useState<string>(initContent);
 
     const setup = useCallback((editor: TinyMCEEditor) => {
-      RegisterPlugins( {editor} );
+      IDEPlugin( {editor, openNewIDE} );
       setupEditor && setupEditor(editor);
     }, []);
 

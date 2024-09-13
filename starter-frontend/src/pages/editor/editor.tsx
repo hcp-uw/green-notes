@@ -49,9 +49,18 @@ export function Note(): JSX.Element {
     // IDE
     // If IDE is open
     // TO-DO CHANGE false
-    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(true);
+    const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
     // Initial IDE code
     const [initIDECode, setInitIDECode] = useState<string>("");
+    // Initial IDE language
+    const [initIDELang, setInitIDELang] = useState<number>(0);
+    
+    function openNewIDE(): void {
+        setIsIDEOpen(true);
+        setInitIDECode("");
+        setInitIDELang(0);
+    }
+
     
 
     const [currName, setCurrName] = useState<string>("");
@@ -222,7 +231,8 @@ export function Note(): JSX.Element {
             <DeleteButton setIsDeleting={setIsDeleting}/>
             <div id="main-area">
                 <TextEditor initContent={currBody} eRoute={route} 
-                setIsLoading={setIsLoading} setCurrContent={setCurrBody}/>
+                setIsLoading={setIsLoading} setCurrContent={setCurrBody} 
+                openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
                 <IDE initCode={initIDECode} setIsIDEOpen={setIsIDEOpen}/>}
