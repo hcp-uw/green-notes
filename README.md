@@ -1,4 +1,4 @@
-# Node.js (React, Express) Project Starter ✅
+# Green Notes (change more stuff later)
 
 A simple template repository with a React frontend and Express backend for quickly starting new full-stack projects.
 
