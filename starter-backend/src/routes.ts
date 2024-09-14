@@ -393,6 +393,13 @@ export async function deleteDoc(req: SafeRequest, res: SafeResponse) {
         .catch((a) => res.status(400).send(a))
 }
 
+type ThumbnailTagsInfo = {
+    name: string;
+    iD: string;
+    content: string;
+    tags: string[];
+}
+
 /** Gets shared notes based on the parameters */
 export async function getShared(req: SafeRequest, res: SafeResponse) {
 
@@ -447,7 +454,7 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
     const collectionRef = db.collection("Shared");
     const snapshot = await collectionRef.limit(30).get();
 
-    const info: ThumbnailInfo[] = [];
+    const info: ThumbnailTagsInfo[] = [];
 
 
     snapshot.forEach(item => {
@@ -501,11 +508,11 @@ export async function getShared(req: SafeRequest, res: SafeResponse) {
 
 
         if (checksOut) {
-            const temp: ThumbnailInfo = {
+            const temp: ThumbnailTagsInfo = {
                 name: name,
                 iD: iD,
-                kind: "doc",
-                content: content
+                content: content,
+                tags: data.tags
             }
             info.push(temp);
         }
