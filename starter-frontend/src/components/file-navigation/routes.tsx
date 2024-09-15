@@ -67,3 +67,11 @@ if (envRoute === undefined) {
 } else {
     FetchRoute = envRoute
 }
+
+
+export type ThumbnailTagsInfo = {
+    name: string;
+    iD: string;
+    content: string;
+    tags: string[];
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import NoteThumbnails from "../../components/file-navigation/NoteThumbnails";
 import SearchBar from "../../components/file-navigation/SearchBar";
-import { ThumbnailInfo } from '../../components/file-navigation/routes';
+import { ThumbnailTagsInfo, ThumbnailInfo } from '../../components/file-navigation/routes';
 import { auth } from '../../config/firebase';
 import { isRecord, FetchRoute } from '../../components/file-navigation/routes';
 
@@ -23,6 +23,10 @@ export default function Collaboration(): JSX.Element {
 
     // Current displayed content
     const [currNotes, setCurrNotes] = useState<ThumbnailInfo[]>([]);
+
+    const [currTags, setCurrTags] = useState<string[][]>([]);
+
+    const [showTags, setShowTags] = useState<boolean>(false);
 
    // Initial load to get shared notes
     useEffect(() => {
@@ -120,6 +124,7 @@ export default function Collaboration(): JSX.Element {
         }
 
         const docs: ThumbnailInfo[] = [];
+        const tagArray: string[][] = [];
 
         for (const info of val.data) {
 
@@ -133,21 +138,37 @@ export default function Collaboration(): JSX.Element {
                 return;
             }
     
-            if (info.kind !== "doc") {
-                console.error('Invalid JSON from /getFolderContents', info.iD);
-                return;
-            }
+            // if (info.kind !== "doc") {
+            //     console.error('Invalid JSON from /getFolderContents', info.iD);
+            //     return;
+            // }
     
             if (typeof info.content !== "string") {
                 console.error('Invalid JSON from /getFolderContents', info.content);
                 return;
             }
+
+            if (!Array.isArray(info.tags)) {
+                console.error('Invalid JSON from /getFolderContents', info.tags);
+                return;
+            }
+
+            const tempTags: string[] = [];
+            for (const tag of info.tags) {
+                if (typeof tag !== "string") {
+                    console.error('Invalid JSON from /getFolderContents', tag);
+                } else {
+                    tempTags.push(tag);
+                }
+            }
     
-            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: info.kind, content: info.content};
+            const temp: ThumbnailInfo = {name: info.name, iD: info.iD, kind: "doc", content: info.content};
+            tagArray.push(tempTags);
             docs.push(temp);
         }
 
         setCurrNotes(docs);
+        setCurrTags(tagArray);
         setIsLoading(false);
     }
 
@@ -158,6 +179,8 @@ export default function Collaboration(): JSX.Element {
             <div className="page green-background nav-page">
             <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
             <h2>Public Notes</h2>
+            <label htmlFor="toggle-tags">Show tags?</label>
+            <input type="checkbox" id="toggle-tags" className="" checked={showTags} onChange={() => setShowTags(!showTags)}></input>
             <div className="nav-area flex">
                 <h1>Loading...</h1>
             </div>
@@ -168,18 +191,28 @@ export default function Collaboration(): JSX.Element {
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
                 <h2>Public Notes</h2>
+                <label htmlFor="toggle-tags">Show tags?</label>
+                <input type="checkbox" id="toggle-tags" className="" checked={showTags} onChange={() => setShowTags(!showTags)}></input>
                 <div className="nav-area flex">
                     <p>Nothing matched your search. Maybe try with less or different search parameters. Capitalization doesn't matter but spelling does!</p>
                 </div>
             </div>
         );  
     } else {
+        // for (const asdf of currTags) {
+        //     for (const qwe of asdf) {
+        //         console.log(qwe)
+        //     }
+        // }
+
         return (
             <div className="page green-background nav-page">
                 <SearchBar isAdvanced={isAdvanced} setIsAdvanced={setIsAdvanced} collaboration={true}/>
                 <h2>Public Notes</h2>
+                <label htmlFor="toggle-tags">Show tags?</label>
+                <input type="checkbox" id="toggle-tags" className="" checked={showTags} onChange={() => setShowTags(!showTags)}></input>
                 <div className="nav-area flex">
-                    <NoteThumbnails data={currNotes} location={"Shared"}  areTemps={false}  email="temp"/>
+                    <NoteThumbnails data={currNotes} location={"Shared"}  areTemps={false}  email="temp" tags={currTags} show={showTags}/>
                 </div>
             </div>
         );  
