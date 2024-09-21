@@ -24,25 +24,25 @@ export default function IDEPlugin({editor, openIDE, openNewIDE}: PluginRegistrat
         
         if (oldDiv !== null) {
           let newDiv = document.createElement("div");
+          newDiv.className = "ide-div";
+
+          let newPre = document.createElement("pre");
 
           let newCode = document.createElement("code");
+          newCode.className = "ide-code";
           newCode.dataset.lang = "0";
           newCode.id = "active";
-          newDiv.appendChild(newCode);
-
-          let newBreak = document.createElement("br");
-          newDiv.appendChild(newBreak);
+          newPre.appendChild(newCode);
+          newDiv.appendChild(newPre);
 
           let newButton = document.createElement("button");
           newButton.textContent = "Run in IDE";
           newButton.addEventListener("click", openIDE);
+          newButton.className = "run-in-ide-btn";
           newDiv.appendChild(newButton);
 
           editor.dom.replace(newDiv, oldDiv);
         }
-        // editor.execCommand('mceInsertContent', false, newCont
-        //   // "<br><code data-language='0' id='active'></code><br><button onClick='openIDE()'>Run in IDE</button><br>"
-        // );
 
         openNewIDE();
     },
