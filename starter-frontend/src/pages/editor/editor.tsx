@@ -74,6 +74,7 @@ export function Note(): JSX.Element {
             if (parentDiv !== null) {
                 const codeBlock = parentDiv.querySelector("code");
                 if (codeBlock !== null) {
+                    codeBlock.id = "active";
                     const codeContent = codeBlock.textContent;
                     if (codeContent === null) {
                         setInitIDECode("");
