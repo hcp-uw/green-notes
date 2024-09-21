@@ -16,6 +16,7 @@ import SavePublicButton from "../../components/editor/SavePublicButton";
 import PublicSaveModal from "../../components/editor/PublicSaveModal";
 import IDE from "../../components/ide/IDE";
 import { Editor as TinyMCEEditor } from 'tinymce';
+import { languageOption, languageOptions } from "../../components/ide/languageOptions";
 
 /** Type for storing details about note documents */
 export type DetailsData = {
@@ -49,20 +50,19 @@ export function Note(): JSX.Element {
 
     // IDE
     // If IDE is open
-    // TO-DO CHANGE false
     const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
-    // Initial IDE code
-    const [initIDECode, setInitIDECode] = useState<string>("");
-    // Initial IDE language
-    const [initIDELang, setInitIDELang] = useState<number>(0);
+    // IDE code
+    const [code, setCode] = useState<string>("");
+    // IDE language
+    const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
 
     // ***
     const editorRef = useRef<TinyMCEEditor | null>(null);
 
     
     function openNewIDE(): void {
-        setInitIDECode("");
-        setInitIDELang(0);
+        setCode("");
+        setLanguage(languageOptions[0]);
         setIsIDEOpen(true);
     }
 
@@ -87,16 +87,20 @@ export function Note(): JSX.Element {
                     codeBlock.id = "active";
                     const codeContent = codeBlock.textContent;
                     if (codeContent === null) {
-                        setInitIDECode("");
+                        console.log("code null");
+                        setCode("");
                     } else {
-                        setInitIDECode(codeContent);
+                        setCode(codeContent);
                     }
+                    console.log("setting code");
                     const language = codeBlock.dataset.lang;
                     if (language === null) {
-                        setInitIDELang(0);
+                        console.log("language null");
+                        setLanguage(languageOptions[0]);
                     } else {
-                        setInitIDELang(Number(language));
+                        setLanguage(languageOptions[Number(language)]);
                     }
+                    console.log("setting language");
                     
                     setIsIDEOpen(true);   
                 }
@@ -278,7 +282,7 @@ export function Note(): JSX.Element {
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
-                <IDE initCode={initIDECode} initLang={initIDELang} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                <IDE code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
             </div>
             
             

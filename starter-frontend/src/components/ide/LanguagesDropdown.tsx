@@ -48,6 +48,7 @@ export default function LanguagesDropdown( { onSelectChange, language }: Languag
         <Select 
             options={languageOptions}
             defaultValue={language}
+            value={language}
             onChange={(selectedOption) => onSelectChange(selectedOption)}
             className="ide-dropdown"
             styles={customStyles}

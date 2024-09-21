@@ -10,27 +10,28 @@ import { Editor as TinyMCEEditor } from "tinymce";
 
 type IDEProps = {
     // Initial code in the IDE
-    initCode: string,
+    code: string,
 
-    initLang: number,
+    setCode: React.Dispatch<React.SetStateAction<string>>;
+
+    language: languageOption,
     
+    setLanguage: React.Dispatch<React.SetStateAction<languageOption>>, 
+
     setIsIDEOpen: React.Dispatch<React.SetStateAction<boolean>>, 
 
     editorRef: React.RefObject<TinyMCEEditor | null>
 }
 
 
-export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
-    const [code, setCode] = useState<string>(initCode);
+export default function IDE({code, setCode, language, setLanguage, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
     const [processing, setProcessing] = useState<boolean | null>(null);
-    const [language, setLanguage] = useState<languageOption>(languageOptions[initLang]);
     const [updated, setUpdated] = useState<boolean>(true);
     
     function onSelectChange(sl: languageOption | null): void {
-        console.log("Selected option ", sl);
         if (sl !== null) {
             setLanguage(sl);
             setUpdated(false);
@@ -157,8 +158,9 @@ export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEPr
             <LanguagesDropdown onSelectChange={onSelectChange} language={language} />
             <CodeEditor 
                 code={code}
+                setCode={setCode}
                 onChange={onChange}
-                language={language.value}
+                language={language}
                 theme="vs-dark"
             />
             
