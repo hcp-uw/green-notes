@@ -67,8 +67,18 @@ export function Note(): JSX.Element {
     }
 
     function openIDE(this: HTMLButtonElement, ev: MouseEvent): void {
+        
+
         // @ts-ignore
         if (ev.target !== null && ev.target.className !== null && ev.target.className === "run-in-ide-btn") {
+            // @ts-ignore
+            const editor = ev.target.getRootNode();
+            const oldActive = editor.getElementById("active");
+            if (oldActive !== null) {
+                oldActive.setAttribute("id", "");
+            }
+
+
             // @ts-ignore
             const parentDiv = ev.target.parentNode;
             if (parentDiv !== null) {
@@ -88,7 +98,7 @@ export function Note(): JSX.Element {
                         setInitIDELang(Number(language));
                     }
                     
-                    setIsIDEOpen(true);    
+                    setIsIDEOpen(true);   
                 }
             }
         }
