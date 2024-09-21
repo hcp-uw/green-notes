@@ -28,23 +28,27 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
       setupEditor && setupEditor(editor);
     }, []);
 
+    
+
 
     return (
       <div id="editor-area">
         <form>
         <Editor 
-          initialValue={content}
+          initialValue={"<div id='placement'></div>" + content}
           tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
           id='editor'
           licenseKey="gpl"
           // @ts-ignore
-          onInit={(_evt, editor) => {editorRef.current = editor}}
+          onInit={(_evt, editor) => {editorRef.current = editor; 
+            setupIDEButtons(openIDE, editorRef);
+          }}
           init={{ 
             height: "calc(100vh - 105px)",
             width: "auto",
             resize: false, 
             menubar: false,
-            extended_valid_elements: 'button[className|onClick]',
+            extended_valid_elements: 'button[class|className|onClick|onclick|classname]',
             plugins: [
               'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
               'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -58,7 +62,7 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }', 
             save_onsavecallback: (): void => {
               // @ts-ignore
-              save(setContent, editorRef, eRoute, setIsLoading, setCurrContent)
+              save(setContent, editorRef, eRoute, setIsLoading, setCurrContent, openIDE)
             }, 
             setup, 
             ...init,
@@ -76,13 +80,14 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
  * TO-DO: Implement.
  */
 function save(setContent: React.Dispatch<React.SetStateAction<string>>, editorRef: React.RefObject<TinyMCEEditor>, eRoute: string, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>,
-              setCurrContent: React.Dispatch<React.SetStateAction<string>>): void {
+              setCurrContent: React.Dispatch<React.SetStateAction<string>>, openIDE: (this: HTMLButtonElement, ev: MouseEvent) => void): void {
   if (editorRef.current !== null) {
     const content = editorRef.current.getContent();
     setContent(content);
     setCurrContent(content);
     doSave(content, eRoute, setIsLoading, setContent, setCurrContent);
     
+    setupIDEButtons(openIDE, editorRef);
   }
 }
 
@@ -123,4 +128,10 @@ const doSave = async (content: string, route: string, setIsLoading: React.Dispat
     setIsLoading(false);
     console.log(e);
   }
+}
+
+
+// @ts-ignore
+function setupIDEButtons(openIDE, editorRef): void {
+  editorRef.current.dom.getRoot().addEventListener("click", openIDE);
 }

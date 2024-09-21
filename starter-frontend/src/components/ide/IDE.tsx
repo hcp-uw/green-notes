@@ -142,6 +142,7 @@ export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEPr
                 const langIndex = languageOptions.findIndex(function(obj){return obj.id == language.id});
                 newCode.dataset.lang = "" + langIndex;
                 newCode.id = "active";
+                newCode.className = "ide-code";
                 editor.dom.replace(newCode, oldCode);
             }
             

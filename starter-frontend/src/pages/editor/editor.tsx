@@ -66,29 +66,33 @@ export function Note(): JSX.Element {
         setIsIDEOpen(true);
     }
 
-    function openIDE(this: HTMLButtonElement, _ev: MouseEvent): void {
-        const parentDiv = this.parentNode;
-        if (parentDiv !== null) {
-            const codeBlock = parentDiv.querySelector("code");
-            if (codeBlock !== null) {
-                const codeContent = codeBlock.textContent;
-                if (codeContent === null) {
-                    setInitIDECode("");
-                } else {
-                    setInitIDECode(codeContent);
+    function openIDE(this: HTMLButtonElement, ev: MouseEvent): void {
+        // @ts-ignore
+        if (ev.target !== null && ev.target.className !== null && ev.target.className === "run-in-ide-btn") {
+            // @ts-ignore
+            const parentDiv = ev.target.parentNode;
+            if (parentDiv !== null) {
+                const codeBlock = parentDiv.querySelector("code");
+                if (codeBlock !== null) {
+                    const codeContent = codeBlock.textContent;
+                    if (codeContent === null) {
+                        setInitIDECode("");
+                    } else {
+                        setInitIDECode(codeContent);
+                    }
+                    const language = codeBlock.dataset.lang;
+                    if (language === null) {
+                        setInitIDELang(0);
+                    } else {
+                        setInitIDELang(Number(language));
+                    }
+                    
+                    setIsIDEOpen(true);    
                 }
-                const language = codeBlock.dataset.lang;
-                if (language === null) {
-                    setInitIDELang(0);
-                } else {
-                    setInitIDELang(Number(language));
-                }
-                
-                setIsIDEOpen(true);    
             }
         }
-    }
 
+    }
     
 
     const [currName, setCurrName] = useState<string>("");

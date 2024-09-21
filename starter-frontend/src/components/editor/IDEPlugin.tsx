@@ -37,7 +37,6 @@ export default function IDEPlugin({editor, openIDE, openNewIDE}: PluginRegistrat
 
           let newButton = document.createElement("button");
           newButton.textContent = "Run in IDE";
-          newButton.addEventListener("click", openIDE);
           newButton.className = "run-in-ide-btn";
           newDiv.appendChild(newButton);
 
