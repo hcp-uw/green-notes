@@ -154,11 +154,11 @@ export default function IDE({initCode, initLang, setIsIDEOpen, editorRef}: IDEPr
     
     return (
         <div className="ide">
-            <LanguagesDropdown onSelectChange={onSelectChange} />
+            <LanguagesDropdown onSelectChange={onSelectChange} language={language} />
             <CodeEditor 
                 code={code}
                 onChange={onChange}
-                language={language?.value}
+                language={language.value}
                 theme="vs-dark"
             />
             
