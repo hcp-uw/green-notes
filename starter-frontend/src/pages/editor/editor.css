@@ -1,21 +1,25 @@
 .display-window {
+    max-height: calc(100vh - 55px);
+    background-color: var(--light-gray);
+    overflow-wrap: break-word;
+    width: auto;
+    flex-grow: 2;
+
     padding: 25px;
     height: calc(90vh - 55px);
 
     background-color: var(--offbase-white);
-    width: min(70vw, 1200px);
-    /* position: relative; */
+    /* width: min(70vw, 1200px);   */
 
-    position: absolute;
+    /* position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
-    top: 55%;
+    top: 55%; */
 
 
-    overflow-wrap: break-word;
-    overflow: scroll;
+    overflow: auto;
 
-    margin-top: 10px;
+    /* margin-top: 10px; */
     border-radius: 10px;
 
 }

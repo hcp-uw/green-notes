@@ -66,9 +66,7 @@ export function Note(): JSX.Element {
         setIsIDEOpen(true);
     }
 
-    function openIDE(this: HTMLButtonElement, ev: MouseEvent): void {
-        
-
+    function openIDE(ev: MouseEvent): void {
         // @ts-ignore
         if (ev.target !== null && ev.target.className !== null && ev.target.className === "run-in-ide-btn") {
             // @ts-ignore
@@ -262,9 +260,14 @@ export function Note(): JSX.Element {
 
     if (isPublic) { // If note is publicly shared
         return (
-            <div className="page gray-background flex">
+            <div className="page gray-background">
                 <SavePublicButton setIsPublicSaving={setIsPublicSaving}/>
-                <PublicNoteDisplayer body={currBody}/>
+                <div id="main-area">
+                    <PublicNoteDisplayer body={currBody} openIDE={openIDE}/>
+                    {
+                    isIDEOpen && 
+                    <IDE code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                </div>
                 <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} 
                 noteName={currName} currBody={currBody}/>
             </div>
@@ -299,11 +302,14 @@ export function Note(): JSX.Element {
 }
 
 /** Element to display content when the note is a publicly shared one */
-const PublicNoteDisplayer = ({body}: {body: string}): JSX.Element => {
+const PublicNoteDisplayer = ({body, openIDE}: {body: string, openIDE: (ev: MouseEvent) => void}): JSX.Element => {
+    useEffect(() => {
+        document.addEventListener("click", openIDE);
+    });
+
     return (
     <div className="display-window" >
         <div dangerouslySetInnerHTML={{__html: body}}>
-
         </div>
     </div>
     )
