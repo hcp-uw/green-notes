@@ -1,5 +1,5 @@
 .display-window {
-    max-height: calc(100vh - 55px);
+    height: calc(100vh - 55px);
     background-color: var(--light-gray);
     overflow-wrap: break-word;
     width: auto;
