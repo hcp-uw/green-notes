@@ -15,15 +15,13 @@
     flex-grow: 1;
 }
 
-.editor-wrapper, .monaco-editor, .overflow-guard { 
-    
-}
 
 /* Input and Output */
 .in-output {
     display: flex;
     height: 35%
 }
+
 
 /* Output Window */
 .ide-output-full {
@@ -48,14 +46,10 @@
     overflow: auto;
 }
 
-
-
 .ide-err {
     color: red;
 }
 
-.ide-output {
-}
 
 /* Custom Input */
 .ide-input {
@@ -73,6 +67,7 @@
 .ide-input:focus {
     outline: none
 }
+
 
 /* Footer */
 .ide-footer {
