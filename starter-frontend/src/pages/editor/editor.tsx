@@ -266,7 +266,7 @@ export function Note(): JSX.Element {
                     <PublicNoteDisplayer body={currBody} openIDE={openIDE}/>
                     {
                     isIDEOpen && 
-                    <IDE code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                    <IDE collab={true} code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
                 </div>
                 <PublicSaveModal isPublicSaving={isPublicSaving} setIsPublicSaving={setIsPublicSaving} 
                 noteName={currName} currBody={currBody}/>
@@ -285,7 +285,7 @@ export function Note(): JSX.Element {
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
-                <IDE code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                <IDE collab={false} code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
             </div>
             
             

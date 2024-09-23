@@ -83,12 +83,19 @@
 }
 
 .ide-btn {
-    width: 33.33%;
     border-radius: 0;
     border: 0.3px var(--dark-gray) solid;
     border-bottom: 0;
     background-color: var(--light-green);
     font-family: 'Amiko';
+}
+
+.half-width {
+    width: 50%;
+}
+
+.third-width {
+    width: 33.33%;
 }
 
 .compile-btn {

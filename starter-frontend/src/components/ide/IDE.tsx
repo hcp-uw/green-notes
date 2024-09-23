@@ -9,6 +9,9 @@ import LanguagesDropdown from "./LanguagesDropdown";
 import { Editor as TinyMCEEditor } from "tinymce";
 
 type IDEProps = {
+    // True if note is in collaboration space (no Update Note button)
+    collab: boolean,
+
     // Initial code in the IDE
     code: string,
 
@@ -24,7 +27,7 @@ type IDEProps = {
 }
 
 
-export default function IDE({code, setCode, language, setLanguage, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
+export default function IDE({collab, code, setCode, language, setLanguage, setIsIDEOpen, editorRef}: IDEProps): JSX.Element {
     const [customInput, setCustomInput] = useState<string>("");
     const [output, setOutput] = useState<boolean>(true);
     const [outputDetails, setOutputDetails] = useState<any | null>(null);
@@ -177,20 +180,23 @@ export default function IDE({code, setCode, language, setLanguage, setIsIDEOpen,
                 <button 
                     onClick={handleCompile}
                     disabled={!code}
-                    className="ide-btn compile-btn"
+                    className={collab ? "ide-btn compile-btn half-width" : "ide-btn compile-btn third-width"}
                 >
                     {processing ? "Processing..." : "Run"}
                 </button>
-                <button
-                    onClick={handleUpdate}
-                    disabled={updated}
-                    className="ide-btn"
-                >
-                    Update Note
-                </button>
+                {!collab && 
+                    <button
+                        onClick={handleUpdate}
+                        disabled={updated}
+                        className="third-width ide-btn"
+                    >
+                        Update Note
+                    </button>
+                }
+                
                 <button
                     onClick={handleClose}
-                    className="ide-btn close-btn"
+                    className={collab ? "ide-btn close-btn half-width" : "ide-btn close-btn third-width"}
                 >
                     Close
                 </button>
