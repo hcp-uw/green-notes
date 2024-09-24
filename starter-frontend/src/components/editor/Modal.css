@@ -131,9 +131,10 @@
 
 .location-link {
     border: none;
-    text-decoration: underline;
+    text-decoration: none;
     background-color: var(--light-green);
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    font: inherit;
 }
 
 .location-link:hover {
@@ -145,6 +146,7 @@
     margin-left: 10px;
     width: 30px;
     height: 30px;
+    margin-top: 15px;
 }
 
 .location-template:hover {
@@ -161,4 +163,14 @@
     outline-color: red;
     outline-width: 1px;
     outline-style: solid;
+}
+
+#files {
+    border-radius: 7px;
+    padding: 0.2rem;
+    font-size: 1.2rem;
+    font-family: "Fira Code";
+    width: 50%;
+    margin-left: 1.5rem;
+    margin-top: 10px;
 }

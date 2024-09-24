@@ -58,6 +58,7 @@
     word-wrap: inherit;
     display: block;
     margin-bottom: 10px;
+    text-decoration: none;
 }
 
 /* button indicating whether new note or temp */
