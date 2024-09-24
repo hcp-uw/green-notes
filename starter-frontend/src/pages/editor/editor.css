@@ -1,5 +1,5 @@
 .display-window {
-    height: calc(100vh - 105px);
+    height: calc(96vh - 105px);
     background-color: var(--light-gray);
     overflow-wrap: break-word;
     width: auto;
@@ -17,4 +17,58 @@
     display: flex;
     padding: 15px;
     gap: 15px;
+    margin-left: 2vh;
+    margin-right: 1vw;
+}
+
+.note-header {
+    margin-top: 1vh;
+    width: 100%;
+    height: 5vh;
+    padding-left: 2vw;
+    justify-content: space-between;
+}
+
+.note-btn {
+        /* top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px; */
+        min-width: 100px;
+        margin-top: 1vh;
+        height: 5vh;
+        cursor: pointer;
+    
+        color: var(--dark-gray);
+    
+        /* font-family: "Fira Code";
+        font-weight: 700;
+        font-style: normal; */
+    
+        border-radius: 5px;
+        border: 2px var(--dark-green) solid;
+        background-color: var(--light-green);
+        font-family: 'Amiko';
+}
+
+
+.note-btn:hover {
+    background-color: var(--green);
+    /* color: var(--offbase-white); */
+}
+
+
+.btns {
+    width: 50%;
+    display: flex;
+    gap: 20px;
+    justify-content: right;
+    margin-right: calc(2vw + 1px);
+    /* align-items: center; */
+    /* max-height: 4vh; */
+}
+
+
+.note-ttl {
+    font-size: 3vh;
 }

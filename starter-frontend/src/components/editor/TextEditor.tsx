@@ -44,7 +44,7 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
             setupIDEButtons(openIDE, editorRef);
           }}
           init={{ 
-            height: "calc(100vh - 105px)",
+            height: "calc(96vh - 105px)",
             width: "auto",
             resize: false, 
             menubar: false,

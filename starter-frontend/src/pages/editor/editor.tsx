@@ -261,7 +261,12 @@ export function Note(): JSX.Element {
     if (isPublic) { // If note is publicly shared
         return (
             <div className="page gray-background">
-                <SavePublicButton setIsPublicSaving={setIsPublicSaving}/>
+                <div className="note-header flex">
+                    <NoteTitle title={currName}/>
+                    <div className="btns">
+                        <SavePublicButton setIsPublicSaving={setIsPublicSaving}/>
+                    </div>                   
+                </div>
                 <div id="main-area">
                     <PublicNoteDisplayer body={currBody} openIDE={openIDE}/>
                     {
@@ -276,9 +281,14 @@ export function Note(): JSX.Element {
 
     return (
         <div className="page gray-background">
-            <EditModalButton setIsEditing={setIsEditing}/>
-            <ShareButton setIsSharing={setIsSharing}/>
-            <DeleteButton setIsDeleting={setIsDeleting}/>
+            <div className="note-header flex">
+                <NoteTitle title={currName}/>
+                <div className="btns">
+                    <EditModalButton setIsEditing={setIsEditing}/>
+                    <ShareButton setIsSharing={setIsSharing}/>
+                    <DeleteButton setIsDeleting={setIsDeleting}/>   
+                </div>                   
+            </div>
             <div id="main-area">
                 <TextEditor editorRef={editorRef} initContent={currBody} eRoute={route} 
                 setIsLoading={setIsLoading} setCurrContent={setCurrBody} openIDE={openIDE}
@@ -313,4 +323,14 @@ const PublicNoteDisplayer = ({body, openIDE}: {body: string, openIDE: (ev: Mouse
         </div>
     </div>
     )
+}
+
+
+/** Note title */
+function NoteTitle({title}: {title: string}): JSX.Element {
+    return (
+        <h1 className="note-ttl">
+            {title}
+        </h1>
+    );
 }
