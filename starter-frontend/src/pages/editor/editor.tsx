@@ -16,6 +16,7 @@ import SavePublicButton from "../../components/editor/SavePublicButton";
 import PublicSaveModal from "../../components/editor/PublicSaveModal";
 import IDE from "../../components/ide/IDE";
 import { Editor as TinyMCEEditor } from 'tinymce';
+import { languageOption, languageOptions } from "../../components/ide/languageOptions";
 
 /** Type for storing details about note documents */
 export type DetailsData = {
@@ -49,46 +50,64 @@ export function Note(): JSX.Element {
 
     // IDE
     // If IDE is open
-    // TO-DO CHANGE false
     const [isIDEOpen, setIsIDEOpen] = useState<boolean>(false);
-    // Initial IDE code
-    const [initIDECode, setInitIDECode] = useState<string>("");
-    // Initial IDE language
-    const [initIDELang, setInitIDELang] = useState<number>(0);
+    // IDE code
+    const [code, setCode] = useState<string>("");
+    // IDE language
+    const [language, setLanguage] = useState<languageOption>(languageOptions[0]);
 
     // ***
     const editorRef = useRef<TinyMCEEditor | null>(null);
 
     
     function openNewIDE(): void {
-        setInitIDECode("");
-        setInitIDELang(0);
+        setCode("");
+        setLanguage(languageOptions[0]);
         setIsIDEOpen(true);
     }
 
-    function openIDE(this: HTMLButtonElement, _ev: MouseEvent): void {
-        const parentDiv = this.parentNode;
-        if (parentDiv !== null) {
-            const codeBlock = parentDiv.querySelector("code");
-            if (codeBlock !== null) {
-                const codeContent = codeBlock.textContent;
-                if (codeContent === null) {
-                    setInitIDECode("");
-                } else {
-                    setInitIDECode(codeContent);
+    function openIDE(this: HTMLButtonElement, ev: MouseEvent): void {
+        
+
+        // @ts-ignore
+        if (ev.target !== null && ev.target.className !== null && ev.target.className === "run-in-ide-btn") {
+            // @ts-ignore
+            const editor = ev.target.getRootNode();
+            const oldActive = editor.getElementById("active");
+            if (oldActive !== null) {
+                oldActive.setAttribute("id", "");
+            }
+
+
+            // @ts-ignore
+            const parentDiv = ev.target.parentNode;
+            if (parentDiv !== null) {
+                const codeBlock = parentDiv.querySelector("code");
+                if (codeBlock !== null) {
+                    codeBlock.id = "active";
+                    const codeContent = codeBlock.textContent;
+                    if (codeContent === null) {
+                        console.log("code null");
+                        setCode("");
+                    } else {
+                        setCode(codeContent);
+                    }
+                    console.log("setting code");
+                    const language = codeBlock.dataset.lang;
+                    if (language === null) {
+                        console.log("language null");
+                        setLanguage(languageOptions[0]);
+                    } else {
+                        setLanguage(languageOptions[Number(language)]);
+                    }
+                    console.log("setting language");
+                    
+                    setIsIDEOpen(true);   
                 }
-                const language = codeBlock.dataset.lang;
-                if (language === null) {
-                    setInitIDELang(0);
-                } else {
-                    setInitIDELang(Number(language));
-                }
-                
-                setIsIDEOpen(true);    
             }
         }
-    }
 
+    }
     
 
     const [currName, setCurrName] = useState<string>("");
@@ -263,7 +282,7 @@ export function Note(): JSX.Element {
                 openNewIDE={openNewIDE}/>
                 {
                 isIDEOpen && 
-                <IDE initCode={initIDECode} initLang={initIDELang} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
+                <IDE code={code} setCode={setCode} language={language} setLanguage={setLanguage} setIsIDEOpen={setIsIDEOpen} editorRef={editorRef}/>}
             </div>
             
             

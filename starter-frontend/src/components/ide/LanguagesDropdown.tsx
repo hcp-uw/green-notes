@@ -7,10 +7,11 @@ import Select, { SingleValue } from "react-select";
 import { languageOptions, languageOption } from "./languageOptions";
 
 type LanguagesDropdownProps = {
-    onSelectChange: (sl: languageOption | null) => void
+    onSelectChange: (sl: languageOption | null) => void,
+    language: languageOption
 }
 
-export default function LanguagesDropdown( { onSelectChange }: LanguagesDropdownProps ): JSX.Element {
+export default function LanguagesDropdown( { onSelectChange, language }: LanguagesDropdownProps ): JSX.Element {
     const customStyles = {
         control: (provided, state) => ({
           ...provided,
@@ -46,7 +47,8 @@ export default function LanguagesDropdown( { onSelectChange }: LanguagesDropdown
     return (
         <Select 
             options={languageOptions}
-            defaultValue={languageOptions[0]}
+            defaultValue={language}
+            value={language}
             onChange={(selectedOption) => onSelectChange(selectedOption)}
             className="ide-dropdown"
             styles={customStyles}

@@ -1,25 +1,29 @@
 import React, { ChangeEvent, useState } from "react";
 import Editor from "@monaco-editor/react";
+import { languageOption } from "./languageOptions";
 
 type CodeEditorProps = {
     onChange: (action: string, data: string
         // : ChangeEvent<HTMLInputElement>
     ) => void, 
-    // To-DO: Change to list of options
-    language: string, 
-    code: string, 
-    // To-do: change to list of options
+    
+    code: string,
+
+    setCode: React.Dispatch<React.SetStateAction<string>>;
+
+    language: languageOption,
+    
     theme: string
 };
 
-export default function CodeEditor( {onChange, language, code, theme}: CodeEditorProps ) {
-    const [value, setValue] = useState<string>(code || "");
+export default function CodeEditor( {onChange, code, setCode, language, theme}: CodeEditorProps ) {
+    // const [value, setValue] = useState<string>(code || "");
 
     const handleEditorChange = (value: string | undefined) => {
         if (typeof value === "undefined") {
             throw new Error("Editor value is undefined.");
         } else {
-            setValue(value);
+            setCode(value);
             onChange("code", value);   
         }
     }
@@ -29,8 +33,8 @@ export default function CodeEditor( {onChange, language, code, theme}: CodeEdito
             <Editor 
                 height={`100%`}
                 width={`100%`}
-                language={language || "javascript"}
-                value={value}
+                language={language.value || "javascript"}
+                value={code}
                 theme={theme}
                 onChange={handleEditorChange}
             />
