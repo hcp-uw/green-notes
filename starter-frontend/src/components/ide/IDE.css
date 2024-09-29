@@ -15,15 +15,13 @@
     flex-grow: 1;
 }
 
-.editor-wrapper, .monaco-editor, .overflow-guard { 
-    
-}
 
 /* Input and Output */
 .in-output {
     display: flex;
     height: 35%
 }
+
 
 /* Output Window */
 .ide-output-full {
@@ -48,14 +46,10 @@
     overflow: auto;
 }
 
-
-
 .ide-err {
     color: red;
 }
 
-.ide-output {
-}
 
 /* Custom Input */
 .ide-input {
@@ -74,6 +68,7 @@
     outline: none
 }
 
+
 /* Footer */
 .ide-footer {
     display: flex;
@@ -83,12 +78,19 @@
 }
 
 .ide-btn {
-    width: 33.33%;
     border-radius: 0;
     border: 0.3px var(--dark-gray) solid;
     border-bottom: 0;
     background-color: var(--light-green);
     font-family: 'Amiko';
+}
+
+.half-width {
+    width: 50%;
+}
+
+.third-width {
+    width: 33.33%;
 }
 
 .compile-btn {

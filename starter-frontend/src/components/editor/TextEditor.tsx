@@ -24,7 +24,7 @@ export default function TextEditor({editorRef, initContent, eRoute, setIsLoading
     const [content, setContent] = useState<string>(initContent);
 
     const setup = useCallback((editor: TinyMCEEditor) => {
-      IDEPlugin( {editor, openIDE, openNewIDE} );
+      IDEPlugin( {editor, openNewIDE} );
       setupEditor && setupEditor(editor);
     }, []);
 

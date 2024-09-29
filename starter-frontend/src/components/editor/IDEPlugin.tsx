@@ -1,15 +1,13 @@
 // TinyMCE React Plugin: https://stackoverflow.com/a/77054502
 
-import React from "react";
 import { Editor } from "tinymce";
 
 type PluginRegistrationProps = {
   editor: Editor, 
-  openIDE: (this: HTMLButtonElement, ev: MouseEvent) => void,
   openNewIDE: () => void
 };
 
-export default function IDEPlugin({editor, openIDE, openNewIDE}: PluginRegistrationProps) {
+export default function IDEPlugin({editor, openNewIDE}: PluginRegistrationProps) {
   editor.ui.registry.addButton("ide", {
     text: "IDE",
     icon: "sourcecode", 
