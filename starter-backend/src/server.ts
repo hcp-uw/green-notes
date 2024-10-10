@@ -9,7 +9,8 @@ import { unknownEndpoint } from "./middleware.js";
 import { getNote, getFolderContents, createAccount, 
     createNote, createFolder, saveDoc, saveDetails, shareDoc,
     deleteDoc, getShared, deleteFolder, getFolders,
-    updateBio, getBio} from "./routes.js";
+    updateBio, getBio,
+    isUp} from "./routes.js";
 
 const app = express();
 
@@ -65,6 +66,8 @@ app.get("/getFolders", getFolders);
 app.put("/updateBio", updateBio);
 
 app.get("/getBio", getBio);
+
+app.get("/isUp", isUp);
 
 // error handling
 app.use(unknownEndpoint);
