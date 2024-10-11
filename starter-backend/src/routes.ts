@@ -634,4 +634,7 @@ export async function getBio(req: SafeRequest, res: SafeResponse) {
         return;
     }
 }
- 
+
+export async function isUp(req: SafeRequest, res: SafeResponse) {
+    res.send("we're up");
+}

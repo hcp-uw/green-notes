@@ -37,8 +37,11 @@ export default function Logout({ isModal, setIsModal }: LogoutParams) {
       <div>
           <div className="centText logout-popup">
             <h2>Are you sure you want to log out?</h2>
-            <button onClick={handleLogout}>Logout</button>
-            <button onClick={() => setIsModal(false)}>Cancel</button>
+            <button className="logout-exit" onClick={() => setIsModal(false)}>X</button>
+            <div className="modaltxt-wrap modal-centered">
+              <button className="input-button" onClick={handleLogout}>Logout</button>
+              <button className="input-button" onClick={() => setIsModal(false)}>Cancel</button>
+            </div>
           </div>
       </div>
     );

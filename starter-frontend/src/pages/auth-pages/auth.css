@@ -117,3 +117,21 @@
     transform: translate(-50%, -50%);
     border-radius: 10px;
 }
+
+
+.logout-exit {
+    top: 0;
+    right: 0;
+    position: absolute;
+    margin: 10px;
+    cursor: pointer;
+    border: 2px solid red;
+    background-color: var(--green);
+    color: red;
+    font-size: 20px;
+}
+
+.logout-exit:hover {
+    background-color: red;
+    color: white;
+}
