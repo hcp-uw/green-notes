@@ -6,7 +6,7 @@ type SavePublicProps = {
 /** Button to open modal that saves a copy */
 const SavePublicButton = ({setIsPublicSaving}: SavePublicProps): JSX.Element => {
 
-    return <button className="new-folder-button" onClick={() => setIsPublicSaving(true)}>Save a Copy</button>
+    return <button className="note-btn" onClick={() => setIsPublicSaving(true)}>Save a Copy</button>
 }
 
 export default SavePublicButton

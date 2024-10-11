@@ -1,5 +1,5 @@
 .ide {
-    height: calc(100vh - 105px);
+    height: calc(96vh - 105px);
     width: 35%;
     border: 1.5px solid var(--dark-gray);
     border-radius: 8.5px;

@@ -227,25 +227,25 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
                 <label className="backdrop">
                     <input type="checkbox" checked={isEditing} onChange={() => revert()}/>
                 </label>
-                <div className="modal-body">
-                    <p className="modal-header">Edit Details</p>
-                    <button className="modal-exit" onClick={() => revert()}>X</button>
+                <div className="edit-popup">
+                    <p className="make-header">Edit Details</p>
+                    <button className="make-exit" onClick={() => revert()}>X</button>
 
-                    <div className="modaltxt-wrap">
-                        <p className="modal-text">Name: </p>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Name: </p>
                         <input className="text-input-minor required-input" required pattern=".*\S+.*" type="text" value={currName} onChange={changeName}></input>
 
-                        <p className="modal-text">Class: </p>
+                        <p className="make-text">Class: </p>
                         <input className="text-input-minor" type="text" value={currClass} onChange={changeClass}></input>
                     </div>
-                    <div className="modaltxt-wrap">
-                        <p className="modal-text">Teacher: </p>
+                    <div className="maketxt-wrap">
+                        <p className="make-text">Teacher: </p>
                         <input className="text-input-minor" type="text" value={currTeacher} onChange={changeTeacher}></input>
 
-                        <p className="modal-text">Year: </p>
+                        <p className="make-text">Year: </p>
                         <input className="text-input-minor" type="number" value={currYear} onChange={changeYear} min={0} max={2024}></input>
 
-                        <p className="modal-text">Quarter: </p>
+                        <p className="make-text">Quarter: </p>
                         <select className="text-input-minor" name="quarter" id="quarter" value={currQuarter} onChange={(e) => setCurrQuarter(e.target.value)}>
                             <option value=""></option>
                             <option value="Autumn">Autumn</option>
@@ -257,9 +257,9 @@ const EditModal = ({isEditing, setIsEditing, name, givenClass, teacher, year, ta
 
                     {renderTags()}
                     <p className="warning-text">Warning: saving details will lose any unsaved progress! Please save your writing first!</p>
-                    <div className="modaltxt-wrap modal-centered">
-                        <button className="input-button" onClick={() => doSaveClick()}>Save</button>
-                        <button className="input-button" onClick={() => revert()}>Cancel</button>
+                    <div className="maketxt-wrap make-centered">
+                        <button className="create-button" onClick={() => doSaveClick()}>Save</button>
+                        <button className="delete-button" onClick={() => revert()}>Cancel</button>
                     </div>
                 </div>
             </div>

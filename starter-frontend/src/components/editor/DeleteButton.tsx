@@ -5,7 +5,7 @@ type DeleteProps = {
 
 /** Button to open Delete Modal */
 const DeleteButton = ({setIsDeleting}: DeleteProps): JSX.Element => {
-    return <button className="new-folder-button" onClick={() => setIsDeleting(true)}>Delete</button>
+    return <button className="note-btn" onClick={() => setIsDeleting(true)}>Delete</button>
 }
 
 export default DeleteButton
